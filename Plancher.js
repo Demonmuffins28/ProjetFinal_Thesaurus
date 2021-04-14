@@ -3,13 +3,16 @@ function creerObj3DPlancher(objgl, intNoTexture) {
     obj3DPlancher.fltProfondeur = 31;
     obj3DPlancher.fltLargeur = 31;
     obj3DPlancher.fltHauteur = 0;
-    
+    obj3DPlancher.fltCentrePlancher = 31/2;
+
     obj3DPlancher.vertex = creerVertexPlancher(objgl, obj3DPlancher.fltLargeur, obj3DPlancher.fltProfondeur);
     obj3DPlancher.couleurs = creerCouleursPlancher(objgl, [1, 1, 1, 1]);
 	obj3DPlancher.texels = creerTexelsPlancher(objgl, obj3DPlancher.fltLargeur, obj3DPlancher.fltProfondeur, intNoTexture);
 	obj3DPlancher.maillage = creerMaillagePlancher(objgl);
 	
     obj3DPlancher.transformations = creerTransformations();
+    setPositionX(obj3DPlancher.fltCentrePlancher, obj3DPlancher.transformations);
+    setPositionZ(obj3DPlancher.fltCentrePlancher, obj3DPlancher.transformations);
     return obj3DPlancher;
 }
 
