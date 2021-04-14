@@ -29,7 +29,8 @@
         let objProgShaders = null;
         let objScene3D = null;
 
-        const tabImages = ['Transparent.gif'];
+        const tabImages = ['Transparent.gif', 'Sol.jpg'];
+        const TEX_PLANCHER = 1;
 
         // Le niveau actuel du jeu
         let intNiveau = 0;
@@ -69,11 +70,14 @@
 
             // Mettre les textures dans la scène
             objScene3D.textures = creerTextures(objgl, tabImages);
-            
+
+            const objPlancher = creerObj3DPlancher(objgl, TEX_PLANCHER);
+            tabObjets3D.push(objPlancher);
+
             objScene3D.tabObjets3D = tabObjets3D;
             // La caméra
             const camera = creerCamera();
-            setPositionsCameraXYZ([0, 0.5, 0], camera);
+            setPositionsCameraXYZ([10, 0.5, 10], camera);
             setCiblesCameraXYZ([0, 0.5, 0], camera);
             setOrientationsXYZ([0, 1, 0], camera);
             objScene3D.camera = camera;
