@@ -21,6 +21,7 @@
     <script type="text/javascript" src="Camera.js"></script>
     <script type="text/javascript" src="Textures.js"></script>
     <script type="text/javascript" src="Plancher.js"></script>
+    <script type="text/javascript" src="MursOuvrable.js"></script>
     <script type="text/javascript">
 
 
@@ -29,8 +30,10 @@
         let objProgShaders = null;
         let objScene3D = null;
 
-        const tabImages = ['Transparent.gif', 'Sol.jpg'];
+        const tabImages = ['Transparent.gif', 'Sol.jpg', 'Mur.jpg'];
         const TEX_PLANCHER = 1;
+        const TEX_MUR_OUVRABLE = 2;
+
 
         // Le niveau actuel du jeu
         let intNiveau = 0;
@@ -73,6 +76,9 @@
 
             const objPlancher = creerObj3DPlancher(objgl, TEX_PLANCHER);
             tabObjets3D.push(objPlancher);
+
+            const objMurOuvrable = creerObj3DMurOuvrable(objgl, TEX_MUR_OUVRABLE);
+            tabObjets3D.push(objMurOuvrable);
 
             objScene3D.tabObjets3D = tabObjets3D;
             // La caméra
