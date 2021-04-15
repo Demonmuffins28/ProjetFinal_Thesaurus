@@ -24,10 +24,17 @@
     <script type="text/javascript">
 
 
-
+        let objCanvas = null;
         let objgl = null;
         let objProgShaders = null;
         let objScene3D = null;
+        let positionSourisX = null;
+        let binTournerCamera = false;
+        let binMovAvant = false;
+        let binMovArriere = false;
+        let binMovDroit = false;
+        let binMovGauche = false;
+        let binEnMouvement = false;
 
         const tabImages = ['Transparent.gif', 'Sol.jpg'];
         const TEX_PLANCHER = 1;
@@ -36,7 +43,8 @@
         let intNiveau = 0;
 
         function demarrer() {
-            const objCanvas = document.getElementById('monCanvas');
+            objCanvas = document.getElementById('monCanvas');
+            objCanvas.focus();
             objgl = initWebGL(objCanvas);  // Initialise le contexte WebGL
             objProgShaders = initShaders(objgl);
             objSons = initSons();
@@ -60,7 +68,7 @@
 
         // Pour mettre à jour l'animation
         function mettreAjourAnimation() {
-
+            if (binEnMouvement) deplacerCamera();
         }
 
 
@@ -211,23 +219,24 @@
             let fltZPrime;
             let fltRayon;
 
-            if (event.keyCode == 37 || event.keyCode == 39) {
+            //if (event.keyCode == 37 || event.keyCode == 39 || event.keyCode == 65 || event.keyCode == 68) {
+            if (binMovDroit || binMovGauche) {
                 // 37:  Flèche-à-gauche; 39:Flèche-à-droite
                 fltX = getCibleCameraX(camera) - getPositionCameraX(camera);
                 fltZ = getCibleCameraZ(camera) - getPositionCameraZ(camera);
-                intDirection = (event.keyCode == 37) ? -1 : 1;
-                fltAngle = intDirection * 7 * Math.PI / 90; // Tourner 2 degrés
+                intDirection = (binMovGauche) ? -1 : 1;
+                fltAngle = intDirection * 2 * Math.PI / 90; // Tourner 2 degrés
                 fltXPrime = fltX * Math.cos(fltAngle) - fltZ * Math.sin(fltAngle);
                 fltZPrime = fltX * Math.sin(fltAngle) + fltZ * Math.cos(fltAngle);
                 setCibleCameraX(getPositionCameraX(camera) + fltXPrime, camera);
                 setCibleCameraZ(getPositionCameraZ(camera) + fltZPrime, camera);
             }
-            if (event.keyCode == 38 || event.keyCode == 40) {
+            if (binMovAvant || binMovArriere) {
                 // 38:  Flèche-en-haut; 40:Flèche-en-bas
                 fltX = getCibleCameraX(camera) - getPositionCameraX(camera);
                 fltZ = getCibleCameraZ(camera) - getPositionCameraZ(camera);
                 fltRayon = Math.sqrt(fltX * fltX + fltZ * fltZ);
-                intDirection = (event.keyCode == 38) ? 1 : -1;
+                intDirection = (binMovAvant) ? 1 : -1;
 
                 fltXPrime = intDirection * 0.2 * Math.cos(Math.acos(fltX / fltRayon));
                 fltZPrime = intDirection * 0.2 * Math.sin(Math.asin(fltZ / fltRayon));
@@ -242,12 +251,135 @@
             dessiner(objgl, objProgShaders, objScene3D);
         }
 
+        /**
+         * Changer la direction de gauche a droite (x/z) de la camera quand on appuis sur la souris
+         * Click gauche seulement
+        */
+        function eventMouvementSouris() {     
+            if (binTournerCamera === true) {
+                let fltX;
+                let fltZ;
+                let intDirection;
+                let fltAngle;
+                let fltXPrime; 
+                let fltZPrime;
+
+                const camera = objScene3D.camera;
+
+                // Position de la souris en mouvement
+                let newPositionSourisX = event.clientX;
+                // La différence de mouvement (+/-)
+                let movementX = newPositionSourisX - positionSourisX;
+
+                // Ajuster la position precedante
+                positionSourisX = newPositionSourisX;
+
+                // Ajuster la camera pour la faire tourner de gauche a droite
+                fltX = getCibleCameraX(camera) - getPositionCameraX(camera);
+                fltZ = getCibleCameraZ(camera) - getPositionCameraZ(camera);
+                intDirection = (movementX >= 0) ? 1 : -1;
+                fltAngle = intDirection * .6 * Math.PI / 90; // Tourner 0.6 degrés
+                fltXPrime = fltX * Math.cos(fltAngle) - fltZ * Math.sin(fltAngle);
+                fltZPrime = fltX * Math.sin(fltAngle) + fltZ * Math.cos(fltAngle);
+                setCibleCameraX(getPositionCameraX(camera) + fltXPrime, camera);
+                setCibleCameraZ(getPositionCameraZ(camera) + fltZPrime, camera);                
+
+                effacerCanevas(objgl);
+                dessiner(objgl, objProgShaders, objScene3D);                
+            }    
+            // Afficher la souris quand on sort du canavas (pas capable de contenir la souris 
+            // dans le canvas a cause quon utilise internet exploreur)
+            if (positionSourisX > objCanvas.width || positionSourisX < 10) {
+                // cacher la souris
+                document.body.style.cursor = 'auto';
+            } else {
+                // reafficher la souris
+                document.body.style.cursor = 'none';
+            }
+        }        
+
+        /**
+         * Verifier si on click sur la souris et ajoute la position du click
+         */
+        function eventClickDownSouris() {
+            // si on click gauche
+            if (event.button == 0) {
+                binTournerCamera = true;
+                positionSourisX = Math.floor(event.clientX);
+                // cacher la souris
+                document.body.style.cursor = 'none';
+            }
+        }
+        /**
+         * Arrete le mouvement de la camera quand on utilise le click
+         */        
+        function eventClickUpSouris() {
+            if (event.button == 0) {
+                binTournerCamera = false;
+                // reafficher la souris
+                document.body.style.cursor = 'auto';
+            }        
+        }
+
+        // Mouvement avec clavier (fleche et WASD)
+        // Rend le jeux 100x plus fluide
+        function mouvementAvecClavier() {
+            switch (event.keyCode) {
+                case 39:
+                case 68:
+                    binMovDroit = true;
+                    binEnMouvement = true;   
+                    break
+                case 37:
+                case 65:
+                    binMovGauche = true;
+                    binEnMouvement = true;
+                    break
+                case 38:
+                case 87:
+                    binMovAvant = true;
+                    binEnMouvement = true;
+                    break
+                case 40:
+                case 83:
+                    binMovArriere = true;
+                    binEnMouvement = true;
+                    break
+            }
+        }
+        // arreter le mouvement quand on relache la touche
+        function arretMouvementAvecClavier() {
+            switch (event.keyCode) {
+                case 39:
+                case 68:
+                    binMovDroit = false;
+                    binEnMouvement = false;
+                    break
+                case 37:
+                case 65:
+                    binMovGauche = false;
+                    binEnMouvement = false;
+                    break
+                case 38:
+                case 87:
+                    binMovAvant = false;
+                    binEnMouvement = false;
+                    break
+                case 40:
+                case 83:
+                    binMovArriere = false;
+                    binEnMouvement = false;
+                    break
+            }
+        }
+
+
     </script>
 </head>
 
 <body onload="demarrer()">
     <p>THESAURUS</p>
-    <canvas id="monCanvas" width="640" height="640" tabIndex="1" onkeydown="deplacerCamera(); return false">
+    <canvas id="monCanvas" width="640" height="640" tabIndex="1" onkeydown="mouvementAvecClavier();" onkeyup="arretMouvementAvecClavier();" onmousemove="eventMouvementSouris()" onmousedown="eventClickDownSouris();" onmouseup="eventClickUpSouris();">
         Votre navigateur ne supporte pas la balise canvas
     </canvas>
 </body>
