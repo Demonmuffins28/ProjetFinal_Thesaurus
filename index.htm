@@ -14,15 +14,20 @@
             width: 640px;
         }
     </style>
+    
     <script type="text/javascript" src="WebGl.js"></script>
     <script type="text/javascript" src="ShaderCouleursTextures.js"></script>
     <script type="text/javascript" src="glMatrix-0.9.5.min.js"></script>
     <script type="text/javascript" src="Transformations.js"></script>
+
     <script type="text/javascript" src="Camera.js"></script>
+    <script type="text/javascript" src="movementCamera.js"></script>
+
     <script type="text/javascript" src="Textures.js"></script>
     <script type="text/javascript" src="Plancher.js"></script>
-    <script type="text/javascript" src="MursOuvrable.js"></script>
-    <script type="text/javascript" src="movementCamera.js"></script>
+    <script type="text/javascript" src="Mur.js"></script>
+
+    <script type="text/javascript" src="Niveau.js"></script>
     <script type="text/javascript">
 
 
@@ -45,41 +50,6 @@
 
         // Le niveau actuel du jeu
         let intNiveau = 0;
-        // V = non-ouvrable, R = ouvrable, T = tresors, ' ' = corridor
-        const tabJeu = 
-        [
-            ['V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V'],
-            ['V', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'R', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'V'],
-            ['V', ' ', 'R', 'R', 'R', 'R', 'R', 'R', ' ', 'R', 'R', 'R', 'R', 'R', ' ', 'R', ' ', 'R', 'R', 'R', 'R', 'R', ' ', 'R', 'R', 'R', 'R', 'R', 'R', ' ', 'V'],
-            ['V', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'R', ' ', ' ', ' ', 'R', ' ', 'R', ' ', 'R', ' ', ' ', ' ', 'R', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'V'],
-            ['V', 'R', 'R', 'R', 'R', 'R', 'R', 'R', ' ', 'R', 'R', ' ', 'R', 'R', ' ', 'R', ' ', 'R', 'R', ' ', 'R', 'R', ' ', 'R', 'R', 'R', 'R', 'R', 'R', 'R', 'V'],
-            ['V', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'V'],
-            ['V', 'R', 'R', 'R', ' ', 'R', 'R', 'R', ' ', 'R', ' ', 'R', 'R', 'R', ' ', 'R', ' ', 'R', 'R', 'R', ' ', 'R', ' ', 'R', 'R', 'R', ' ', 'R', 'R', 'R', 'V'],
-            ['V', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'R', ' ', 'R', ' ', 'R', ' ', 'R', ' ', 'R', ' ', 'R', ' ', 'R', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'V'],
-            ['V', 'R', 'R', 'R', ' ', 'R', 'R', 'R', ' ', 'R', ' ', 'R', ' ', 'R', ' ', 'R', ' ', 'R', ' ', 'R', ' ', 'R', ' ', 'R', 'R', 'R', ' ', 'R', 'R', 'R', 'V'],
-            ['V', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'R', ' ', 'R', ' ', 'R', ' ', 'R', ' ', 'R', ' ', 'R', ' ', 'R', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'V'],
-            ['V', ' ', 'R', 'R', 'R', 'R', 'R', 'R', ' ', 'R', ' ', 'R', ' ', 'R', ' ', 'R', ' ', 'R', ' ', 'R', ' ', 'R', ' ', 'R', 'R', 'R', 'R', 'R', 'R', ' ', 'V'],
-            ['V', ' ', ' ', ' ', ' ', ' ', ' ', 'R', ' ', 'R', 'R', 'R', ' ', 'R', ' ', 'R', ' ', 'R', ' ', 'R', 'R', 'R', ' ', 'R', ' ', ' ', ' ', ' ', ' ', ' ', 'V'],
-            ['V', 'R', 'R', 'R', 'R', 'R', ' ', 'R', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'R', ' ', 'R', 'R', 'R', 'R', 'R', 'V'],
-            ['V', ' ', ' ', ' ', ' ', ' ', ' ', 'R', ' ', 'R', 'R', 'R', ' ', 'V', 'V', ' ', 'V', 'V', ' ', 'R', 'R', 'R', ' ', 'R', ' ', ' ', ' ', ' ', ' ', ' ', 'V'],
-            ['V', ' ', 'R', 'R', 'R', 'R', 'R', 'R', ' ', 'R', ' ', 'R', ' ', 'V', 'T', 'T', 'T', 'V', ' ', 'R', ' ', 'R', ' ', 'R', 'R', 'R', 'R', 'R', 'R', ' ', 'V'],
-            ['V', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'R', ' ', 'R', ' ', 'V', 'T', 'T', 'T', 'V', ' ', 'R', ' ', 'R', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'V'],
-            ['V', 'R', 'R', 'R', 'R', 'R', 'R', 'R', ' ', 'R', ' ', 'R', ' ', 'V', 'T', 'T', 'T', 'V', ' ', 'R', ' ', 'R', ' ', 'R', 'R', 'R', 'R', 'R', 'R', 'R', 'V'],
-            ['V', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'R', ' ', 'R', ' ', 'V', 'V', 'V', 'V', 'V', ' ', 'R', ' ', 'R', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'V'],
-            ['V', ' ', 'R', 'R', 'R', 'R', 'R', 'R', ' ', 'R', ' ', 'R', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'R', ' ', 'R', ' ', 'R', 'R', 'R', 'R', 'R', 'R', ' ', 'V'],
-            ['V', ' ', 'R', ' ', ' ', ' ', ' ', ' ', ' ', 'R', ' ', 'R', 'R', 'R', 'R', ' ', 'R', 'R', 'R', 'R', ' ', 'R', ' ', ' ', ' ', ' ', ' ', ' ', 'R', ' ', 'V'],
-            ['V', ' ', 'R', ' ', 'R', 'R', 'R', 'R', ' ', 'R', ' ', ' ', ' ', ' ', 'R', ' ', 'R', ' ', ' ', ' ', ' ', 'R', ' ', 'R', 'R', 'R', 'R', ' ', 'R', ' ', 'V'],
-            ['V', ' ', 'R', ' ', 'R', ' ', ' ', ' ', ' ', 'R', ' ', 'R', ' ', ' ', 'R', ' ', 'R', ' ', ' ', 'R', ' ', 'R', ' ', ' ', ' ', ' ', 'R', ' ', 'R', ' ', 'V'],
-            ['V', ' ', 'R', ' ', 'R', 'R', 'R', 'R', ' ', 'R', ' ', 'R', ' ', 'R', 'R', ' ', 'R', 'R', ' ', 'R', ' ', 'R', ' ', 'R', 'R', 'R', 'R', ' ', 'R', ' ', 'V'],
-            ['V', ' ', ' ', ' ', ' ', ' ', ' ', 'R', ' ', 'R', ' ', ' ', ' ', 'R', ' ', ' ', ' ', 'R', ' ', ' ', ' ', 'R', ' ', 'R', ' ', ' ', ' ', ' ', ' ', ' ', 'V'],
-            ['V', ' ', 'R', 'R', 'R', 'R', ' ', 'R', ' ', 'R', ' ', 'R', 'R', 'R', ' ', 'R', ' ', 'R', 'R', 'R', ' ', 'R', ' ', 'R', ' ', 'R', 'R', 'R', 'R', ' ', 'V'],
-            ['V', ' ', ' ', ' ', ' ', ' ', ' ', 'R', ' ', ' ', ' ', 'R', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'R', ' ', ' ', ' ', 'R', ' ', ' ', ' ', ' ', ' ', ' ', 'V'],
-            ['V', ' ', 'R', ' ', 'R', 'R', ' ', 'R', ' ', 'R', 'R', 'R', ' ', 'R', 'R', ' ', 'R', 'R', ' ', 'R', 'R', 'R', ' ', 'R', ' ', 'R', 'R', ' ', 'R', ' ', 'V'],
-            ['V', ' ', 'R', ' ', 'R', ' ', ' ', 'R', ' ', 'R', ' ', ' ', ' ', 'R', ' ', ' ', ' ', 'R', ' ', ' ', ' ', 'R', ' ', 'R', ' ', ' ', 'R', ' ', 'R', ' ', 'V'],
-            ['V', 'R', 'R', ' ', 'R', 'R', 'R', 'R', ' ', 'R', ' ', 'R', 'R', 'R', 'R', 'R', 'R', 'R', 'R', 'R', ' ', 'R', ' ', 'R', 'R', 'R', 'R', ' ', 'R', 'R', 'V'],
-            ['V', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'V'],
-            ['V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V'],
-        ]
 
         function demarrer() {
             objCanvas = document.getElementById('monCanvas');
@@ -117,24 +87,18 @@
 
         function initScene3D(objgl) {
             const objScene3D = new Object();
-            const tabObjets3D = new Array();
+            let tabObjets3D = new Array();
 
             // Mettre les textures dans la scène
             objScene3D.textures = creerTextures(objgl, tabImages);
 
             const objPlancher = creerObj3DPlancher(objgl, TEX_PLANCHER);
             tabObjets3D.push(objPlancher);
-            
-            for (i=0; i<tabJeu.length;i++){
-                for (j=0; j< tabJeu[i].length;j++){
-                    if (tabJeu[i][j] == 'R'){
-                        const objMurOuvrable = creerObj3DMurOuvrable(objgl, TEX_MUR_OUVRABLE, i, j);
-                        tabObjets3D.push(objMurOuvrable);
-                    }
-                }
-            }
+
+            tabObjets3D = tabObjets3D.concat(initNiveau());
 
             objScene3D.tabObjets3D = tabObjets3D;
+
             // La caméra
             const camera = creerCamera();
             setPositionsCameraXYZ([objPlancher.fltCentrePlancher, 50, objPlancher.fltCentrePlancher], camera);
