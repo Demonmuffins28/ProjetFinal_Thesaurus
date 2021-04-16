@@ -1,23 +1,23 @@
-function creerObj3DMurOuvrable(objgl, intNoTexture, intX, intZ) {
-    const obj3DMurOuvrable = new Object();
-    obj3DMurOuvrable.fltProfondeur = 1;
-    obj3DMurOuvrable.fltLargeur = 1;
-    obj3DMurOuvrable.fltHauteur = 3;
-    obj3DMurOuvrable.intX = intX;
-    obj3DMurOuvrable.intz = intZ;
+function creerObj3DMur(objgl, intNoTexture, intX, intZ) {
+    const obj3DMur = new Object();
+    obj3DMur.fltProfondeur = 1;
+    obj3DMur.fltLargeur = 1;
+    obj3DMur.fltHauteur = 3;
+    obj3DMur.intX = intX;
+    obj3DMur.intZ = intZ;
 
-    obj3DMurOuvrable.vertex = creerVertexMurOuvrable(objgl, obj3DMurOuvrable.fltLargeur, obj3DMurOuvrable.fltProfondeur, obj3DMurOuvrable.fltHauteur);
-    obj3DMurOuvrable.couleurs = creerCouleursMurOuvrable(objgl, [1, 1, 1, 1]);
-    obj3DMurOuvrable.texels = creerTexelsMurOuvrable(objgl, obj3DMurOuvrable.fltLargeur, obj3DMurOuvrable.fltProfondeur, obj3DMurOuvrable.fltHauteur, intNoTexture);
-    obj3DMurOuvrable.maillage = null;
+    obj3DMur.vertex = creerVertexMur(objgl, obj3DMur.fltLargeur, obj3DMur.fltProfondeur, obj3DMur.fltHauteur);
+    obj3DMur.couleurs = creerCouleursMur(objgl, [1, 1, 1, 1]);
+    obj3DMur.texels = creerTexelsMur(objgl, obj3DMur.fltLargeur, obj3DMur.fltProfondeur, obj3DMur.fltHauteur, intNoTexture);
+    obj3DMur.maillage = null;
 
-    obj3DMurOuvrable.transformations = creerTransformations();
-    setPositionX(obj3DMurOuvrable.intX, obj3DMurOuvrable.transformations);
-    setPositionZ(obj3DMurOuvrable.intz, obj3DMurOuvrable.transformations);
-    return obj3DMurOuvrable;
+    obj3DMur.transformations = creerTransformations();
+    setPositionX(obj3DMur.intX, obj3DMur.transformations);
+    setPositionZ(obj3DMur.intZ, obj3DMur.transformations);
+    return obj3DMur;
 }
 
-function creerVertexMurOuvrable(objgl, fltLargeur, fltProfondeur, fltHauteur) {
+function creerVertexMur(objgl, fltLargeur, fltProfondeur, fltHauteur) {
     const tabVertex = new Array();
 
     // Face avant pleine
@@ -70,17 +70,17 @@ function creerVertexMurOuvrable(objgl, fltLargeur, fltProfondeur, fltHauteur) {
     ];
 
     // Création des tampons
-    const tabObjMurOuvrable = new Array();
+    const tabObjMur = new Array();
     for (let i = 0; i < 5; i++) {
-        tabObjMurOuvrable[i] = objgl.createBuffer();
-        objgl.bindBuffer(objgl.ARRAY_BUFFER, tabObjMurOuvrable[i]);
+        tabObjMur[i] = objgl.createBuffer();
+        objgl.bindBuffer(objgl.ARRAY_BUFFER, tabObjMur[i]);
         objgl.bufferData(objgl.ARRAY_BUFFER, new Float32Array(tabVertex[i]), objgl.STATIC_DRAW);
-        tabObjMurOuvrable[i].typeDessin = objgl.TRIANGLE_FAN;
+        tabObjMur[i].typeDessin = objgl.TRIANGLE_FAN;
     }
-    return tabObjMurOuvrable;
+    return tabObjMur;
 }
 
-function creerCouleursMurOuvrable(objgl, tabCouleur) {
+function creerCouleursMur(objgl, tabCouleur) {
     const tabCouleurs = new Array();
     tabCouleurs[0] = [];
     tabCouleurs[1] = [];
@@ -95,17 +95,17 @@ function creerCouleursMurOuvrable(objgl, tabCouleur) {
         tabCouleurs[4] = tabCouleurs[4].concat(tabCouleur);
     }
 
-    const tabObjCouleursMurOuvrable = new Array();
+    const tabObjCouleursMur = new Array();
     for (let i = 0; i < 5; i++) {
-        tabObjCouleursMurOuvrable[i] = objgl.createBuffer();
-        objgl.bindBuffer(objgl.ARRAY_BUFFER, tabObjCouleursMurOuvrable[i]);
+        tabObjCouleursMur[i] = objgl.createBuffer();
+        objgl.bindBuffer(objgl.ARRAY_BUFFER, tabObjCouleursMur[i]);
         objgl.bufferData(objgl.ARRAY_BUFFER, new Float32Array(tabCouleurs[i]), objgl.STATIC_DRAW);
     }
 
-    return tabObjCouleursMurOuvrable;
+    return tabObjCouleursMur;
 }
 
-function creerTexelsMurOuvrable(objgl, fltLargeur, fltProfondeur, fltHauteur, intNoTexture) {
+function creerTexelsMur(objgl, fltLargeur, fltProfondeur, fltHauteur, intNoTexture) {
     const tabTexels = new Array();
 
     for (let i = 0; i < 4; i++){
@@ -127,13 +127,13 @@ function creerTexelsMurOuvrable(objgl, fltLargeur, fltProfondeur, fltHauteur, in
         fltLargeur, 0.0
     ]
 
-    const tabObjTexelsMurOuvrable = new Array();
+    const tabObjTexelsMur = new Array();
     for (let i = 0; i < 5; i++) {
-        tabObjTexelsMurOuvrable[i] = objgl.createBuffer();
-        objgl.bindBuffer(objgl.ARRAY_BUFFER, tabObjTexelsMurOuvrable[i]);
+        tabObjTexelsMur[i] = objgl.createBuffer();
+        objgl.bindBuffer(objgl.ARRAY_BUFFER, tabObjTexelsMur[i]);
         objgl.bufferData(objgl.ARRAY_BUFFER, new Float32Array(tabTexels[i]), objgl.STATIC_DRAW);
-        tabObjTexelsMurOuvrable[i].intNoTexture = intNoTexture; tabObjTexelsMurOuvrable[i].pcCouleurTexel = 1;
+        tabObjTexelsMur[i].intNoTexture = intNoTexture; tabObjTexelsMur[i].pcCouleurTexel = 1;
     }
-    return tabObjTexelsMurOuvrable;
+    return tabObjTexelsMur;
 }
 
