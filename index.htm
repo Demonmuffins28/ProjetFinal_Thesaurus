@@ -72,6 +72,10 @@
         // Pour mettre à jour l'animation
         function mettreAjourAnimation() {
             if (binEnMouvement) deplacerCamera();
+            document.getElementById('posCamX').innerHTML = "X : " + Math.floor(getPositionCameraX(objScene3D.camera));
+            document.getElementById('posCamZ').innerHTML = "Z : " + Math.floor(getPositionCameraZ(objScene3D.camera));
+            document.getElementById('cibleCamX').innerHTML = "X : " + Math.floor(getCibleCameraX(objScene3D.camera));
+            document.getElementById('cibleCamZ').innerHTML = "Z : " + Math.floor(getCibleCameraZ(objScene3D.camera));
         }
 
 
@@ -84,15 +88,17 @@
 
             const objPlancher = creerObj3DPlancher(objgl, TEX_PLANCHER);
             tabObjets3D.push(objPlancher);
-
-            const objMurOuvrable = creerObj3DMurOuvrable(objgl, TEX_MUR_OUVRABLE);
-            tabObjets3D.push(objMurOuvrable);
+            for (i=0;i< 31;i++){
+                                                                                      //x //Z
+                const objMurOuvrable = creerObj3DMurOuvrable(objgl, TEX_MUR_OUVRABLE, 0, i);
+                tabObjets3D.push(objMurOuvrable);
+            }
 
             objScene3D.tabObjets3D = tabObjets3D;
             // La caméra
             const camera = creerCamera();
-            setPositionsCameraXYZ([objPlancher.fltCentrePlancher, 0.5, objPlancher.fltCentrePlancher], camera);
-            setCiblesCameraXYZ([0, 0.5, 0], camera);
+            setPositionsCameraXYZ([objPlancher.fltCentrePlancher, 1, objPlancher.fltCentrePlancher], camera);
+            setCiblesCameraXYZ([0, 1, 0], camera);
             setOrientationsXYZ([0, 1, 0], camera);
             objScene3D.camera = camera;
 
@@ -388,6 +394,11 @@
     <canvas id="monCanvas" width="640" height="640" tabIndex="1" onkeydown="mouvementAvecClavier();" onkeyup="arretMouvementAvecClavier();" onmousemove="eventMouvementSouris()" onmousedown="eventClickDownSouris();" onmouseup="eventClickUpSouris();">
         Votre navigateur ne supporte pas la balise canvas
     </canvas>
+</br>
+    <span id="posCamX">X : </Span>
+    <span id="posCamZ">Z : </Span></br>
+    <span id="cibleCamX">X : </Span>
+    <span id="cibleCamZ">Z : </Span>
 </body>
 
 </html>
