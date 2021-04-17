@@ -24,7 +24,7 @@ function mouvementCameraAvecSouris(event) {
   fltX = getCibleCameraX(camera) - getPositionCameraX(camera);
   fltZ = getCibleCameraZ(camera) - getPositionCameraZ(camera);
   intDirection = (movementX >= 0) ? 1 : -1;
-  fltAngle = intDirection * .6 * Math.PI / 90; // Tourner 0.6 degrés
+  fltAngle = intDirection * 0.6 * Math.PI / 90; // Tourner 0.6 degrés
   fltXPrime = fltX * Math.cos(fltAngle) - fltZ * Math.sin(fltAngle);
   fltZPrime = fltX * Math.sin(fltAngle) + fltZ * Math.cos(fltAngle);
   setCibleCameraX(getPositionCameraX(camera) + fltXPrime, camera);
