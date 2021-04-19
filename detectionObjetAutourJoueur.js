@@ -21,11 +21,11 @@ function detectionObjetAutourJoueur() {
 
   // Pour savoir dans quelle direction quon regarde
   let strDirection = "";
-  if (fltZPrime > 0.5 && fltZPrime < 1) strDirection = "Sud";
-  else if (fltZPrime < -0.5 && fltZPrime > -1) strDirection = "Nord";
-  else if (fltXPrime > 0.5 && fltXPrime < 1) strDirection = "Est";
-  else if (fltXPrime < -0.5 && fltXPrime > -1) strDirection = "Ouest";
-  document.getElementById('Direction').innerHTML = "direciton: " + strDirection;
+  if (fltZPrimeFar > 0.5 && fltZPrimeFar < 1) strDirection = "Sud";
+  else if (fltZPrimeFar < -0.5 && fltZPrimeFar > -1) strDirection = "Nord";
+  else if (fltXPrimeFar > 0.5 && fltXPrimeFar < 1) strDirection = "Est";
+  else if (fltXPrimeFar < -0.5 && fltXPrimeFar > -1) strDirection = "Ouest";
+  document.getElementById('Direction').innerHTML = "direction: " + strDirection;
 
   objScene3D.camera.objAutourJoueur = {
       objAPosJoueur: {
