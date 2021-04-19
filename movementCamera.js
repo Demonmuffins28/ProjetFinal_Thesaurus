@@ -107,7 +107,7 @@ function deplacerCamera() {
   let fltRayon;
 
   //if (event.keyCode == 37 || event.keyCode == 39 || event.keyCode == 65 || event.keyCode == 68) {
-  if (binMovDroit || binMovGauche) {
+  if (binMovDroit || binMovGauche) {    
     // 37:  Flèche-à-gauche; 39:Flèche-à-droite
     fltX = getCibleCameraX(camera) - getPositionCameraX(camera);
     fltZ = getCibleCameraZ(camera) - getPositionCameraZ(camera);
@@ -115,25 +115,37 @@ function deplacerCamera() {
     fltAngle = intDirection * 2 * Math.PI / 90; // Tourner 2 degrés
     fltXPrime = fltX * Math.cos(fltAngle) - fltZ * Math.sin(fltAngle);
     fltZPrime = fltX * Math.sin(fltAngle) + fltZ * Math.cos(fltAngle);
+
     setCibleCameraX(getPositionCameraX(camera) + fltXPrime, camera);
-    setCibleCameraZ(getPositionCameraZ(camera) + fltZPrime, camera);
+    setCibleCameraZ(getPositionCameraZ(camera) + fltZPrime, camera);   
   }
   if (binMovAvant || binMovArriere) {
-    // 38:  Flèche-en-haut; 40:Flèche-en-bas
-    fltX = getCibleCameraX(camera) - getPositionCameraX(camera);
-    fltZ = getCibleCameraZ(camera) - getPositionCameraZ(camera);
-    fltRayon = Math.sqrt(fltX * fltX + fltZ * fltZ);
-    intDirection = (binMovAvant) ? 1 : -1;
+    let binAucuneCollision = validerCollision();
+    if (binAucuneCollision) {
+      // 38:  Flèche-en-haut; 40:Flèche-en-bas
+      fltX = getCibleCameraX(camera) - getPositionCameraX(camera);
+      fltZ = getCibleCameraZ(camera) - getPositionCameraZ(camera);
+      fltRayon = Math.sqrt(fltX * fltX + fltZ * fltZ);
+      intDirection = (binMovAvant) ? 1 : -1;
 
-    fltXPrime = intDirection * 0.2 * Math.cos(Math.acos(fltX / fltRayon));
-    fltZPrime = intDirection * 0.2 * Math.sin(Math.asin(fltZ / fltRayon));
+      fltXPrime = intDirection * 0.2 * Math.cos(Math.acos(fltX / fltRayon));
+      fltZPrime = intDirection * 0.2 * Math.sin(Math.asin(fltZ / fltRayon));
 
-    setCibleCameraX(getCibleCameraX(camera) + fltXPrime, camera);
-    setCibleCameraZ(getCibleCameraZ(camera) + fltZPrime, camera);
-    setPositionCameraX(getPositionCameraX(camera) + fltXPrime, camera);
-    setPositionCameraZ(getPositionCameraZ(camera) + fltZPrime, camera);
+      setCibleCameraX(getCibleCameraX(camera) + fltXPrime, camera);
+      setCibleCameraZ(getCibleCameraZ(camera) + fltZPrime, camera);
+      setPositionCameraX(getPositionCameraX(camera) + fltXPrime, camera);
+      setPositionCameraZ(getPositionCameraZ(camera) + fltZPrime, camera);
+    }
   }
 
   effacerCanevas(objgl);
   dessiner(objgl, objProgShaders, objScene3D);
+}
+
+function validerCollision() {
+  let binAucuneCollision = true;
+  if (objScene3D.camera.objAutourJoueur.objEnAvantJoueur.strType == "R" || objScene3D.camera.objAutourJoueur.objEnAvantJoueur.strType == "V") {
+    return !binAucuneCollision;
+  }
+  return binAucuneCollision;
 }
