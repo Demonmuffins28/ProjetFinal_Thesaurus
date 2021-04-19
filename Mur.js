@@ -4,7 +4,7 @@ function creerObj3DMur(objgl, intNoTexture, intX, intZ, binOuvrable) {
     const obj3DMur = new Object();
     obj3DMur.fltProfondeur = 1;
     obj3DMur.fltLargeur = 1;
-    obj3DMur.fltHauteur = 3;
+    obj3DMur.fltHauteur = 2;
     obj3DMur.intX = intX;
     obj3DMur.intZ = intZ;
     obj3DMur.binOuvrable = binOuvrable;
@@ -139,4 +139,3 @@ function creerTexelsMur(objgl, fltLargeur, fltProfondeur, fltHauteur, intNoTextu
     }
     return tabObjTexelsMur;
 }
-

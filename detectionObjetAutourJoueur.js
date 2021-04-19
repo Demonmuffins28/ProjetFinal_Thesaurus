@@ -10,8 +10,8 @@ function detectionObjetAutourJoueur() {
   // Si primeX = 0 && primeZ = -1 -> Sud
   // Si primeX = -1 && primeZ = 0 -> Est
   // Si primeX = 1 && primeZ = 0 -> Ouest
-  fltXPrime = Math.cos(Math.acos(fltX / fltRayon));
-  fltZPrime = Math.sin(Math.asin(fltZ / fltRayon));
+  fltXPrime = 0.2 * Math.cos(Math.acos(fltX / fltRayon));
+  fltZPrime = 0.2 * Math.sin(Math.asin(fltZ / fltRayon));
 
   document.getElementById('primeCamX').innerHTML = "primeX : " + fltXPrime;
   document.getElementById('primeCamZ').innerHTML = "primeZ : " + fltZPrime;
