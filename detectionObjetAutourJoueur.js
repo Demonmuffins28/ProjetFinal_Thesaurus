@@ -10,8 +10,11 @@ function detectionObjetAutourJoueur() {
   // Si primeX = 0 && primeZ = -1 -> Sud
   // Si primeX = -1 && primeZ = 0 -> Est
   // Si primeX = 1 && primeZ = 0 -> Ouest
-  fltXPrime = 1 * Math.cos(Math.acos(fltX / fltRayon));
-  fltZPrime = 1 * Math.sin(Math.asin(fltZ / fltRayon));
+  fltXPrime = 0.25 * Math.cos(Math.acos(fltX / fltRayon));
+  fltZPrime = 0.25 * Math.sin(Math.asin(fltZ / fltRayon));
+  fltXPrimeFar = 1 * Math.cos(Math.acos(fltX / fltRayon));
+  fltZPrimeFar = 1 * Math.sin(Math.asin(fltZ / fltRayon));
+
 
   document.getElementById('primeCamX').innerHTML = "primeX : " + fltXPrime;
   document.getElementById('primeCamZ').innerHTML = "primeZ : " + fltZPrime;
@@ -27,8 +30,8 @@ function detectionObjetAutourJoueur() {
   objScene3D.camera.objAutourJoueur = {
       objAPosJoueur: {
           strType: tabJeu[Math.floor(intZ)][Math.floor(intX)],
-          intX: Math.floor(intX * objScene3D.tabObjets3D[1].fltLargeur),
-          intZ: Math.floor(intZ * objScene3D.tabObjets3D[1].fltProfondeur),
+          intX: intX * objScene3D.tabObjets3D[1].fltLargeur,
+          intZ: intZ * objScene3D.tabObjets3D[1].fltProfondeur,
       },
       objEnAvantJoueur: {
           strType: tabJeu[Math.floor(intZ+fltZPrime)][Math.floor(intX+fltXPrime)],
@@ -40,7 +43,14 @@ function detectionObjetAutourJoueur() {
           intX: Math.floor(intX - fltXPrime * objScene3D.tabObjets3D[1].fltLargeur),
           intZ: Math.floor(intZ - fltZPrime * objScene3D.tabObjets3D[1].fltProfondeur),
       },
-  }            
+      objEnAvantJoueurFar: {
+        strType: tabJeu[Math.floor(intZ+fltZPrimeFar)][Math.floor(intX+fltXPrimeFar)],
+        intX: Math.floor(intX + fltXPrimeFar * objScene3D.tabObjets3D[1].fltLargeur),
+        intZ: Math.floor(intZ + fltZPrimeFar * objScene3D.tabObjets3D[1].fltProfondeur),
+      },
+  }        
+  
+  //console.log(objScene3D.camera.objAutourJoueur.objEnvantJoueurFar.intZ);
 }
 
 // V = non-ouvrable, R = ouvrable, T = tresors, ' ' = corridor

@@ -144,8 +144,17 @@ function deplacerCamera() {
 
 function validerCollision() {
   let binAucuneCollision = true;
-  if (objScene3D.camera.objAutourJoueur.objEnAvantJoueur.strType == "R" || objScene3D.camera.objAutourJoueur.objEnAvantJoueur.strType == "V") {
-    return !binAucuneCollision;
+  if ((objScene3D.camera.objAutourJoueur.objEnAvantJoueurFar.strType == "R" 
+        || objScene3D.camera.objAutourJoueur.objEnAvantJoueurFar.strType == "V")
+      || (objScene3D.camera.objAutourJoueur.objEnAvantJoueur.strType == "R"
+        || objScene3D.camera.objAutourJoueur.objEnAvantJoueur.strType == "V")) {
+    if (Math.abs(objScene3D.camera.objAutourJoueur.objAPosJoueur.intX - objScene3D.camera.objAutourJoueur.objEnAvantJoueurFar.intX + 1) <= 0.5 ||
+      Math.abs(objScene3D.camera.objAutourJoueur.objAPosJoueur.intZ - (objScene3D.camera.objAutourJoueur.objEnAvantJoueurFar.intZ + 1)) <= 0.5 ) {
+      return !binAucuneCollision;
+    }  
   }
+  // if (objScene3D.camera.objAutourJoueur.objEnArriereJoueur.strType == "R" || objScene3D.camera.objAutourJoueur.objEnArriereJoueur.strType == "V") {
+  //   return !binAucuneCollision;
+  // }
   return binAucuneCollision;
 }
