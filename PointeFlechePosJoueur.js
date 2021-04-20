@@ -1,6 +1,6 @@
 function creerObj3DPointeFlechePosJoueur(objgl, intNoTexture, intX, intZ, binVisible) {
     const obj3DPointeFlechePosJoueur = new Object();
-    obj3DPointeFlechePosJoueur.fltProfondeur = 0.5;
+    obj3DPointeFlechePosJoueur.fltProfondeur = 0.7;
     obj3DPointeFlechePosJoueur.fltLargeur = 0.5;
     obj3DPointeFlechePosJoueur.fltHauteur = 2;
     obj3DPointeFlechePosJoueur.binVisible = binVisible;

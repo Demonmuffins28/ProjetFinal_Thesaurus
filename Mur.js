@@ -139,4 +139,3 @@ function creerTexelsMur(objgl, fltLargeur, fltProfondeur, fltHauteur, intNoTextu
     }
     return tabObjTexelsMur;
 }
-
