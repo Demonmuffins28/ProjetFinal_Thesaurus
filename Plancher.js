@@ -5,7 +5,7 @@ function creerObj3DPlancher(objgl, intNoTexture) {
     obj3DPlancher.fltHauteur = 0;
     obj3DPlancher.fltCentrePlancher = 31 / 2;
 
-    obj3DPlancher.vertex = creerVertexPlancher(objgl, obj3DPlancher.fltLargeur, obj3DPlancher.fltProfondeur);
+    obj3DPlancher.vertex = creerVertexPlancher(objgl, obj3DPlancher.fltLargeur, obj3DPlancher.fltProfondeur, obj3DPlancher.fltHauteur);
     obj3DPlancher.couleurs = creerCouleursPlancher(objgl, [1, 1, 1, 1]);
     obj3DPlancher.texels = creerTexelsPlancher(objgl, obj3DPlancher.fltLargeur, obj3DPlancher.fltProfondeur, intNoTexture);
     obj3DPlancher.maillage = creerMaillagePlancher(objgl);
@@ -16,12 +16,12 @@ function creerObj3DPlancher(objgl, intNoTexture) {
     return obj3DPlancher;
 }
 
-function creerVertexPlancher(objgl, fltLargeur, fltProfondeur) {
+function creerVertexPlancher(objgl, fltLargeur, fltProfondeur, fltHauteur) {
     const tabVertex = [
-        -fltLargeur / 2, 0.0, -fltProfondeur / 2,
-        fltLargeur / 2, 0.0, -fltProfondeur / 2,
-        -fltLargeur / 2, 0.0, fltProfondeur / 2,
-        fltLargeur / 2, 0.0, fltProfondeur / 2
+        -fltLargeur / 2, fltHauteur, -fltProfondeur / 2,
+        fltLargeur / 2, fltHauteur, -fltProfondeur / 2,
+        -fltLargeur / 2, fltHauteur, fltProfondeur / 2,
+        fltLargeur / 2, fltHauteur, fltProfondeur / 2
     ];
 
     const objPlancher = objgl.createBuffer();

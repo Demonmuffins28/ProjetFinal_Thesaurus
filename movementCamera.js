@@ -46,28 +46,30 @@ function mouvementCameraAvecSouris(event) {
 }
 
 function deplacerCameraClavier(event) {
-  switch (event.keyCode) {
-    case 39:
-    case 68:
-        binMovDroit = true;
-        binEnMouvement = true;   
-        break
-    case 37:
-    case 65:
-        binMovGauche = true;
-        binEnMouvement = true;
-        break
-    case 38:
-    case 87:
-        binMovAvant = true;
-        binEnMouvement = true;
-        break
-    case 40:
-    case 83:
-        binMovArriere = true;
-        binEnMouvement = true;
-        break
-}
+  if (!binVueAerienne){
+    switch (event.keyCode) {
+      case 39:
+      case 68:
+          binMovDroit = true;
+          binEnMouvement = true;   
+          break
+      case 37:
+      case 65:
+          binMovGauche = true;
+          binEnMouvement = true;
+          break
+      case 38:
+      case 87:
+          binMovAvant = true;
+          binEnMouvement = true;
+          break
+      case 40:
+      case 83:
+          binMovArriere = true;
+          binEnMouvement = true;
+          break
+    }
+  }
 }
 
 function arretCameraClavier(event) {
