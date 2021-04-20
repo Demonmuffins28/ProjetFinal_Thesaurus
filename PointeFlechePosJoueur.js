@@ -1,6 +1,6 @@
 function creerObj3DPointeFlechePosJoueur(objgl, intNoTexture, intX, intZ, binVisible) {
     const obj3DPointeFlechePosJoueur = new Object();
-    obj3DPointeFlechePosJoueur.fltProfondeur = 0.5;
+    obj3DPointeFlechePosJoueur.fltProfondeur = 0.7;
     obj3DPointeFlechePosJoueur.fltLargeur = 0.5;
     obj3DPointeFlechePosJoueur.fltHauteur = 2;
     obj3DPointeFlechePosJoueur.binVisible = binVisible;
@@ -14,6 +14,7 @@ function creerObj3DPointeFlechePosJoueur(objgl, intNoTexture, intX, intZ, binVis
 
     obj3DPointeFlechePosJoueur.transformations = creerTransformations();
     changerPos(obj3DPointeFlechePosJoueur.intX, obj3DPointeFlechePosJoueur.intZ, obj3DPointeFlechePosJoueur.transformations);
+    //setAngleY(90, obj3DPointeFlechePosJoueur.transformations)
     return obj3DPointeFlechePosJoueur;
 }
 
