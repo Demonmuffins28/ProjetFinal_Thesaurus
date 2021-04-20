@@ -29,6 +29,7 @@
     <script type="text/javascript" src="Mur.js"></script>
 
     <script type="text/javascript" src="Niveau.js"></script>
+    <script type="text/javascript" src="PointeFlechePosJoueur.js"></script>
     <script type="text/javascript" src="VueAerienneDedale.js"></script>
     <script type="text/javascript">
 
@@ -101,6 +102,9 @@
 
             const objPlafond = creerObj3DPlafond(objgl, TEX_PLANCHER, true);
             tabObjets3D.push(objPlafond);
+
+            const objPointeFlechePosJoueur = creerObj3DPointeFlechePosJoueur(objgl, TEX_PLANCHER, 15, 15, false);
+            tabObjets3D.push(objPointeFlechePosJoueur);
 
             tabObjets3D = tabObjets3D.concat(initNiveau());
 
@@ -277,6 +281,10 @@
             arretCameraClavier(event);
         }
 
+        function changerPos(intX, intZ, transformations){
+            setPositionX(intX, transformations);
+            setPositionZ(intZ, transformations);
+        }
 
     </script>
 </head>
