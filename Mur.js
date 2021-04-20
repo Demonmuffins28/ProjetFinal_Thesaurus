@@ -2,8 +2,8 @@
 
 function creerObj3DMur(objgl, intNoTexture, intX, intZ, binOuvrable) {
     const obj3DMur = new Object();
-    obj3DMur.fltProfondeur = 1;
-    obj3DMur.fltLargeur = 1;
+    obj3DMur.fltProfondeur = INT_CELL_PROFONDEUR;
+    obj3DMur.fltLargeur = INT_CELL_LARGEUR;
     obj3DMur.fltHauteur = 2;
     obj3DMur.intX = intX;
     obj3DMur.intZ = intZ;

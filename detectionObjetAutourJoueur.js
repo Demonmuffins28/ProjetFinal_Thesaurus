@@ -32,23 +32,23 @@ function detectionObjetAutourJoueur() {
   objScene3D.camera.objAutourJoueur = {
       objAPosJoueur: {
           strType: tabJeu[Math.floor(intZ)][Math.floor(intX)],
-          intX: intX * objScene3D.tabObjets3D[indexCamera].fltLargeur,
-          intZ: intZ * objScene3D.tabObjets3D[indexCamera].fltProfondeur,
+          intX: intX * INT_CELL_LARGEUR,
+          intZ: intZ * INT_CELL_PROFONDEUR,
       },
       objEnAvantJoueur: {
           strType: tabJeu[Math.floor(intZ+fltZPrime)][Math.floor(intX+fltXPrime)],
-          intX: Math.floor(intX + fltXPrime * objScene3D.tabObjets3D[indexCamera].fltLargeur),
-          intZ: Math.floor(intZ + fltZPrime * objScene3D.tabObjets3D[indexCamera].fltProfondeur),
+          intX: Math.floor(intX + fltXPrime * INT_CELL_LARGEUR),
+          intZ: Math.floor(intZ + fltZPrime * INT_CELL_PROFONDEUR),
       },
       objEnArriereJoueur: {
           strType: tabJeu[Math.floor(intZ-fltZPrime)][Math.floor(intX-fltXPrime)],
-          intX: Math.floor(intX - fltXPrime * objScene3D.tabObjets3D[indexCamera].fltLargeur),
-          intZ: Math.floor(intZ - fltZPrime * objScene3D.tabObjets3D[indexCamera].fltProfondeur),
+          intX: Math.floor(intX - fltXPrime * INT_CELL_LARGEUR),
+          intZ: Math.floor(intZ - fltZPrime * INT_CELL_PROFONDEUR),
       },
       objEnAvantJoueurFar: {
         strType: tabJeu[Math.floor(intZ+fltZPrimeFar)][Math.floor(intX+fltXPrimeFar)],
-        intX: Math.floor(intX + fltXPrimeFar * objScene3D.tabObjets3D[indexCamera].fltLargeur),
-        intZ: Math.floor(intZ + fltZPrimeFar * objScene3D.tabObjets3D[indexCamera].fltProfondeur),
+        intX: Math.floor(intX + fltXPrimeFar * INT_CELL_LARGEUR),
+        intZ: Math.floor(intZ + fltZPrimeFar * INT_CELL_PROFONDEUR),
       },
   }        
   
