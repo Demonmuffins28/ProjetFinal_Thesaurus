@@ -17,7 +17,7 @@ function cameraVueAerienne(event){
         let fltZPrime = 1 * Math.sin(Math.asin(fltZ / fltRayon));
 
         let angle = (Math.atan(fltXPrime/fltZPrime) * 180) / Math.PI;
-        alert(angle);
+        if (fltZPrime > 0) angle = 180 + angle;
 
         objScene3D.tabObjets3D[2].binVisible = true;
         objScene3D.tabObjets3D[2].intX = getPositionCameraX(objCopieCameraVueJoueur);
