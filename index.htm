@@ -25,9 +25,12 @@
 
     <script type="text/javascript" src="Textures.js"></script>
     <script type="text/javascript" src="Plancher.js"></script>
+    <script type="text/javascript" src="Plafond.js"></script>
     <script type="text/javascript" src="Mur.js"></script>
 
     <script type="text/javascript" src="Niveau.js"></script>
+    <script type="text/javascript" src="PointeFlechePosJoueur.js"></script>
+    <script type="text/javascript" src="VueAerienneDedale.js"></script>
     <script type="text/javascript">
 
 
@@ -41,7 +44,9 @@
         let binMovArriere = false;
         let binMovDroit = false;
         let binMovGauche = false;
+        let binVueAerienne = false;
         let binEnMouvement = false;
+        let objCopieCameraVueJoueur = null;
 
         const tabImages = ['Transparent.gif', 'Sol.jpg', 'Mur.jpg'];
         const TEX_PLANCHER = 1;
@@ -95,6 +100,12 @@
             const objPlancher = creerObj3DPlancher(objgl, TEX_PLANCHER);
             tabObjets3D.push(objPlancher);
 
+            const objPlafond = creerObj3DPlafond(objgl, TEX_PLANCHER, true);
+            tabObjets3D.push(objPlafond);
+
+            const objPointeFlechePosJoueur = creerObj3DPointeFlechePosJoueur(objgl, TEX_PLANCHER, 15, 15, false);
+            tabObjets3D.push(objPointeFlechePosJoueur);
+
             tabObjets3D = tabObjets3D.concat(initNiveau());
 
             objScene3D.tabObjets3D = tabObjets3D;
@@ -122,6 +133,8 @@
             objgl.uniformMatrix4fv(objProgShaders.matProjection, false, matProjection);
 
             for (let i = 0; i < objScene3D.tabObjets3D.length; i++) {
+                if ((typeof objScene3D.tabObjets3D[i].binVisible !== 'undefined') && !objScene3D.tabObjets3D[i].binVisible)
+                    i++;
                 const vertex = objScene3D.tabObjets3D[i].vertex;
                 const couleurs = objScene3D.tabObjets3D[i].couleurs;
                 const texels = objScene3D.tabObjets3D[i].texels;
@@ -229,7 +242,7 @@
          * Click gauche seulement
         */
         function eventMouvementSouris() {                 
-            if (binTournerCamera === true) {
+            if (binTournerCamera === true && !binVueAerienne) {
                 mouvementCameraAvecSouris(event);                             
             }            
         }        
@@ -260,13 +273,18 @@
         // Mouvement avec clavier (fleche et WASD)
         // Rend le jeux 100x plus fluide
         function mouvementAvecClavier() {
-            deplacerCameraClavier(event); 
+            deplacerCameraClavier(event);
+            cameraVueAerienne(event);  
         }
         // arreter le mouvement quand on relache la touche
         function arretMouvementAvecClavier() {
             arretCameraClavier(event);
         }
 
+        function changerPos(intX, intZ, transformations){
+            setPositionX(intX, transformations);
+            setPositionZ(intZ, transformations);
+        }
 
     </script>
 </head>
