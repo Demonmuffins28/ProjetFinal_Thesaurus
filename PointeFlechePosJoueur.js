@@ -14,7 +14,6 @@ function creerObj3DPointeFlechePosJoueur(objgl, intNoTexture, intX, intZ, binVis
 
     obj3DPointeFlechePosJoueur.transformations = creerTransformations();
     changerPos(obj3DPointeFlechePosJoueur.intX, obj3DPointeFlechePosJoueur.intZ, obj3DPointeFlechePosJoueur.transformations);
-    //setAngleY(90, obj3DPointeFlechePosJoueur.transformations)
     return obj3DPointeFlechePosJoueur;
 }
 

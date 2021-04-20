@@ -1,5 +1,12 @@
 function cameraVueAerienne(event){
     if (event.keyCode == 33 && !binVueAerienne){
+        binTournerCamera = false;
+        binMovAvant = false;
+        binMovArriere = false;
+        binMovDroit = false;
+        binMovGauche = false;
+        binEnMouvement = false;
+
         binVueAerienne = true;
         objCopieCameraVueJoueur = objScene3D.camera;
 
