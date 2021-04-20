@@ -1,4 +1,6 @@
 function detectionObjetAutourJoueur() {
+  const indexCamera = 3;
+
   let intX = getPositionCameraX(objScene3D.camera);
   let intZ = getPositionCameraZ(objScene3D.camera);
 
@@ -30,23 +32,23 @@ function detectionObjetAutourJoueur() {
   objScene3D.camera.objAutourJoueur = {
       objAPosJoueur: {
           strType: tabJeu[Math.floor(intZ)][Math.floor(intX)],
-          intX: intX * objScene3D.tabObjets3D[1].fltLargeur,
-          intZ: intZ * objScene3D.tabObjets3D[1].fltProfondeur,
+          intX: intX * objScene3D.tabObjets3D[indexCamera].fltLargeur,
+          intZ: intZ * objScene3D.tabObjets3D[indexCamera].fltProfondeur,
       },
       objEnAvantJoueur: {
           strType: tabJeu[Math.floor(intZ+fltZPrime)][Math.floor(intX+fltXPrime)],
-          intX: Math.floor(intX + fltXPrime * objScene3D.tabObjets3D[1].fltLargeur),
-          intZ: Math.floor(intZ + fltZPrime * objScene3D.tabObjets3D[1].fltProfondeur),
+          intX: Math.floor(intX + fltXPrime * objScene3D.tabObjets3D[indexCamera].fltLargeur),
+          intZ: Math.floor(intZ + fltZPrime * objScene3D.tabObjets3D[indexCamera].fltProfondeur),
       },
       objEnArriereJoueur: {
           strType: tabJeu[Math.floor(intZ-fltZPrime)][Math.floor(intX-fltXPrime)],
-          intX: Math.floor(intX - fltXPrime * objScene3D.tabObjets3D[1].fltLargeur),
-          intZ: Math.floor(intZ - fltZPrime * objScene3D.tabObjets3D[1].fltProfondeur),
+          intX: Math.floor(intX - fltXPrime * objScene3D.tabObjets3D[indexCamera].fltLargeur),
+          intZ: Math.floor(intZ - fltZPrime * objScene3D.tabObjets3D[indexCamera].fltProfondeur),
       },
       objEnAvantJoueurFar: {
         strType: tabJeu[Math.floor(intZ+fltZPrimeFar)][Math.floor(intX+fltXPrimeFar)],
-        intX: Math.floor(intX + fltXPrimeFar * objScene3D.tabObjets3D[1].fltLargeur),
-        intZ: Math.floor(intZ + fltZPrimeFar * objScene3D.tabObjets3D[1].fltProfondeur),
+        intX: Math.floor(intX + fltXPrimeFar * objScene3D.tabObjets3D[indexCamera].fltLargeur),
+        intZ: Math.floor(intZ + fltZPrimeFar * objScene3D.tabObjets3D[indexCamera].fltProfondeur),
       },
   }        
   
