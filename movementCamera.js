@@ -114,7 +114,7 @@ function deplacerCamera() {
     fltX = getCibleCameraX(camera) - getPositionCameraX(camera);
     fltZ = getCibleCameraZ(camera) - getPositionCameraZ(camera);
     intDirection = (binMovGauche) ? -1 : 1;
-    fltAngle = intDirection * 2 * Math.PI / 90; // Tourner 2 degrés
+    fltAngle = intDirection * 4 * Math.PI / 90; // Tourner 2 degrés
     fltXPrime = fltX * Math.cos(fltAngle) - fltZ * Math.sin(fltAngle);
     fltZPrime = fltX * Math.sin(fltAngle) + fltZ * Math.cos(fltAngle);
 
@@ -153,10 +153,9 @@ function validerCollision() {
     if (Math.abs(objScene3D.camera.objAutourJoueur.objAPosJoueur.intX - objScene3D.camera.objAutourJoueur.objEnAvantJoueurFar.intX + 1) <= 0.5 ||
       Math.abs(objScene3D.camera.objAutourJoueur.objAPosJoueur.intZ - (objScene3D.camera.objAutourJoueur.objEnAvantJoueurFar.intZ + 1)) <= 0.5 ) {
       return !binAucuneCollision;
-    }  
+    }  else if (Math.abs(objScene3D.camera.objAutourJoueur.objAPosJoueur.intX - objScene3D.camera.objAutourJoueur.objEnAvantJoueurFar.intX) <= 0.5 ||
+      Math.abs(objScene3D.camera.objAutourJoueur.objAPosJoueur.intZ - objScene3D.camera.objAutourJoueur.objEnAvantJoueurFar.intZ) <= 0.5 )
+       return !binAucuneCollision;
   }
-  // if (objScene3D.camera.objAutourJoueur.objEnArriereJoueur.strType == "R" || objScene3D.camera.objAutourJoueur.objEnArriereJoueur.strType == "V") {
-  //   return !binAucuneCollision;
-  // }
   return binAucuneCollision;
 }
