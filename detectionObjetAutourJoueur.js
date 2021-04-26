@@ -50,6 +50,11 @@ function detectionObjetAutourJoueur() {
         intX: Math.floor(intX + fltXPrimeFar * INT_CELL_LARGEUR),
         intZ: Math.floor(intZ + fltZPrimeFar * INT_CELL_PROFONDEUR),
       },
+      objEnArriereJoueurFar: {
+        strType: tabJeu[Math.floor(intZ-fltZPrimeFar)][Math.floor(intX-fltXPrimeFar)],
+        intX: Math.floor(intX - fltXPrimeFar * INT_CELL_LARGEUR),
+        intZ: Math.floor(intZ - fltZPrimeFar * INT_CELL_PROFONDEUR),
+      },
   }        
   
   //console.log(objScene3D.camera.objAutourJoueur.objEnvantJoueurFar.intZ);

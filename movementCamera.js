@@ -120,15 +120,15 @@ function deplacerCamera() {
 
     setCibleCameraX(getPositionCameraX(camera) + fltXPrime, camera);
     setCibleCameraZ(getPositionCameraZ(camera) + fltZPrime, camera);   
-  }
-  if (binMovAvant || binMovArriere) {
-    let binAucuneCollision = validerCollision();
-    if (binAucuneCollision) {
+  }  
+  if (binMovAvant) {    
+    let intCollision = validerCollision();
+    if (intCollision != 1) {
       // 38:  Flèche-en-haut; 40:Flèche-en-bas
       fltX = getCibleCameraX(camera) - getPositionCameraX(camera);
       fltZ = getCibleCameraZ(camera) - getPositionCameraZ(camera);
       fltRayon = Math.sqrt(fltX * fltX + fltZ * fltZ);
-      intDirection = (binMovAvant) ? 1 : -1;
+      intDirection = 1;
 
       fltXPrime = intDirection * 0.2 * Math.cos(Math.acos(fltX / fltRayon));
       fltZPrime = intDirection * 0.2 * Math.sin(Math.asin(fltZ / fltRayon));
@@ -137,25 +137,51 @@ function deplacerCamera() {
       setCibleCameraZ(getCibleCameraZ(camera) + fltZPrime, camera);
       setPositionCameraX(getPositionCameraX(camera) + fltXPrime, camera);
       setPositionCameraZ(getPositionCameraZ(camera) + fltZPrime, camera);
+    } 
+  } else if (binMovArriere) {
+      let intCollision = validerCollision();
+      if (intCollision != 2) {
+        fltX = getCibleCameraX(camera) - getPositionCameraX(camera);
+        fltZ = getCibleCameraZ(camera) - getPositionCameraZ(camera);
+        fltRayon = Math.sqrt(fltX * fltX + fltZ * fltZ);
+        intDirection = -1;
+
+        fltXPrime = intDirection * 0.2 * Math.cos(Math.acos(fltX / fltRayon));
+        fltZPrime = intDirection * 0.2 * Math.sin(Math.asin(fltZ / fltRayon));
+
+        setCibleCameraX(getCibleCameraX(camera) + fltXPrime, camera);
+        setCibleCameraZ(getCibleCameraZ(camera) + fltZPrime, camera);
+        setPositionCameraX(getPositionCameraX(camera) + fltXPrime, camera);
+        setPositionCameraZ(getPositionCameraZ(camera) + fltZPrime, camera);
+      }
     }
-  }
 
   effacerCanevas(objgl);
   dessiner(objgl, objProgShaders, objScene3D);
 }
 
 function validerCollision() {
-  let binAucuneCollision = true;
+  let intAucuneCollision = 0; // 1=avant 2=arriere 0=aucune
   if ((objScene3D.camera.objAutourJoueur.objEnAvantJoueurFar.strType == "R" 
         || objScene3D.camera.objAutourJoueur.objEnAvantJoueurFar.strType == "V")
       || (objScene3D.camera.objAutourJoueur.objEnAvantJoueur.strType == "R"
         || objScene3D.camera.objAutourJoueur.objEnAvantJoueur.strType == "V")) {
     if (Math.abs(objScene3D.camera.objAutourJoueur.objAPosJoueur.intX - objScene3D.camera.objAutourJoueur.objEnAvantJoueurFar.intX + 1) <= 0.5 ||
       Math.abs(objScene3D.camera.objAutourJoueur.objAPosJoueur.intZ - (objScene3D.camera.objAutourJoueur.objEnAvantJoueurFar.intZ + 1)) <= 0.5 ) {
-      return !binAucuneCollision;
+        intAucuneCollision = 1;
     }  else if (Math.abs(objScene3D.camera.objAutourJoueur.objAPosJoueur.intX - objScene3D.camera.objAutourJoueur.objEnAvantJoueurFar.intX) <= 0.5 ||
       Math.abs(objScene3D.camera.objAutourJoueur.objAPosJoueur.intZ - objScene3D.camera.objAutourJoueur.objEnAvantJoueurFar.intZ) <= 0.5 )
-       return !binAucuneCollision;
+        intAucuneCollision = 1;
+  } else if ((objScene3D.camera.objAutourJoueur.objEnArriereJoueurFar.strType == "R" 
+        || objScene3D.camera.objAutourJoueur.objEnArriereJoueurFar.strType == "V")
+      || (objScene3D.camera.objAutourJoueur.objEnArriereJoueur.strType == "R"
+        || objScene3D.camera.objAutourJoueur.objEnArriereJoueur.strType == "V")) {
+    if (Math.abs(objScene3D.camera.objAutourJoueur.objAPosJoueur.intX - objScene3D.camera.objAutourJoueur.objEnArriereJoueurFar.intX + 1) <= 0.5 ||
+      Math.abs(objScene3D.camera.objAutourJoueur.objAPosJoueur.intZ - (objScene3D.camera.objAutourJoueur.objEnArriereJoueurFar.intZ + 1)) <= 0.5 ) {
+        intAucuneCollision = 2;
+    }  else if (Math.abs(objScene3D.camera.objAutourJoueur.objAPosJoueur.intX - objScene3D.camera.objAutourJoueur.objEnArriereJoueurFar.intX) <= 0.5 ||
+      Math.abs(objScene3D.camera.objAutourJoueur.objAPosJoueur.intZ - objScene3D.camera.objAutourJoueur.objEnArriereJoueurFar.intZ) <= 0.5 )
+        intAucuneCollision = 2;
   }
-  return binAucuneCollision;
+  return intAucuneCollision;
 }
