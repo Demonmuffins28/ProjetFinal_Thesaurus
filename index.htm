@@ -28,6 +28,7 @@
     <script type="text/javascript" src="Plancher.js"></script>
     <script type="text/javascript" src="Plafond.js"></script>
     <script type="text/javascript" src="Mur.js"></script>
+    <script type="text/javascript" src="Coffre.js"></script>
 
     <script type="text/javascript" src="Niveau.js"></script>
     <script type="text/javascript" src="PointeFlechePosJoueur.js"></script>
@@ -49,15 +50,24 @@
         let binEnMouvement = false;
         let objCopieCameraVueJoueur = null;
 
-        const tabImages = ['Transparent.gif', 'Sol.jpg', 'Mur.jpg'];
+        const tabImages = ['Transparent.gif', 'Sol.jpg', 'Mur.jpg', 'coffre.jpg'];
         const TEX_PLANCHER = 1;
         const TEX_MUR_OUVRABLE = 2;
+        const TEX_COFFRE = 3;
 
         const INT_CELL_PROFONDEUR = 1;
         const INT_CELL_LARGEUR = 1;
 
         // Le niveau actuel du jeu
-        let intNiveau = 0;
+        let intNiveau = 1;
+        // index == niveaux
+        let tabPosCoffre = [{"intX":29,"intZ":2},{"intX":3,"intZ":3},{"intX":10,"intZ":3},{"intX":20,"intZ":3},{"intX":10,"intZ":14},
+                            {"intX":20,"intZ":14},{"intX":5,"intZ":21},{"intX":5,"intZ":27},{"intX":14,"intZ":27},{"intX":25,"intZ":27}];
+
+        let tabPosFleche = [{"intX":6,"intZ":1},{"intX":17,"intZ":1},{"intX":27,"intZ":1},{"intX":8,"intZ":5},{"intX":22,"intZ":5},
+                            {"intX":2,"intZ":7},{"intX":26,"intZ":9},{"intX":8,"intZ":12},{"intX":22,"intZ":12},{"intX":4,"intZ":15},{"intX":26,"intZ":15},
+                            {"intX":28,"intZ":17},{"intX":15,"intZ":18},{"intX":20,"intZ":19},{"intX":4,"intZ":23},{"intX":10,"intZ":23},{"intX":26,"intZ":23},
+                            {"intX":22,"intZ":29}];
 
         function demarrer() {
             objCanvas = document.getElementById('monCanvas');
@@ -120,12 +130,15 @@
 
             tabObjets3D = tabObjets3D.concat(initNiveau());
 
+            const objCoffre = creerObj3DCoffre(objgl, TEX_COFFRE, tabPosCoffre[intNiveau-1].intX, tabPosCoffre[intNiveau-1].intZ);
+            tabObjets3D.push(objCoffre);
+
             objScene3D.tabObjets3D = tabObjets3D;
 
             // La caméra
             const camera = creerCamera();
-            setPositionsCameraXYZ([objPlancher.fltCentrePlancher, 1, objPlancher.fltCentrePlancher], camera);
-            setCiblesCameraXYZ([15, 0.5, -8], camera);
+            setPositionsCameraXYZ([objPlancher.fltCentrePlancher, 0.9, objPlancher.fltCentrePlancher], camera);
+            setCiblesCameraXYZ([15, 0.3, -8], camera);
             setOrientationsXYZ([0, 1, 0], camera);
             objScene3D.camera = camera;
 
