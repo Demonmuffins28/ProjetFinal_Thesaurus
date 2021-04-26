@@ -161,26 +161,23 @@ function deplacerCamera() {
 }
 
 function validerCollision() {
-  let intAucuneCollision = 0; // 1=avant 2=arriere 0=aucune
-  if ((objScene3D.camera.objAutourJoueur.objEnAvantJoueurFar.strType == "R" 
-        || objScene3D.camera.objAutourJoueur.objEnAvantJoueurFar.strType == "V")
-      || (objScene3D.camera.objAutourJoueur.objEnAvantJoueur.strType == "R"
-        || objScene3D.camera.objAutourJoueur.objEnAvantJoueur.strType == "V")) {
-    if (Math.abs(objScene3D.camera.objAutourJoueur.objAPosJoueur.intX - objScene3D.camera.objAutourJoueur.objEnAvantJoueurFar.intX + 1) <= 0.5 ||
-      Math.abs(objScene3D.camera.objAutourJoueur.objAPosJoueur.intZ - (objScene3D.camera.objAutourJoueur.objEnAvantJoueurFar.intZ + 1)) <= 0.5 ) {
+  // 1=avant 2=arriere 0=aucune
+  let intAucuneCollision = 0;
+  const AV_FAR = objScene3D.camera.objAutourJoueur.objEnAvantJoueurFar;
+  const AV = objScene3D.camera.objAutourJoueur.objEnAvantJoueur;
+  const POS = objScene3D.camera.objAutourJoueur.objAPosJoueur;
+  const AR_FAR = objScene3D.camera.objAutourJoueur.objEnArriereJoueurFar;
+  const AR = objScene3D.camera.objAutourJoueur.objEnArriereJoueur;
+
+  if ((AV_FAR.strType == "R" || AV_FAR.strType == "V") || (AV.strType == "R" || AV.strType == "V")) {
+    if (Math.abs(POS.intX - AV_FAR.intX + 1) <= 0.5 || Math.abs(POS.intZ - (AV_FAR.intZ + 1)) <= 0.5) {
         intAucuneCollision = 1;
-    }  else if (Math.abs(objScene3D.camera.objAutourJoueur.objAPosJoueur.intX - objScene3D.camera.objAutourJoueur.objEnAvantJoueurFar.intX) <= 0.5 ||
-      Math.abs(objScene3D.camera.objAutourJoueur.objAPosJoueur.intZ - objScene3D.camera.objAutourJoueur.objEnAvantJoueurFar.intZ) <= 0.5 )
+    }  else if (Math.abs(POS.intX - AV_FAR.intX) <= 0.5 || Math.abs(POS.intZ - AV_FAR.intZ) <= 0.5)
         intAucuneCollision = 1;
-  } else if ((objScene3D.camera.objAutourJoueur.objEnArriereJoueurFar.strType == "R" 
-        || objScene3D.camera.objAutourJoueur.objEnArriereJoueurFar.strType == "V")
-      || (objScene3D.camera.objAutourJoueur.objEnArriereJoueur.strType == "R"
-        || objScene3D.camera.objAutourJoueur.objEnArriereJoueur.strType == "V")) {
-    if (Math.abs(objScene3D.camera.objAutourJoueur.objAPosJoueur.intX - objScene3D.camera.objAutourJoueur.objEnArriereJoueurFar.intX + 1) <= 0.5 ||
-      Math.abs(objScene3D.camera.objAutourJoueur.objAPosJoueur.intZ - (objScene3D.camera.objAutourJoueur.objEnArriereJoueurFar.intZ + 1)) <= 0.5 ) {
+  } else if ((AR_FAR.strType == "R" || AR_FAR.strType == "V") || (AR.strType == "R" || AR.strType == "V")) {
+    if (Math.abs(POS.intX - AR_FAR.intX + 1) <= 0.5 || Math.abs(POS.intZ - (AR_FAR.intZ + 1)) <= 0.5 ) {
         intAucuneCollision = 2;
-    }  else if (Math.abs(objScene3D.camera.objAutourJoueur.objAPosJoueur.intX - objScene3D.camera.objAutourJoueur.objEnArriereJoueurFar.intX) <= 0.5 ||
-      Math.abs(objScene3D.camera.objAutourJoueur.objAPosJoueur.intZ - objScene3D.camera.objAutourJoueur.objEnArriereJoueurFar.intZ) <= 0.5 )
+    }  else if (Math.abs(POS.intX - AR_FAR.intX) <= 0.5 || Math.abs(POS.intZ - AR_FAR.intZ) <= 0.5 )
         intAucuneCollision = 2;
   }
   return intAucuneCollision;
