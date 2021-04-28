@@ -8,6 +8,7 @@ function creerObj3DMur(objgl, intNoTexture, intX, intZ, binOuvrable) {
     obj3DMur.intX = intX;
     obj3DMur.intZ = intZ;
     obj3DMur.binOuvrable = binOuvrable;
+    obj3DMur.binVisible = true;
 
     obj3DMur.vertex = creerVertexMur(objgl, obj3DMur.fltLargeur, obj3DMur.fltProfondeur, obj3DMur.fltHauteur);
     obj3DMur.couleurs = creerCouleursMur(objgl, [1, 1, 1, 1]);
