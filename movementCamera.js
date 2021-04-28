@@ -47,7 +47,6 @@ function mouvementCameraAvecSouris(event) {
 
 function deplacerCameraClavier(event) {
   if (!binVueAerienne){
-    console.log(event.keyCode);
     switch (event.keyCode) {
 
       //Rotation vers la droite("D" ou "→")
@@ -76,6 +75,7 @@ function deplacerCameraClavier(event) {
 
       //Détruire un mur("espace")
       case 32:
+        destruireMur(objScene3D.camera.objAutourJoueur.objEnAvantJoueurFar.intX, objScene3D.camera.objAutourJoueur.objEnAvantJoueurFar.intZ);
         break;
     }
   }
