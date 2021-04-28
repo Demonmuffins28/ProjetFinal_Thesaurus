@@ -60,6 +60,13 @@
 
         // Le niveau actuel du jeu
         let intNiveau = 1;
+        let intScoreNiveau = 300
+        let intTempsEcoulerMs = 0
+        let strTempsNiveau = "60"
+        let binDemarrer = false
+        let objDate = new Date();
+
+
         // index == niveaux
         let tabPosCoffre = [{"intX":29,"intZ":1},{"intX":3,"intZ":3},{"intX":10,"intZ":3},{"intX":20,"intZ":3},{"intX":10,"intZ":14},
                             {"intX":20,"intZ":14},{"intX":5,"intZ":21},{"intX":5,"intZ":27},{"intX":14,"intZ":27},{"intX":25,"intZ":27}];
@@ -95,22 +102,43 @@
 
         // Pour mettre à jour l'animation
         function mettreAjourAnimation() {
-            if (binEnMouvement) deplacerCamera();
-            document.getElementById('posCamX').innerHTML = "posX : " + getPositionCameraX(objScene3D.camera);
-            document.getElementById('posCamZ').innerHTML = "posZ : " + getPositionCameraZ(objScene3D.camera);
-            document.getElementById('cibleCamX').innerHTML = "cibX : " + getCibleCameraX(objScene3D.camera);
-            document.getElementById('cibleCamZ').innerHTML = "cibZ : " + getCibleCameraZ(objScene3D.camera);        
-
+            if (binEnMouvement) deplacerCamera();      
             detectionObjetAutourJoueur();
-            document.getElementById('surJoueur').innerHTML = "Objet Position: " + objScene3D.camera.objAutourJoueur.objAPosJoueur.strType
-                + "; " + objScene3D.camera.objAutourJoueur.objAPosJoueur.intX + "; " + objScene3D.camera.objAutourJoueur.objAPosJoueur.intZ;
-            document.getElementById('avantJoueur').innerHTML = "Objet Avant: " + objScene3D.camera.objAutourJoueur.objEnAvantJoueur.strType
-                + "; " + objScene3D.camera.objAutourJoueur.objEnAvantJoueur.intX + "; " + objScene3D.camera.objAutourJoueur.objEnAvantJoueur.intZ;
-            document.getElementById('arriereJoueur').innerHTML = "Objet Arriere: " + objScene3D.camera.objAutourJoueur.objEnArriereJoueur.strType + "; " + objScene3D.camera.objAutourJoueur.objEnArriereJoueur.intX + "; " + objScene3D.camera.objAutourJoueur.objEnArriereJoueur.intZ;
-               document.getElementById('avantJoueurFar').innerHTML = "Objet avant Far: " + objScene3D.camera.objAutourJoueur.objEnAvantJoueurFar.strType + "; " + objScene3D.camera.objAutourJoueur.objEnAvantJoueurFar.intX + "; " + objScene3D.camera.objAutourJoueur.objEnAvantJoueurFar.intZ;
+            if (binEnMouvement){
+                binDemarrer = true;
+            }
 
+            let objDate2 = new Date()
+            intSeconde = 60;
+
+            if (binDemarrer){
+                intTempsEcoulerMs += objDate2 - objDate
+                intSeconde = 60 - Math.floor(intTempsEcoulerMs * 0.001);
+                strTempsNiveau = ("0" + intSeconde).slice(-2)
+            }
+            objDate = objDate2
+
+            if (intSeconde == 0 && intScoreNiveau > 200){
+                recommencerNiveau();
+            }
+            else{
+                gameOver();
+            }
+
+            document.getElementById('ui').innerHTML = "Score : "+ intScoreNiveau +"    Temps: " + strTempsNiveau 
         }
 
+        function recommencerNiveau(){
+            intTempsEcoulerMs = 0;
+            intScoreNiveau -= 200;
+            binEnMouvement = false;
+            binDemarrer = false;
+            objScene3D = initScene3D(objgl);
+        }
+
+        function gameOver(){
+
+        }
 
         function initScene3D(objgl) {
             const objScene3D = new Object();
@@ -320,18 +348,7 @@
         Votre navigateur ne supporte pas la balise canvas
     </canvas>
 <br/>
-    <span id="posCamX">X : </Span>
-    <span id="posCamZ">Z : </Span><br/>
-    <span id="cibleCamX">X : </Span>
-    <span id="cibleCamZ">Z : </Span><br/>
-    <span id="primeCamX">X : </Span>
-    <span id="primeCamZ">Z : </Span><br/>
-    <span id="surJoueur">Sur : </Span><br/>
-    <span id="avantJoueur">Avant : </Span><br/>
-    <span id="arriereJoueur">Arriere : </Span><br/>
-    <span id="avantJoueurFar">Arriere : </Span><br/> 
-    <span id="Direction">Direction : </span>
-
+    <span id="ui">Score :     Temps: </Span>
 </body>
 
 </html>
