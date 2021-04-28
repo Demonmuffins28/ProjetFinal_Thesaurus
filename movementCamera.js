@@ -180,11 +180,17 @@ function validerCollision() {
     }  else if (Math.abs(POS.intX - AR_FAR.intX) <= 0.5 || Math.abs(POS.intZ - AR_FAR.intZ) <= 0.5 )
         intAucuneCollision = 2;
   } 
-  // si en colision avec un teletransporteur
-  //else if ()
+  // si en colision avec un tele-transporteur
+  else if (AV.strType == "P") {
+    teleporter();
+  }
+
   return intAucuneCollision;
 }
 
 function teleporter() {
-
+  // Pour modifier la position en X 
+  setPositionsCameraXYZ([15, getPositionCameraY(objScene3D.camera), 15], objScene3D.camera);
+  setCiblesCameraXYZ([15, 0.5, -8], objScene3D.camera);
+  setOrientationsXYZ([0, 1, 0], objScene3D.camera);
 }

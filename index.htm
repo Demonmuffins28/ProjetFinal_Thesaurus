@@ -51,6 +51,8 @@
         let binVueAerienne = false;
         let binEnMouvement = false;
         let objCopieCameraVueJoueur = null;
+
+        let tabIdTranspo = [];
         // let intSensCouleur = 1;
         // let tabCouleurTranspo = [0.0, 0.0, 0.0, 1.0];
 
@@ -106,8 +108,11 @@
                document.getElementById('avantJoueurFar').innerHTML = "Objet avant Far: " + objScene3D.camera.objAutourJoueur.objEnAvantJoueurFar.strType + "; " + objScene3D.camera.objAutourJoueur.objEnAvantJoueurFar.intX + "; " + objScene3D.camera.objAutourJoueur.objEnAvantJoueurFar.intZ;
 
             // rotation du transporteur
-            let floatNouvelAngle = getAngleY(objScene3D.tabObjets3D[3].transformations) + 1;
-            setAngleY(floatNouvelAngle, objScene3D.tabObjets3D[3].transformations);
+            for (let i = 0; i < tabIdTranspo.length; i++) {
+                 let floatNouvelAngle = getAngleY(objScene3D.tabObjets3D[tabIdTranspo[i]].transformations) + 1;
+                setAngleY(floatNouvelAngle, objScene3D.tabObjets3D[tabIdTranspo[i]].transformations);                
+            }
+           
             // changement de couleur du transporteur
          
 
@@ -167,11 +172,7 @@
             const objPointeFlechePosJoueur = creerObj3DPointeFlechePosJoueur(objgl, TEX_PLANCHER, 15, 15, false);
             tabObjets3D.push(objPointeFlechePosJoueur);
 
-            // Creer le tele_transporteur
-            const obj3DTranspo = creerObj3DTransporteur(objgl, 15, 13, TEX_TRANSPO);
-            tabObjets3D.push(obj3DTranspo);
-
-            tabObjets3D = tabObjets3D.concat(initNiveau());
+            tabObjets3D = tabObjets3D.concat(initNiveau(tabObjets3D));
 
             objScene3D.tabObjets3D = tabObjets3D;
            

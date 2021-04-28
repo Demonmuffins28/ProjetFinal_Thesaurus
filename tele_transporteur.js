@@ -1,10 +1,12 @@
-function creerObj3DTransporteur(objgl, intX, intZ, intNoTexture) {
+function creerObj3DTransporteur(objgl, intX, intZ, intNoTexture, id) {
     const obj3DTranspo = new Object();
     obj3DTranspo.fltProfondeur = INT_CELL_PROFONDEUR/2;
     obj3DTranspo.fltLargeur = INT_CELL_LARGEUR/2;
     obj3DTranspo.fltHauteur = 0.5;
     obj3DTranspo.intX = intX + 0.5;
     obj3DTranspo.intZ = intZ + 0.5;
+    //id = Position dans tableau objScene3D
+    obj3DTranspo.id = id;
 
     obj3DTranspo.intNbCirconvolutions = 2;
     obj3DTranspo.vertex = creerVertexTranspo(objgl, obj3DTranspo.intNbCirconvolutions, obj3DTranspo.fltHauteur, 

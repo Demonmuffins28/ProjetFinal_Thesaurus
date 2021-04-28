@@ -1,4 +1,5 @@
-// V = non-ouvrable, R = ouvrable, T = tresors, ' ' = corridor
+// V = non-ouvrable, R = ouvrable, T = depart, ' ' = corridor
+// F = fleche, C = coffre
 let tabJeu = 
 [
     ['V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V'],
@@ -33,3 +34,27 @@ let tabJeu =
     ['V', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'V'],
     ['V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V'],
 ]
+
+let tabPosCoffre = [{intX:29,intZ:1},{intX:3,intZ:3},{intX:10,intZ:3},{intX:20,intZ:3},{intX:10,intZ:14},
+                    {intX:20,intZ:14},{intX:5,intZ:21},{intX:5,intZ:27},{intX:14,intZ:27},{intX:25,intZ:27}];
+
+// Certaine fleches sont dans un mur
+let tabPosFleche = [{intX:6,intZ:1},{intX:17,intZ:1},{intX:27,intZ:1},{intX:8,intZ:5},{intX:22,intZ:5},
+                    {intX:2,intZ:7},{intX:26,intZ:9},{intX:8,intZ:12},{intX:22,intZ:12},{intX:4,intZ:15},
+                    {intX:26,intZ:15},{intX:28,intZ:17},{intX:15,intZ:18},{intX:20,intZ:19},{intX:4,intZ:23},
+                    {intX:10,intZ:23},{intX:26,intZ:23},{intX:22,intZ:29}];
+
+let tabPosTranspo = [{intX:5,intZ:9}];
+
+function updateTabJeu() {
+  // Ajout des fleches dans le tableau de jeu
+  for (let i = 0; i < tabPosFleche.length; i++) {
+    if (tabJeu[tabPosFleche[i].intX][tabPosFleche[i].intZ] === ' ') {
+      tabJeu[tabPosFleche[i].intX][tabPosFleche[i].intZ] = 'F';
+    }
+  }
+  // Ajout du coffre dans le tableau de jeu
+  tabJeu[tabPosCoffre[intNiveau].intX][tabPosCoffre[intNiveau].intZ] = 'C';
+
+  tabJeu[tabPosTranspo[intNiveau].intX][tabPosTranspo[intNiveau].intZ] = 'P'
+}
