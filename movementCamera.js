@@ -48,26 +48,35 @@ function mouvementCameraAvecSouris(event) {
 function deplacerCameraClavier(event) {
   if (!binVueAerienne){
     switch (event.keyCode) {
-      case 39:
-      case 68:
+
+      //Rotation vers la droite("D" ou "→")
+      case 39: case 68:
           binMovDroit = true;
           binEnMouvement = true;   
           break
-      case 37:
-      case 65:
+
+      //Rotation vers la gauche("A" ou "←")
+      case 37: case 65:
           binMovGauche = true;
           binEnMouvement = true;
           break
-      case 38:
-      case 87:
+
+      //Avancer("W" ou "↑")
+      case 38: case 87:
           binMovAvant = true;
           binEnMouvement = true;
           break
-      case 40:
-      case 83:
+
+      //Reculer("S" ou "↓")
+      case 40: case 83:
           binMovArriere = true;
           binEnMouvement = true;
           break
+
+      //Détruire un mur("espace")
+      case 32:
+        destruireMur(objScene3D.camera.objAutourJoueur.objEnAvantJoueurFar.intX, objScene3D.camera.objAutourJoueur.objEnAvantJoueurFar.intZ);
+        break;
     }
   }
 }
@@ -172,13 +181,15 @@ function validerCollision() {
   if ((AV_FAR.strType == "R" || AV_FAR.strType == "V") || (AV.strType == "R" || AV.strType == "V")) {
     if (Math.abs(POS.intX - AV_FAR.intX + 1) <= 0.5 || Math.abs(POS.intZ - (AV_FAR.intZ + 1)) <= 0.5) {
         intAucuneCollision = 1;
-    }  else if (Math.abs(POS.intX - AV_FAR.intX) <= 0.5 || Math.abs(POS.intZ - AV_FAR.intZ) <= 0.5)
+    }  else if (Math.abs(POS.intX - AV_FAR.intX) <= 0.5 || Math.abs(POS.intZ - AV_FAR.intZ) <= 0.5) {
         intAucuneCollision = 1;
+    }
   } else if ((AR_FAR.strType == "R" || AR_FAR.strType == "V") || (AR.strType == "R" || AR.strType == "V")) {
     if (Math.abs(POS.intX - AR_FAR.intX + 1) <= 0.5 || Math.abs(POS.intZ - (AR_FAR.intZ + 1)) <= 0.5 ) {
         intAucuneCollision = 2;
-    }  else if (Math.abs(POS.intX - AR_FAR.intX) <= 0.5 || Math.abs(POS.intZ - AR_FAR.intZ) <= 0.5 )
+    }  else if (Math.abs(POS.intX - AR_FAR.intX) <= 0.5 || Math.abs(POS.intZ - AR_FAR.intZ) <= 0.5 ) {
         intAucuneCollision = 2;
+    }
   }
   return intAucuneCollision;
 }

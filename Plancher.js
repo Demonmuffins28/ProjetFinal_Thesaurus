@@ -4,6 +4,7 @@ function creerObj3DPlancher(objgl, intNoTexture) {
     obj3DPlancher.fltLargeur = 31;
     obj3DPlancher.fltHauteur = 0;
     obj3DPlancher.fltCentrePlancher = 31 / 2;
+    obj3DPlancher.binVisible = true;
 
     obj3DPlancher.vertex = creerVertexPlancher(objgl, obj3DPlancher.fltLargeur, obj3DPlancher.fltProfondeur, obj3DPlancher.fltHauteur);
     obj3DPlancher.couleurs = creerCouleursPlancher(objgl, [1, 1, 1, 1]);
