@@ -3,8 +3,8 @@
 function creerObj3DCoffre(objgl, intNoTexture, intX, intZ) {
     const obj3DCoffre = new Object();
     obj3DCoffre.fltProfondeur = 0.5;
-    obj3DCoffre.fltLargeur = 0.8;
-    obj3DCoffre.fltHauteur = 0.5;
+    obj3DCoffre.fltLargeur = 0.5;
+    obj3DCoffre.fltHauteur = 0.4;
     obj3DCoffre.intX = intX;
     obj3DCoffre.intZ = intZ;
 
@@ -42,18 +42,8 @@ function creerVertexCoffre(objgl, fltLargeur, fltProfondeur, fltHauteur) {
         fltLargeur, fltHauteur, 0
     ];
 
-    // Face haut pleine
-    tabVertex[2] = [
-        0.0, fltHauteur, 0.0, // Centre du plan 
-        fltLargeur, fltHauteur, fltProfondeur,
-        0, fltHauteur, fltProfondeur,
-        0, fltHauteur, 0,
-        fltLargeur, fltHauteur, 0,
-        fltLargeur, fltHauteur, fltProfondeur
-    ];
-
     // Face gauche pleine
-    tabVertex[3] = [
+    tabVertex[2] = [
         0, 0.0, 0.0, // Centre du plan
         0, fltHauteur, fltProfondeur,
         0, fltHauteur, 0,
@@ -63,12 +53,22 @@ function creerVertexCoffre(objgl, fltLargeur, fltProfondeur, fltHauteur) {
     ];
 
     // Face droite pleine
-    tabVertex[4] = [
+    tabVertex[3] = [
         fltLargeur, 0.0, 0.0, // Centre du plan
         fltLargeur, fltHauteur, fltProfondeur,
         fltLargeur, fltHauteur, 0,
         fltLargeur, 0, 0,
         fltLargeur, 0, fltProfondeur,
+        fltLargeur, fltHauteur, fltProfondeur
+    ];
+
+    // Face haut pleine
+    tabVertex[4] = [
+        0.0, fltHauteur, 0.0, // Centre du plan 
+        fltLargeur, fltHauteur, fltProfondeur,
+        0, fltHauteur, fltProfondeur,
+        0, fltHauteur, 0,
+        fltLargeur, fltHauteur, 0,
         fltLargeur, fltHauteur, fltProfondeur
     ];
 
@@ -112,38 +112,25 @@ function creerCouleursCoffre(objgl, tabCouleur) {
 function creerTexelsCoffre(objgl, fltLargeur, fltProfondeur, fltHauteur, intNoTexture) {
     const tabTexels = new Array();
 
-
-    tabTexels[0] = [
-        9/1024, 204/1024,
-        392/1024, 8/1024,
-        9/1024, 8/1024,
-        9/1024, 204/1024,
-        392/1024, 204/1024,
-        392/1024, 8/1024
-    ];
-
-    for (let i = 1; i < 5; i++){
-        if (i < 3){
-            tabTexels[i] = [
-                6/1024, 399/1024,
-                389/1024, 216/1024,
-                6/1024, 216/1024,
-                6/1024, 399/1024,
-                389/1024, 399/1024,
-                389/1024, 216/1024
-            ];
-        }
-        else {
-            tabTexels[i] = [
-                404/1024, 188/1024,
-                601/1024, 5/1024,
-                404/1024, 5/1024,
-                404/1024, 188/1024,
-                601/1024, 188/1024,
-                601/1024, 5/1024
-            ];
-        }
+    for (let i = 0; i < 4; i++){
+        tabTexels[i] = [
+            9/1024, 204/1024,
+            392/1024, 8/1024,
+            9/1024, 8/1024,
+            9/1024, 204/1024,
+            392/1024, 204/1024,
+            392/1024, 8/1024
+        ];
     }
+    tabTexels[4] = [
+        6/1024, 399/1024,
+        389/1024, 216/1024,
+        6/1024, 216/1024,
+        6/1024, 399/1024,
+        389/1024, 399/1024,
+        389/1024, 216/1024
+    ];
+    
 
     const tabObjTexelsCoffre = new Array();
     for (let i = 0; i < 5; i++) {
