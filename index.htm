@@ -32,6 +32,7 @@
     <script type="text/javascript" src="Niveau.js"></script>
     <script type="text/javascript" src="PointeFlechePosJoueur.js"></script>
     <script type="text/javascript" src="VueAerienneDedale.js"></script>
+    <script type="text/javascript" src="tele_transporteur.js"></script>
     <script type="text/javascript">
 
 
@@ -48,10 +49,13 @@
         let binVueAerienne = false;
         let binEnMouvement = false;
         let objCopieCameraVueJoueur = null;
+        // let intSensCouleur = 1;
+        // let tabCouleurTranspo = [0.0, 0.0, 0.0, 1.0];
 
         const tabImages = ['Transparent.gif', 'Sol.jpg', 'Mur.jpg'];
         const TEX_PLANCHER = 1;
         const TEX_MUR_OUVRABLE = 2;
+        const TEX_TRANSPO = 0;
 
         const INT_CELL_PROFONDEUR = 1;
         const INT_CELL_LARGEUR = 1;
@@ -99,6 +103,49 @@
             document.getElementById('arriereJoueur').innerHTML = "Objet Arriere: " + objScene3D.camera.objAutourJoueur.objEnArriereJoueur.strType + "; " + objScene3D.camera.objAutourJoueur.objEnArriereJoueur.intX + "; " + objScene3D.camera.objAutourJoueur.objEnArriereJoueur.intZ;
                document.getElementById('avantJoueurFar').innerHTML = "Objet avant Far: " + objScene3D.camera.objAutourJoueur.objEnAvantJoueurFar.strType + "; " + objScene3D.camera.objAutourJoueur.objEnAvantJoueurFar.intX + "; " + objScene3D.camera.objAutourJoueur.objEnAvantJoueurFar.intZ;
 
+            // rotation du transporteur
+            let floatNouvelAngle = getAngleY(objScene3D.tabObjets3D[3].transformations) + 1;
+            setAngleY(floatNouvelAngle, objScene3D.tabObjets3D[3].transformations);
+            // changement de couleur du transporteur
+         
+
+            // let fltCouleur = tabCouleurTranspo[0];
+            // fltCouleur += 0.01 * intSensCouleur;
+            // if ((fltCouleur >= 0) && (fltCouleur <= 1)) {
+            //     let tabCouleurDebut = [0.0, fltCouleur, 0.0]; // vert
+            //     let tabCouleurMilieu = [0.0, 0.0, fltCouleur]; // bleu
+            //     let tabCouleurFin = [1.0, fltCouleur / 2, 0.85]; // rose
+
+            //     const intNbCoups = [Math.round(180 * objScene3D.tabObjets3D[3].intNbCirconvolutions),
+            //           Math.round(180 * objScene3D.tabObjets3D[3].intNbCirconvolutions)];
+
+            //     const fltDistRouge = [(tabCouleurMilieu[0] - tabCouleurDebut[0]) / intNbCoups[0], 
+            //                         (tabCouleurFin[0] - tabCouleurMilieu[0]) / intNbCoups[1]];
+            //     const fltDistVert = [(tabCouleurMilieu[1] - tabCouleurDebut[1]) / intNbCoups[0],
+            //                     (tabCouleurFin[1] - tabCouleurMilieu[1]) / intNbCoups[1]];
+            //     const fltDistBleu = [(tabCouleurMilieu[2] - tabCouleurDebut[2]) / intNbCoups[0], 
+            //                     (tabCouleurFin[2] - tabCouleurMilieu[2]) / intNbCoups[1]];
+
+            //     // Cr�er des d�grad�s de couleurs de la couleur du milieu jusqu'� la couleur de la fin
+            //     let fltRouge = tabCouleurDebut[0];
+            //     let fltVert = tabCouleurDebut[1];
+            //     let fltBleu = tabCouleurDebut[2];
+
+            //     for (let j = 0; j < 2; j++) {
+            //         for (let i = 0; i < intNbCoups[j]; i++) {
+            //             const tabCouleur = [fltRouge, fltVert, fltBleu, 1];
+            //             tabCouleurTranspo = tabCouleurTranspo.concat(tabCouleur);
+            //             fltRouge += fltDistRouge[j] * 1.2;
+            //             fltVert += fltDistVert[j] * 1.2;
+            //             fltBleu += fltDistBleu[j] * 1.2;
+            //         } 
+            //     }                
+
+            //     tabCouleurTranspo = tabCouleurTranspo.concat(tabCouleurTranspo).concat(tabCouleurTranspo).concat(tabCouleurTranspo);
+
+            //     objgl.bindBuffer(objgl.ARRAY_BUFFER, objScene3D.tabObjets3D[3].couleurs);
+            //     objgl.bufferData(objgl.ARRAY_BUFFER, new Float32Array(tabCouleurTranspo), objgl.STATIC_DRAW);
+            // } else intSensCouleur = -intSensCouleur;
         }
 
 
@@ -118,10 +165,14 @@
             const objPointeFlechePosJoueur = creerObj3DPointeFlechePosJoueur(objgl, TEX_PLANCHER, 15, 15, false);
             tabObjets3D.push(objPointeFlechePosJoueur);
 
+            // Creer le tele_transporteur
+            const obj3DTranspo = creerObj3DTransporteur(objgl, 15, 13, TEX_TRANSPO);
+            tabObjets3D.push(obj3DTranspo);
+
             tabObjets3D = tabObjets3D.concat(initNiveau());
 
             objScene3D.tabObjets3D = tabObjets3D;
-
+           
             // La caméra
             const camera = creerCamera();
             setPositionsCameraXYZ([objPlancher.fltCentrePlancher, 1, objPlancher.fltCentrePlancher], camera);

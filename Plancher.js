@@ -55,7 +55,8 @@ function creerTexelsPlancher(objgl, fltLargeur, fltProfondeur, intNoTexture) {
     objgl.bindBuffer(objgl.ARRAY_BUFFER, objTexelsPlancher);
     objgl.bufferData(objgl.ARRAY_BUFFER, new Float32Array(tabTexels), objgl.STATIC_DRAW);
 
-    objTexelsPlancher.intNoTexture = intNoTexture; objTexelsPlancher.pcCouleurTexel = 1.0;
+    objTexelsPlancher.intNoTexture = intNoTexture; 
+    objTexelsPlancher.pcCouleurTexel = 1.0;
 
     return objTexelsPlancher;
 }

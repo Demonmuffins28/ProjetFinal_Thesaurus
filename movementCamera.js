@@ -179,6 +179,12 @@ function validerCollision() {
         intAucuneCollision = 2;
     }  else if (Math.abs(POS.intX - AR_FAR.intX) <= 0.5 || Math.abs(POS.intZ - AR_FAR.intZ) <= 0.5 )
         intAucuneCollision = 2;
-  }
+  } 
+  // si en colision avec un teletransporteur
+  //else if ()
   return intAucuneCollision;
+}
+
+function teleporter() {
+
 }
