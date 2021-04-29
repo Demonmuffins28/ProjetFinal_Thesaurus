@@ -7,6 +7,7 @@ function creerObj3DCoffre(objgl, intNoTexture, intX, intZ) {
     obj3DCoffre.fltHauteur = 0.4;
     obj3DCoffre.intX = intX;
     obj3DCoffre.intZ = intZ;
+    obj3DCoffre.binVisible = true;
 
     obj3DCoffre.vertex = creerVertexCoffre(objgl, obj3DCoffre.fltLargeur, obj3DCoffre.fltProfondeur, obj3DCoffre.fltHauteur);
     obj3DCoffre.couleurs = creerCouleursCoffre(objgl, [1, 1, 1, 1]);

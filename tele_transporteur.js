@@ -7,6 +7,7 @@ function creerObj3DTransporteur(objgl, intX, intZ, intNoTexture, id) {
     obj3DTranspo.intZ = intZ + 0.5;
     //id = Position dans tableau objScene3D
     obj3DTranspo.id = id;
+    obj3DTranspo.binVisible = true;
 
     obj3DTranspo.intNbCirconvolutions = 2;
     obj3DTranspo.vertex = creerVertexTranspo(objgl, obj3DTranspo.intNbCirconvolutions, obj3DTranspo.fltHauteur, 
@@ -23,132 +24,6 @@ function creerObj3DTransporteur(objgl, intX, intZ, intNoTexture, id) {
     changerPos(obj3DTranspo.intX, obj3DTranspo.intZ, obj3DTranspo.transformations);
     return obj3DTranspo;
 }
-
-// function creerVertexTranspo(objgl, fltLargeur, fltProfondeur) {
-//     let tabVertex = [];
-//     for (let i = 0; i <= 360; i++) {
-//       tabVertex = tabVertex.concat([Math.cos(i*Math.PI/180) * fltLargeur,Math.sin(i*Math.PI/180) * fltProfondeur, 0.0]);
-//     }
-
-//     const objTranspo = objgl.createBuffer();
-//     objgl.bindBuffer(objgl.ARRAY_BUFFER, objTranspo);
-//     objgl.bufferData(objgl.ARRAY_BUFFER, new Float32Array(tabVertex), objgl.STATIC_DRAW);
-  
-//   return objTranspo;
-// }
-
-// function creerCouleursTranspo(objgl, tabCouleur) {
-//         tabCouleurs = [];
-//         for (let i = 0; i < 360; i++)
-//           tabCouleurs = tabCouleurs.concat(tabCouleur);
-
-//         const objCouleursTranspo = objgl.createBuffer();
-// 				objgl.bindBuffer(objgl.ARRAY_BUFFER, objCouleursTranspo);
-// 				objgl.bufferData(objgl.ARRAY_BUFFER, new Float32Array(tabCouleurs), objgl.STATIC_DRAW);
-
-// 				return objCouleursTranspo;
-// }
-
-// function creerTexelsTranspo(objgl, fltLargeur, fltProfondeur, intNoTexture) {
-//     let tabTexels = [];
-//     for (let i = 0; i <= 360; i++) {
-//       tabTexels = tabTexels.concat([Math.cos(i*Math.PI/180) * fltLargeur,Math.sin(i*Math.PI/180) * fltProfondeur, 0.0]);
-//     }
-
-//     const objTexelsTranspo = objgl.createBuffer();
-//     objgl.bindBuffer(objgl.ARRAY_BUFFER, objTexelsTranspo);
-//     objgl.bufferData(objgl.ARRAY_BUFFER, new Float32Array(tabTexels), objgl.STATIC_DRAW);
-
-//     objTexelsTranspo.intNoTexture = intNoTexture;
-//     objTexelsTranspo.pcCouleurTexel = 1.0;
-
-//     return objTexelsTranspo;
-// }
-
-// function creerMaillageTranspo(objgl) {
-//     let noVertex = 0;
-//     let tabMaillage = [];
-//     for (let i = 0; i <= 360; i++) {
-//       tabMaillage = tabMaillage = tabMaillage.concat([noVertex, noVertex + 1]);
-//       noVertex++;
-//     }
-
-//     const objMaillageTranspo = objgl.createBuffer();
-//     objgl.bindBuffer(objgl.ELEMENT_ARRAY_BUFFER, objMaillageTranspo);
-//     objgl.bufferData(objgl.ELEMENT_ARRAY_BUFFER, new Uint16Array(tabMaillage), objgl.STATIC_DRAW);
-
-//     // Le nombre de triangles
-//     objMaillageTranspo.intNbTriangles = 240;
-//     // Le nombre de droites
-//     objMaillageTranspo.intNbDroites = 0;
-
-//     return objMaillageTranspo;
-// }
-
-// function creerVertexTranspo(objgl, fltLargeur, fltProfondeur, fltHauteur) {
-//     const tabVertex = [
-//         -fltLargeur / 4, fltHauteur, -fltProfondeur / 4,
-//         fltLargeur / 4, fltHauteur, -fltProfondeur / 4,
-//         -fltLargeur / 4, fltHauteur, fltProfondeur / 4,
-//         fltLargeur / 4, fltHauteur, fltProfondeur / 4
-//     ];
-
-//     const objTranspo = objgl.createBuffer();
-//     objgl.bindBuffer(objgl.ARRAY_BUFFER, objTranspo);
-//     objgl.bufferData(objgl.ARRAY_BUFFER, new Float32Array(tabVertex), objgl.STATIC_DRAW);
-
-//     return objTranspo;
-// }
-
-// function creerCouleursTranspo(objgl, tabCouleur) {
-//     tabCouleurs = [];
-//     for (let i = 0; i < 4; i++)
-//         tabCouleurs = tabCouleurs.concat(tabCouleur);
-
-//     const objCouleursTranspo = objgl.createBuffer();
-//     objgl.bindBuffer(objgl.ARRAY_BUFFER, objCouleursTranspo);
-//     objgl.bufferData(objgl.ARRAY_BUFFER, new Float32Array(tabCouleurs), objgl.STATIC_DRAW);
-
-//     return objCouleursTranspo;
-// }
-
-// function creerTexelsTranspo(objgl, fltLargeur, fltProfondeur, intNoTexture) {
-//     const tabTexels = [
-//         0.0, 0.0,
-//         fltLargeur, 0.0,
-//         0.0, fltProfondeur,
-//         fltLargeur, fltProfondeur
-//     ];
-
-//     const objTexelsTranspo = objgl.createBuffer();
-//     objgl.bindBuffer(objgl.ARRAY_BUFFER, objTexelsTranspo);
-//     objgl.bufferData(objgl.ARRAY_BUFFER, new Float32Array(tabTexels), objgl.STATIC_DRAW);
-
-//     objTexelsTranspo.intNoTexture = intNoTexture; 
-//     objTexelsTranspo.pcCouleurTexel = 1.0;
-
-//     return objTexelsTranspo;
-// }
-
-// function creerMaillageTranspo(objgl) {
-
-//     const tabMaillage =
-//         [ // Les 2 triangles du Plancher
-//             0, 1, 2,
-//             1, 2, 3,
-//         ];
-
-//     const objMaillageTranspo = objgl.createBuffer();
-//     objgl.bindBuffer(objgl.ELEMENT_ARRAY_BUFFER, objMaillageTranspo);
-//     objgl.bufferData(objgl.ELEMENT_ARRAY_BUFFER, new Uint16Array(tabMaillage), objgl.STATIC_DRAW);
-
-//     // Le nombre de triangles
-//     objMaillageTranspo.intNbTriangles = 2;
-//     // Le nombre de droites
-//     objMaillageTranspo.intNbDroites = 0;
-
-//     return objMaillageTranspo;
-// }
 
 function creerVertexTranspo(objgl, intNbCirconvolutions, fltHauteur, fltLargeur, fltProfondeur) {
     const fltDistRayon = 1 / (180 * intNbCirconvolutions);
