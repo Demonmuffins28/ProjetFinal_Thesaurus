@@ -54,6 +54,4 @@ function detectionObjetAutourJoueur() {
         intZ: Math.floor(intZ - fltZPrimeFar * INT_CELL_PROFONDEUR),
       },
   }        
-  
-  //console.log(objScene3D.camera.objAutourJoueur.objEnvantJoueurFar.intZ);
 }
