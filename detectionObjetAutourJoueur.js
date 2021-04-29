@@ -18,8 +18,8 @@ function detectionObjetAutourJoueur() {
   fltZPrimeFar = 1 * Math.sin(Math.asin(fltZ / fltRayon));
 
 
-  document.getElementById('primeCamX').innerHTML = "primeX : " + fltXPrime;
-  document.getElementById('primeCamZ').innerHTML = "primeZ : " + fltZPrime;
+  //document.getElementById('primeCamX').innerHTML = "primeX : " + fltXPrime;
+  //document.getElementById('primeCamZ').innerHTML = "primeZ : " + fltZPrime;
 
   // Pour savoir dans quelle direction quon regarde
   let strDirection = "";
@@ -27,7 +27,7 @@ function detectionObjetAutourJoueur() {
   else if (fltZPrimeFar < -0.5 && fltZPrimeFar > -1) strDirection = "Nord";
   else if (fltXPrimeFar > 0.5 && fltXPrimeFar < 1) strDirection = "Est";
   else if (fltXPrimeFar < -0.5 && fltXPrimeFar > -1) strDirection = "Ouest";
-  document.getElementById('Direction').innerHTML = "direction: " + strDirection;
+  //document.getElementById('Direction').innerHTML = "direction: " + strDirection;
 
   objScene3D.camera.objAutourJoueur = {
       objAPosJoueur: {
