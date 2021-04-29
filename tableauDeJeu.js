@@ -35,16 +35,17 @@ let tabJeu =
     ['V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V'],
 ]
 
-let tabPosCoffre = [{intX:29,intZ:1},{intX:3,intZ:3},{intX:10,intZ:3},{intX:20,intZ:3},{intX:10,intZ:14},
-                    {intX:20,intZ:14},{intX:5,intZ:21},{intX:5,intZ:27},{intX:14,intZ:27},{intX:25,intZ:27}];
+let tabPosCoffre = [{intX:1,intZ:29}, {intX:3,intZ:3}, {intX:3,intZ:10}, {intX:3,intZ:20}, {intX:14,intZ:10},
+                    {intX:14,intZ:20}, {intX:21,intZ:5}, {intX:27,intZ:5}, {intX:27,intZ:14}, {intX:27,intZ:25}];
 
 // Certaine fleches sont dans un mur
-let tabPosFleche = [{intX:6,intZ:1},{intX:17,intZ:1},{intX:27,intZ:1},{intX:8,intZ:5},{intX:22,intZ:5},
-                    {intX:2,intZ:7},{intX:26,intZ:9},{intX:8,intZ:12},{intX:22,intZ:12},{intX:4,intZ:15},
-                    {intX:26,intZ:15},{intX:28,intZ:17},{intX:15,intZ:18},{intX:20,intZ:19},{intX:4,intZ:23},
-                    {intX:10,intZ:23},{intX:26,intZ:23},{intX:22,intZ:29}];
+let tabPosFleche = [{intX:1,intZ:6},{intX:1,intZ:17},{intX:1,intZ:27},{intX:5,intZ:8},{intX:5,intZ:22},
+                    {intX:7,intZ:2}, {intX:9,intZ:26},{intX:12,intZ:8},{intX:12,intZ:22},{intX:15,intZ:4},
+                    {intX:15,intZ:26},{intX:17,intZ:28},{intX:18,intZ:15},{intX:19,intZ:20},{intX:23,intZ:4},
+                    {intX:23,intZ:10},{intX:23,intZ:26},{intX:29,intZ:22}];
 
-let tabPosTranspo = [{intX:5,intZ:9}];
+let tabPosTranspo = [{intX:1 ,intZ:11}, {intX:7 ,intZ:28}, {intX:10,intZ:20}, {intX:11,intZ:4}, {intX:17,intZ:4},
+                     {intX:20,intZ:17}, {intX:21,intZ:25}, {intX:27,intZ:1}, {intX:29,intZ:15}]
 
 function updateTabJeu() {
   // Ajout des fleches dans le tableau de jeu

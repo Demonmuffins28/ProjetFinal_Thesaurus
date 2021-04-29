@@ -11,9 +11,9 @@ function creerObj3DTransporteur(objgl, intX, intZ, intNoTexture, id) {
     obj3DTranspo.intNbCirconvolutions = 2;
     obj3DTranspo.vertex = creerVertexTranspo(objgl, obj3DTranspo.intNbCirconvolutions, obj3DTranspo.fltHauteur, 
                     obj3DTranspo.fltLargeur, obj3DTranspo.fltProfondeur);
-    obj3DTranspo.tabCouleurDebut = [0.0, 1.0, 0.0];    // Couleur sable � la base
-    obj3DTranspo.tabCouleurMilieu = [0.0, 0.0, 1.0];   // Gris p�le presque blanc au 3/4
-    obj3DTranspo.tabCouleurFin = [1.0, 0.8, 0.85];      // Gris fonc� au sommet
+    obj3DTranspo.tabCouleurDebut = [0.0, 1.0, 0.0];    
+    obj3DTranspo.tabCouleurMilieu = [0.0, 0.0, 1.0];   
+    obj3DTranspo.tabCouleurFin = [1.0, 0.8, 0.85];
     obj3DTranspo.couleurs = creerCouleursTranspo(objgl, obj3DTranspo.intNbCirconvolutions,obj3DTranspo.tabCouleurDebut,
                     obj3DTranspo.tabCouleurMilieu, obj3DTranspo.tabCouleurFin);
     obj3DTranspo.texels = creerTexelsTranspo(objgl, obj3DTranspo.intNbCirconvolutions, intNoTexture);
