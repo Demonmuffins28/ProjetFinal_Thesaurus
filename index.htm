@@ -20,6 +20,8 @@
     <script type="text/javascript" src="glMatrix-0.9.5.min.js"></script>
     <script type="text/javascript" src="Transformations.js"></script>
 
+    <script type="text/javascript" src="tableauDeJeu.js"></script>
+
     <script type="text/javascript" src="Camera.js"></script>
     <script type="text/javascript" src="movementCamera.js"></script>
     <script type="text/javascript" src="detectionObjetAutourJoueur.js"></script>
@@ -35,6 +37,7 @@
     <script type="text/javascript" src="Niveau.js"></script>
     <script type="text/javascript" src="PointeFlechePosJoueur.js"></script>
     <script type="text/javascript" src="VueAerienneDedale.js"></script>
+    <script type="text/javascript" src="tele_transporteur.js"></script>
     <script type="text/javascript">
 
 
@@ -53,8 +56,10 @@
         let objCopieCameraVueJoueur = null;
 
         const tabImages = ['Transparent.gif', 'Sol.jpg', 'Mur.jpg', 'coffre.jpg'];
+        let tabIdTranspo = [];
         const TEX_PLANCHER = 1;
         const TEX_MUR_OUVRABLE = 2;
+        const TEX_TRANSPO = 0;
         const TEX_COFFRE = 3;
 
         const INT_CELL_PROFONDEUR = 1;
@@ -119,6 +124,10 @@
                 binDemarrer = true;
             }
             gestionNiveaux()
+            for (let i = 0; i < tabIdTranspo.length; i++) {
+                 let floatNouvelAngle = getAngleY(objScene3D.tabObjets3D[tabIdTranspo[i]].transformations) + 1;
+                setAngleY(floatNouvelAngle, objScene3D.tabObjets3D[tabIdTranspo[i]].transformations);                
+            }
         }
 
         function initScene3D(objgl) {
@@ -137,7 +146,7 @@
             const objPointeFlechePosJoueur = creerObj3DPointeFlechePosJoueur(objgl, TEX_PLANCHER, 15, 15, false);
             tabObjets3D.push(objPointeFlechePosJoueur);
 
-            tabObjets3D = tabObjets3D.concat(initNiveau());
+            tabObjets3D = tabObjets3D.concat(initNiveau(tabObjets3D));
 
             const objCoffre = creerObj3DCoffre(objgl, TEX_COFFRE, tabPosCoffre[intNiveau-1].intX, tabPosCoffre[intNiveau-1].intZ);
             tabObjets3D.push(objCoffre);
