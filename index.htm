@@ -62,12 +62,16 @@
         let intNiveau = 1;
         let intScoreNiveau = 300
         let intTempsEcoulerMs = 0
-        let strTempsNiveau = "60"
+        let strTempsNiveau = "60";
+        let intSeconde = 60;
         let binDemarrer = false
         let objDate = new Date();
+        let intNbOuvreurMur = 0;
 
 
         // index == niveaux
+        tabNbOuvreurMur = [4,4,3,3,2,2,1,1,0,0];
+
         let tabPosCoffre = [{"intX":29,"intZ":1},{"intX":3,"intZ":3},{"intX":10,"intZ":3},{"intX":20,"intZ":3},{"intX":10,"intZ":14},
                             {"intX":20,"intZ":14},{"intX":5,"intZ":21},{"intX":5,"intZ":27},{"intX":14,"intZ":27},{"intX":25,"intZ":27}];
 
@@ -100,6 +104,11 @@
             dessiner(objgl, objProgShaders, objScene3D);
         }
 
+        function arreterAnimation() {
+            if (objCycleAnimation != null) cancelAnimationFrame(objCycleAnimation)
+            objCycleAnimation = null
+		}
+
         // Pour mettre à jour l'animation
         function mettreAjourAnimation() {
             if (binEnMouvement) deplacerCamera();      
@@ -107,37 +116,7 @@
             if (binEnMouvement){
                 binDemarrer = true;
             }
-
-            let objDate2 = new Date()
-            intSeconde = 60;
-
-            if (binDemarrer){
-                intTempsEcoulerMs += objDate2 - objDate
-                intSeconde = 60 - Math.floor(intTempsEcoulerMs * 0.001);
-                strTempsNiveau = ("0" + intSeconde).slice(-2)
-            }
-            objDate = objDate2
-
-            if (intSeconde == 0 && intScoreNiveau > 200){
-                recommencerNiveau();
-            }
-            else{
-                gameOver();
-            }
-
-            document.getElementById('ui').innerHTML = "Score : "+ intScoreNiveau +"    Temps: " + strTempsNiveau 
-        }
-
-        function recommencerNiveau(){
-            intTempsEcoulerMs = 0;
-            intScoreNiveau -= 200;
-            binEnMouvement = false;
-            binDemarrer = false;
-            objScene3D = initScene3D(objgl);
-        }
-
-        function gameOver(){
-
+            gestionNiveaux()
         }
 
         function initScene3D(objgl) {
@@ -162,6 +141,8 @@
             tabObjets3D.push(objCoffre);
 
             objScene3D.tabObjets3D = tabObjets3D;
+
+            intNbOuvreurMur = tabNbOuvreurMur[intNiveau-1];
 
             // La caméra
             const camera = creerCamera();
@@ -348,7 +329,7 @@
         Votre navigateur ne supporte pas la balise canvas
     </canvas>
 <br/>
-    <span id="ui">Score :     Temps: </Span>
+    <span id="ui"></Span>
 </body>
 
 </html>
