@@ -1,5 +1,5 @@
 // V = non-ouvrable, R = ouvrable, T = depart, ' ' = corridor
-// F = fleche, C = coffre
+// F = fleche, C = coffre, M = recepteur, P = transporteur
 let tabJeu = 
 [
     ['V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V', 'V'],
@@ -44,8 +44,10 @@ let tabPosFleche = [{intX:1,intZ:6},{intX:1,intZ:17},{intX:1,intZ:27},{intX:5,in
                     {intX:15,intZ:26},{intX:17,intZ:28},{intX:18,intZ:15},{intX:19,intZ:20},{intX:23,intZ:4},
                     {intX:23,intZ:10},{intX:23,intZ:26},{intX:29,intZ:22}];
 
-let tabPosTranspo = [{intX:1 ,intZ:11}, {intX:7 ,intZ:28}, {intX:10,intZ:20}, {intX:11,intZ:4}, {intX:17,intZ:4},
+let tabPosRecept = [{intX:1,intZ:11}, {intX:7,intZ:28}, {intX:10,intZ:20}, {intX:11,intZ:4}, {intX:17,intZ:4},
                      {intX:20,intZ:17}, {intX:21,intZ:25}, {intX:27,intZ:1}, {intX:29,intZ:15}]
+
+let tabPosTranspo = [{intX:10,intZ:10},{intX:13,intZ:6},{intX:13,intZ:26},{intX:20,intZ:13},{intX:24,intZ:24}]
 
 function updateTabJeu() {
   // Ajout des fleches dans le tableau de jeu
@@ -55,7 +57,18 @@ function updateTabJeu() {
     }
   }
   // Ajout du coffre dans le tableau de jeu
-  tabJeu[tabPosCoffre[intNiveau].intX][tabPosCoffre[intNiveau].intZ] = 'C';
+  tabJeu[tabPosCoffre[intNiveau-1].intX][tabPosCoffre[intNiveau-1].intZ] = 'C';
 
-  tabJeu[tabPosTranspo[intNiveau].intX][tabPosTranspo[intNiveau].intZ] = 'P'
+  // Ajout des recepteur et transporteur
+  // Niveau 1 aucun transpo et recept
+  let intCount = 0
+  for (let i = 1; i < intNiveau; i++) {    
+    // a chaque 2 niveau
+    if ((i + 1) % 2 == 0) {
+      tabJeu[tabPosTranspo[intCount].intX][tabPosTranspo[intCount].intZ] = 'P'
+      intCount++;
+    }
+      // a chaque niveau apres 1
+    tabJeu[tabPosRecept[i-1].intX][tabPosRecept[i-1].intZ] = 'M'
+  }
 }
