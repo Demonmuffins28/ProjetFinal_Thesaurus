@@ -38,6 +38,9 @@
     <script type="text/javascript" src="PointeFlechePosJoueur.js"></script>
     <script type="text/javascript" src="VueAerienneDedale.js"></script>
     <script type="text/javascript" src="tele_transporteur.js"></script>
+    <script type="text/javascript" src="tele_recepteur.js"></script>
+
+    <script type="text/javascript" src="otherFunctions.js"></script>
     <script type="text/javascript">
 
 
@@ -55,19 +58,20 @@
         let binEnMouvement = false;
         let objCopieCameraVueJoueur = null;
         let tabIdTranspo = [];
+        let tabIdRecept = [];
 
         const tabImages = ['Transparent.gif', 'Sol.jpg', 'Mur.jpg', 'coffre.jpg'];
                 
         const TEX_PLANCHER = 1;
         const TEX_MUR_OUVRABLE = 2;
-        const TEX_TRANSPO = 0;
+        const TEX_TRANSP = 0;
         const TEX_COFFRE = 3;
 
         const INT_CELL_PROFONDEUR = 1;
         const INT_CELL_LARGEUR = 1;
 
         // Le niveau actuel du jeu
-        let intNiveau = 1;
+        let intNiveau = 4;
         let intScoreNiveau = 300
         let intTempsEcoulerMs = 0
         let strTempsNiveau = "60";
@@ -117,9 +121,16 @@
                 binDemarrer = true;
             }
             gestionNiveaux()
+
+            // Animation pour faire tourner le transpo
             for (let i = 0; i < tabIdTranspo.length; i++) {
                  let floatNouvelAngle = getAngleY(objScene3D.tabObjets3D[tabIdTranspo[i]].transformations) + 1;
                 setAngleY(floatNouvelAngle, objScene3D.tabObjets3D[tabIdTranspo[i]].transformations);                
+            }
+            // Animation pour faire tourner les recepteurs
+            for (let i = 0; i < tabIdRecept.length; i++) {
+                 let floatNouvelAngle = getAngleY(objScene3D.tabObjets3D[tabIdRecept[i]].transformations) + 1;
+                setAngleY(floatNouvelAngle, objScene3D.tabObjets3D[tabIdRecept[i]].transformations);                
             }
         }
 
@@ -139,7 +150,7 @@
             const objPointeFlechePosJoueur = creerObj3DPointeFlechePosJoueur(objgl, TEX_PLANCHER, 15, 15, false);
             tabObjets3D.push(objPointeFlechePosJoueur);
 
-            const objCoffre = creerObj3DCoffre(objgl, TEX_COFFRE, tabPosCoffre[intNiveau-1].intX, tabPosCoffre[intNiveau-1].intZ);
+            const objCoffre = creerObj3DCoffre(objgl, TEX_COFFRE, tabPosCoffre[intNiveau-1].intZ, tabPosCoffre[intNiveau-1].intX);
             tabObjets3D.push(objCoffre);
 
             tabObjets3D = tabObjets3D.concat(initNiveau(tabObjets3D));          
@@ -148,12 +159,10 @@
 
             intNbOuvreurMur = tabNbOuvreurMur[intNiveau-1];
 
-            console.log(objScene3D.tabObjets3D[tabIdTranspo[0]]);
-
             // La caméra
             const camera = creerCamera();
             setPositionsCameraXYZ([objPlancher.fltCentrePlancher, 0.9, objPlancher.fltCentrePlancher], camera);
-            setCiblesCameraXYZ([15, 0.3, -8], camera);
+            setCiblesCameraXYZ([15, 0.3, 0], camera);
             setOrientationsXYZ([0, 1, 0], camera);
             objScene3D.camera = camera;
 

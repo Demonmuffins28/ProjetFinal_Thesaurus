@@ -193,16 +193,36 @@ function validerCollision() {
   }
   // si en colision avec un tele-transporteur
   else if (AV.strType == "P") {
-    teleporter();
+    teleporter(Math.floor(POS.intX), Math.floor(POS.intZ));    
   }
 
   return intAucuneCollision;
 }
 
 
-function teleporter() {
-  // Pour modifier la position en X 
-  setPositionsCameraXYZ([15, getPositionCameraY(objScene3D.camera), 15], objScene3D.camera);
-  setCiblesCameraXYZ([15, 0.5, -8], objScene3D.camera);
-  setOrientationsXYZ([0, 1, 0], objScene3D.camera);
+function teleporter(intX, intZ) {
+  let cibleYRecept = getCibleCameraY(objScene3D.camera);
+  let regardeOuestOuNord = -30;
+  let regardeEstOuSud = 60;
+
+  for (let i = 0; i < tabIdTranspo.length; i++) {
+    if (objScene3D.tabObjets3D[tabIdTranspo[i]].intX == intX + 0.5 && objScene3D.tabObjets3D[tabIdTranspo[i]].intZ == intZ + 1.5) {
+      let indexRandom = Math.floor(Math.random() * tabIdRecept.length);
+      setPositionsCameraXYZ([objScene3D.tabObjets3D[tabIdRecept[indexRandom]].intX, getPositionCameraY(objScene3D.camera), objScene3D.tabObjets3D[tabIdRecept[indexRandom]].intZ], objScene3D.camera);
+      switch (i) {
+        // si on veux regarder vers le nord
+        case 8: case 2: case 7:
+          setCiblesCameraXYZ([objScene3D.tabObjets3D[tabIdRecept[indexRandom]].intX , cibleYRecept, regardeOuestOuNord], objScene3D.camera);
+          break;
+        // Si on veux regarder vers l'est
+        case 5: case 0: case 3:
+          setCiblesCameraXYZ([regardeEstOuSud, cibleYRecept, objScene3D.tabObjets3D[tabIdRecept[indexRandom]].intZ], objScene3D.camera);
+          break;
+        // Si on veux regarder vers l'ouest
+        case 1: case 6: case 8: case 4:
+          setCiblesCameraXYZ([regardeOuestOuNord, cibleYRecept, objScene3D.tabObjets3D[tabIdRecept[indexRandom]].intZ], objScene3D.camera);
+          break;
+      }
+    }    
+  }  
 }
