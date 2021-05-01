@@ -12,7 +12,7 @@ function creerObj3DMur(objgl, intNoTexture, intX, intZ, binOuvrable) {
     obj3DMur.intNoTexture = intNoTexture;
 
     obj3DMur.vertex = creerVertexMur(objgl, obj3DMur.fltLargeur, obj3DMur.fltProfondeur, obj3DMur.fltHauteur);
-    obj3DMur.couleurs = creerCouleursMur(objgl, [1, 0, 0, 1]);
+    obj3DMur.couleurs = creerCouleursMur(objgl, [1, 0, 0, 1], obj3DMur.binOuvrable);
     obj3DMur.texels = creerTexelsMur(objgl, obj3DMur.fltLargeur, obj3DMur.fltProfondeur, obj3DMur.fltHauteur, intNoTexture, obj3DMur.binOuvrable);
     obj3DMur.maillage = null;
 
@@ -91,7 +91,7 @@ function creerVertexMur(objgl, fltLargeur, fltProfondeur, fltHauteur) {
     return tabObjMur;
 }
 
-function creerCouleursMur(objgl, tabCouleur) {
+function creerCouleursMur(objgl, tabCouleur, binOuvrable) {
     const tabCouleurs = new Array();
     tabCouleurs[0] = [];
     tabCouleurs[1] = [];
@@ -103,7 +103,7 @@ function creerCouleursMur(objgl, tabCouleur) {
         tabCouleurs[1] = tabCouleurs[1].concat(tabCouleur);
         tabCouleurs[2] = tabCouleurs[2].concat(tabCouleur);
         tabCouleurs[3] = tabCouleurs[3].concat(tabCouleur);
-        tabCouleurs[4] = tabCouleurs[4].concat(tabCouleur);
+        tabCouleurs[4] = tabCouleurs[4].concat(!binOuvrable ? tabCouleur : [0, 0, 0, 1]);
     }
 
     const tabObjCouleursMur = new Array();
@@ -130,12 +130,12 @@ function creerTexelsMur(objgl, fltLargeur, fltProfondeur, fltHauteur, intNoTextu
         ];
     }
     tabTexels[4] = [
-        0, fltProfondeur,
-        fltLargeur, 0.0,
+        0, 563/1024,
+        600/1024, 0.0,
         0.0, 0.0,
-        0.0, fltProfondeur,
-        fltLargeur, fltProfondeur,
-        fltLargeur, 0.0
+        0.0, 563/1024,
+        600/1024, 563/1024,
+        600/1024, 0.0
     ]
 
     const tabObjTexelsMur = new Array();
@@ -143,7 +143,11 @@ function creerTexelsMur(objgl, fltLargeur, fltProfondeur, fltHauteur, intNoTextu
         tabObjTexelsMur[i] = objgl.createBuffer();
         objgl.bindBuffer(objgl.ARRAY_BUFFER, tabObjTexelsMur[i]);
         objgl.bufferData(objgl.ARRAY_BUFFER, new Float32Array(tabTexels[i]), objgl.STATIC_DRAW);
-        tabObjTexelsMur[i].intNoTexture = intNoTexture; tabObjTexelsMur[i].pcCouleurTexel =  binOuvrable ? 1 : 0.8;
+        if (i == 4){
+            tabObjTexelsMur[i].intNoTexture = intNoTexture; tabObjTexelsMur[i].pcCouleurTexel =  0.8;
+        }else {
+            tabObjTexelsMur[i].intNoTexture = intNoTexture; tabObjTexelsMur[i].pcCouleurTexel =  binOuvrable ? 1 : 0.8;
+        }
     }
     return tabObjTexelsMur;
 }

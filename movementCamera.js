@@ -209,20 +209,22 @@ function teleporter(intX, intZ) {
     if (objScene3D.tabObjets3D[tabIdTranspo[i]].intX == intX + 0.5 && objScene3D.tabObjets3D[tabIdTranspo[i]].intZ == intZ + 1.5) {
       let indexRandom = Math.floor(Math.random() * tabIdRecept.length);
       setPositionsCameraXYZ([objScene3D.tabObjets3D[tabIdRecept[indexRandom]].intX, getPositionCameraY(objScene3D.camera), objScene3D.tabObjets3D[tabIdRecept[indexRandom]].intZ], objScene3D.camera);
-      switch (i) {
-        // si on veux regarder vers le nord
-        case 8: case 2: case 7:
-          setCiblesCameraXYZ([objScene3D.tabObjets3D[tabIdRecept[indexRandom]].intX , cibleYRecept, regardeOuestOuNord], objScene3D.camera);
-          break;
-        // Si on veux regarder vers l'est
-        case 5: case 0: case 3:
-          setCiblesCameraXYZ([regardeEstOuSud, cibleYRecept, objScene3D.tabObjets3D[tabIdRecept[indexRandom]].intZ], objScene3D.camera);
-          break;
-        // Si on veux regarder vers l'ouest
-        case 1: case 6: case 8: case 4:
-          setCiblesCameraXYZ([regardeOuestOuNord, cibleYRecept, objScene3D.tabObjets3D[tabIdRecept[indexRandom]].intZ], objScene3D.camera);
-          break;
-      }
+      
+      // switch (i) {
+      //   // si on veux regarder vers le nord
+      //   case 8: case 2: case 7:
+      //     setCiblesCameraXYZ([objScene3D.tabObjets3D[tabIdRecept[indexRandom]].intX , cibleYRecept, regardeOuestOuNord], objScene3D.camera);
+      //     break;
+      //   // Si on veux regarder vers l'est
+      //   case 5: case 0: case 3:
+      //     setCiblesCameraXYZ([regardeEstOuSud, cibleYRecept, objScene3D.tabObjets3D[tabIdRecept[indexRandom]].intZ], objScene3D.camera);
+      //     break;
+      //   // Si on veux regarder vers l'ouest
+      //   case 1: case 6: case 8: case 4:
+      //     setCiblesCameraXYZ([regardeOuestOuNord, cibleYRecept, objScene3D.tabObjets3D[tabIdRecept[indexRandom]].intZ], objScene3D.camera);
+      //     break;
+      // }
+      
     }    
   }  
 }
