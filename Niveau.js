@@ -57,7 +57,7 @@ function gestionNiveaux(){
     passerNiveauSuperieur();
     recommencerNiveau();
     gameOver();
-    document.getElementById('ui').innerHTML = "Score: "+ intScoreNiveau + repeatString("&nbsp;", 25) + "Temps: " + strTempsNiveau +  repeatString("&nbsp;", 25) +"Ouvreur de murs: " + intNbOuvreurMur;
+    document.getElementById('ui').innerHTML = "Niveau: "+ intNiveau + repeatString("&nbsp;", 13) + "Score: "+ intScoreNiveau + repeatString("&nbsp;", 13) + "Temps: " + strTempsNiveau +  repeatString("&nbsp;", 13) +"Ouvreur de murs: " + intNbOuvreurMur;
 }
 
 function tempsJeu(){

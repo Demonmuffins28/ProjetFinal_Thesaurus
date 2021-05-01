@@ -119,7 +119,4 @@ function creerMaillageTranspo(objgl, intNbCirconvolutions) {
 
     return objMaillageTornade;
 }
-
-// Ouvreur de Murs Score Et Limite
-// Tous ce qui a rapport avec l'Enclos
-// Game Over
+// ouvreur de mur et variable temps et plancher enclos
