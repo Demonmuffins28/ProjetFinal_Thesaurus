@@ -1,4 +1,11 @@
 function cameraVueAerienne(event){
+    if (!binTricher && binVueAerienne && event.ctrlKey && event.shiftKey && event.keyCode == 32){
+        tricherie();
+    }
+    else if (binTricher && binVueAerienne && event.ctrlKey && event.shiftKey && event.keyCode == 32){
+        retirerTricherie();
+    }
+
     if (event.keyCode == 33 && !binVueAerienne){
         binTournerCamera = false;
         binMovAvant = false;
@@ -6,6 +13,9 @@ function cameraVueAerienne(event){
         binMovDroit = false;
         binMovGauche = false;
         binEnMouvement = false;
+
+        intSecondeVueAerienne = intSeconde;
+        intScoreDebutVueAerienne = intScoreNiveau;
 
         binVueAerienne = true;
         objCopieCameraVueJoueur = objScene3D.camera;
@@ -15,7 +25,6 @@ function cameraVueAerienne(event){
         setCiblesCameraXYZ([31/2, 0, 31/2 + 0.0001], camera);
         setOrientationsXYZ([0, -1, 0], camera);
         objScene3D.camera = camera;
-        objScene3D.tabObjets3D[1].binVisible = false;
  
         let fltX = getCibleCameraX(objCopieCameraVueJoueur) - getPositionCameraX(objCopieCameraVueJoueur);
         let fltZ = getCibleCameraZ(objCopieCameraVueJoueur) - getPositionCameraZ(objCopieCameraVueJoueur);
@@ -31,12 +40,35 @@ function cameraVueAerienne(event){
         objScene3D.tabObjets3D[2].intZ = getPositionCameraZ(objCopieCameraVueJoueur);
         changerPos(objScene3D.tabObjets3D[2].intX, objScene3D.tabObjets3D[2].intZ, objScene3D.tabObjets3D[2].transformations);
         setAngleY(angle, objScene3D.tabObjets3D[2].transformations)
-
     }
     else if (event.keyCode == 34 && binVueAerienne){
-        binVueAerienne = false;
-        objScene3D.tabObjets3D[1].binVisible = true;
-        objScene3D.tabObjets3D[2].binVisible = false;
-        objScene3D.camera = objCopieCameraVueJoueur;
+        retourVueJoueur();
     }
 }  
+
+function tricherie(){
+    binTricher = true;
+    objScene3D.tabObjets3D[1].binVisible = false;
+    for (i=0; i<tabIndexMur.length; i++){
+        changerHauteurMur(objScene3D.tabObjets3D[tabIndexMur[i]], 0.1)
+    }
+    changerHauteurObjFlechePosJoueur(objScene3D.tabObjets3D[2], 0.6);
+    setPositionsCameraXYZ([31/2, 38, 31/2], objScene3D.camera);
+}
+
+function retirerTricherie(){
+    binTricher = false;
+    objScene3D.tabObjets3D[1].binVisible = true;
+    for (i=0; i<tabIndexMur.length; i++){
+        changerHauteurMur(objScene3D.tabObjets3D[tabIndexMur[i]], 2.1)
+    }
+    changerHauteurObjFlechePosJoueur(objScene3D.tabObjets3D[2], 2.2);
+    setPositionsCameraXYZ([31/2, 40, 31/2], objScene3D.camera);
+}
+
+function retourVueJoueur(){
+    binVueAerienne = false;
+    if (binTricher) retirerTricherie();
+    objScene3D.tabObjets3D[2].binVisible = false;
+    objScene3D.camera = objCopieCameraVueJoueur;
+}

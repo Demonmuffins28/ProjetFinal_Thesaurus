@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
 
@@ -6,12 +6,30 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>THESAURUS</title>
     <style>
+        body{
+            background-color: rgb(10, 10, 10);
+        }
         p {
-            color: black;
             font-family: Arial;
             font-size: 16pt;
             text-align: center;
+        }
+        #ui{
+            background-color: black;
+            font-family: Arial;
+            font-size: 14pt;
+            text-align: center;
+            padding: 10px 0px;
+            border: cornsilk;
+        }
+
+        #jeu{
+            background-color: black;
+            color: rgb(255, 0, 0);
             width: 640px;
+            padding: 10px 15px;
+            border: 1.5px solid rgb(255, 0, 0);
+            border-radius: 10px;
         }
     </style>
     
@@ -52,9 +70,10 @@
         let binMovDroit = false;
         let binMovGauche = false;
         let binVueAerienne = false;
+        let binBloquerVueAerienne = false;
+        let binTricher = false;
         let binEnMouvement = false;
         let objCopieCameraVueJoueur = null;
-        let tabIdTranspo = [];
 
         const tabImages = ['Transparent.gif', 'Sol.jpg', 'Mur.jpg', 'coffre.jpg'];
                 
@@ -65,17 +84,6 @@
 
         const INT_CELL_PROFONDEUR = 1;
         const INT_CELL_LARGEUR = 1;
-
-        // Le niveau actuel du jeu
-        let intNiveau = 1;
-        let intScoreNiveau = 300
-        let intTempsEcoulerMs = 0
-        let strTempsNiveau = "60";
-        let intSeconde = 60;
-        let binDemarrer = false
-        let objDate = new Date();
-        let intNbOuvreurMur = 0;
-
 
         // index == niveaux
         tabNbOuvreurMur = [4,4,3,3,2,2,1,1,0,0];
@@ -142,13 +150,11 @@
             const objCoffre = creerObj3DCoffre(objgl, TEX_COFFRE, tabPosCoffre[intNiveau-1].intX, tabPosCoffre[intNiveau-1].intZ);
             tabObjets3D.push(objCoffre);
 
-            tabObjets3D = tabObjets3D.concat(initNiveau(tabObjets3D));          
+            tabObjets3D = tabObjets3D.concat(initNiveau(tabObjets3D));     
 
             objScene3D.tabObjets3D = tabObjets3D;
 
             intNbOuvreurMur = tabNbOuvreurMur[intNiveau-1];
-
-            console.log(objScene3D.tabObjets3D[tabIdTranspo[0]]);
 
             // La caméra
             const camera = creerCamera();
@@ -314,7 +320,9 @@
         // Rend le jeux 100x plus fluide
         function mouvementAvecClavier() {
             deplacerCameraClavier(event);
-            cameraVueAerienne(event);  
+            if (!binBloquerVueAerienne && binDemarrer){
+                cameraVueAerienne(event);  
+            }
         }
         // arreter le mouvement quand on relache la touche
         function arretMouvementAvecClavier() {
@@ -330,12 +338,14 @@
 </head>
 
 <body onload="demarrer()">
-    <p>THESAURUS</p>
-    <canvas id="monCanvas" width="640" height="640" tabIndex="1" onkeydown="mouvementAvecClavier();" onkeyup="arretMouvementAvecClavier();" onmousemove="eventMouvementSouris()" onmousedown="eventClickDownSouris();" onmouseup="eventClickUpSouris();">
-        Votre navigateur ne supporte pas la balise canvas
-    </canvas>
+    <div id="jeu">
+        <p>THESAURUS</p>
+        <canvas id="monCanvas" width="640" height="640" tabIndex="1" onkeydown="mouvementAvecClavier();" onkeyup="arretMouvementAvecClavier();">
+            Votre navigateur ne supporte pas la balise canvas
+        </canvas>
+        <div id="ui"></div>
+    </div>
 <br/>
-    <span id="ui"></Span>
 </body>
 
 </html>

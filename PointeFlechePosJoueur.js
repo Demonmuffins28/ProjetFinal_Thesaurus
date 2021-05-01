@@ -2,7 +2,7 @@ function creerObj3DPointeFlechePosJoueur(objgl, intNoTexture, intX, intZ, binVis
     const obj3DPointeFlechePosJoueur = new Object();
     obj3DPointeFlechePosJoueur.fltProfondeur = 0.7;
     obj3DPointeFlechePosJoueur.fltLargeur = 0.5;
-    obj3DPointeFlechePosJoueur.fltHauteur = 2;
+    obj3DPointeFlechePosJoueur.fltHauteur = 2.2;
     obj3DPointeFlechePosJoueur.binVisible = binVisible;
     obj3DPointeFlechePosJoueur.intX = intX;
     obj3DPointeFlechePosJoueur.intZ = intZ;
@@ -15,6 +15,12 @@ function creerObj3DPointeFlechePosJoueur(objgl, intNoTexture, intX, intZ, binVis
     obj3DPointeFlechePosJoueur.transformations = creerTransformations();
     changerPos(obj3DPointeFlechePosJoueur.intX, obj3DPointeFlechePosJoueur.intZ, obj3DPointeFlechePosJoueur.transformations);
     return obj3DPointeFlechePosJoueur;
+}
+
+
+function changerHauteurObjFlechePosJoueur(obj3D, fltHauteur){
+    obj3D.fltHauteur = fltHauteur;
+    obj3D.vertex = creerVertexPointeFlechePosJoueur(objgl, obj3D.fltLargeur, obj3D.fltProfondeur, obj3D.fltHauteur);
 }
 
 function creerVertexPointeFlechePosJoueur(objgl, fltLargeur, fltProfondeur, fltHauteur) {
