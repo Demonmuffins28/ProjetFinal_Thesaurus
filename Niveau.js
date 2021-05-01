@@ -13,6 +13,7 @@ let intNbOuvreurMur = 0;
 
 let tabIndexMur = [];
 let tabIdTranspo = [];
+let tabIdRecept = [];
 
 
 function initNiveau(tabObjets3D) {
@@ -87,11 +88,12 @@ function initVar(){
 
     tabIndexMur = [];
     tabIdTranspo = [];
+    tabIdRecept = [];
 }
 
 function trouverCoffre(){
-    return Math.floor(getPositionCameraX(objScene3D.camera)) == tabPosCoffre[intNiveau-1].intX && 
-           Math.floor(getPositionCameraZ(objScene3D.camera)) == tabPosCoffre[intNiveau-1].intZ;
+    return Math.floor(getPositionCameraX(objScene3D.camera)) == tabPosCoffre[intNiveau-1].intZ && 
+           Math.floor(getPositionCameraZ(objScene3D.camera)) == tabPosCoffre[intNiveau-1].intX;
 }
 
 function passerNiveauSuperieur(){

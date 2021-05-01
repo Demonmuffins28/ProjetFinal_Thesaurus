@@ -10,17 +10,18 @@ let tabPosFleche = [{intX:1,intZ:6},{intX:1,intZ:17},{intX:1,intZ:27},{intX:5,in
                     {intX:7,intZ:2}, {intX:9,intZ:26},{intX:12,intZ:8},{intX:12,intZ:22},{intX:15,intZ:4},
                     {intX:15,intZ:26},{intX:17,intZ:28},{intX:18,intZ:15},{intX:19,intZ:20},{intX:23,intZ:4},
                     {intX:23,intZ:10},{intX:23,intZ:26},{intX:29,intZ:22}];
-let inbNbFleche = 10;
 
 let tabPosRecept = [{intX:1,intZ:11}, {intX:7,intZ:28}, {intX:10,intZ:20}, {intX:11,intZ:4}, {intX:17,intZ:4},
                      {intX:20,intZ:17}, {intX:21,intZ:25}, {intX:27,intZ:1}, {intX:29,intZ:15}]
 
 let tabPosTranspo = [{intX:10,intZ:10},{intX:13,intZ:6},{intX:13,intZ:26},{intX:20,intZ:13},{intX:24,intZ:24}]
 
+let inbNbFleche = 10;
+
 function updateTabJeu() {
-  intnbFleche--;
+  inbNbFleche--;
   // Ajout des fleches dans le tableau de jeu
-  for (let i = 0; i < (intnbFleche * 2) - 1; i++) {
+  for (let i = 0; i < (inbNbFleche * 2) - 1; i++) {
     if (tabJeu[tabPosFleche[i].intX][tabPosFleche[i].intZ] === ' ') {
       tabJeu[tabPosFleche[i].intX][tabPosFleche[i].intZ] = 'F';
     }
