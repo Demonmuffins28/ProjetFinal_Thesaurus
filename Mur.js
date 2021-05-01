@@ -4,11 +4,12 @@ function creerObj3DMur(objgl, intNoTexture, intX, intZ, binOuvrable) {
     const obj3DMur = new Object();
     obj3DMur.fltProfondeur = INT_CELL_PROFONDEUR;
     obj3DMur.fltLargeur = INT_CELL_LARGEUR;
-    obj3DMur.fltHauteur = 2;
+    obj3DMur.fltHauteur = 2.1;
     obj3DMur.intX = intX;
     obj3DMur.intZ = intZ;
     obj3DMur.binOuvrable = binOuvrable;
     obj3DMur.binVisible = true;
+    obj3DMur.intNoTexture = intNoTexture;
 
     obj3DMur.vertex = creerVertexMur(objgl, obj3DMur.fltLargeur, obj3DMur.fltProfondeur, obj3DMur.fltHauteur);
     obj3DMur.couleurs = creerCouleursMur(objgl, [1, 0, 0, 1]);
@@ -19,6 +20,12 @@ function creerObj3DMur(objgl, intNoTexture, intX, intZ, binOuvrable) {
     setPositionX(obj3DMur.intX, obj3DMur.transformations);
     setPositionZ(obj3DMur.intZ, obj3DMur.transformations);
     return obj3DMur;
+}
+
+function changerHauteurMur(obj3DMur, fltHauteur){
+    obj3DMur.fltHauteur = fltHauteur;
+    obj3DMur.vertex = creerVertexMur(objgl, obj3DMur.fltLargeur, obj3DMur.fltProfondeur, obj3DMur.fltHauteur);
+    obj3DMur.texels = creerTexelsMur(objgl, obj3DMur.fltLargeur, obj3DMur.fltProfondeur, obj3DMur.fltHauteur, obj3DMur.intNoTexture, obj3DMur.binOuvrable);
 }
 
 function creerVertexMur(objgl, fltLargeur, fltProfondeur, fltHauteur) {
