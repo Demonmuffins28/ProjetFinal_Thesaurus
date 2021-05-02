@@ -10,7 +10,7 @@ let objDate = new Date();
 let intSecondeVueAerienne = 0;
 let intScoreDebutVueAerienne = 0;
 let intNbOuvreurMur = 0;
-let intTempsMaxNiveau = 60;
+let intTempsMaxNiveau = 5;
 let binGameOver = false;
 
 let tabIndexMur = [];
@@ -168,8 +168,9 @@ function gameOver(){
         objScene3D = initScene3D(objgl);
         document.getElementById('ui').innerHTML = "Game Over !"; 
         binGameOver = true;
+        setPositionsCameraXYZ([-100,-100,-100], objScene3D.camera)
         initVar();
-        //arreterAnimation();
+        arreterAnimation();
     }
 }
 

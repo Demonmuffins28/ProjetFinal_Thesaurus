@@ -180,7 +180,7 @@
             // La caméra
             const camera = creerCamera();
             setPositionsCameraXYZ([objPlancher.fltCentrePlancher, 0.9, objPlancher.fltCentrePlancher], camera);
-            setCiblesCameraXYZ([15, 0.3, 0], camera);
+            setCiblesCameraXYZ([objPlancher.fltCentrePlancher, 0.5, 0], camera);
             setOrientationsXYZ([0, 1, 0], camera);
             objScene3D.camera = camera;
 

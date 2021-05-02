@@ -27,7 +27,7 @@ function initSons() {
     objSon = document.createElement('audio');
     objSon.setAttribute('src', 'ressources/sons/sfx/ouvrirMurSFX.mp3');
     objSon.load();
-    objSon.volume = 0.1;
+    objSon.volume = 0.3;
     objSons.detruireMurSFX = objSon;
 
     //teleportationSFX
@@ -40,14 +40,14 @@ function initSons() {
     objSon = document.createElement('audio');
     objSon.setAttribute('src', 'ressources/sons/sfx/FinDePartieSFX.mp3');
     objSon.load();
-    objSon.volume = 0.1;
+    objSon.volume = 0.3;
     objSons.gameOverSFX = objSon;
 
     //CompleterJeuSFX
     objSon = document.createElement('audio');
     objSon.setAttribute('src', 'ressources/sons/sfx/CompleterJeuSFX.mp3');
     objSon.load();
-    objSon.volume = 0.1;
+    objSon.volume = 0.3;
     objSons.gameCompleteSFX = objSon;
 
     return objSons;
