@@ -1,6 +1,6 @@
 
 // Le niveau actuel du jeu
-let intNiveau = 1;
+let intNiveau = 3;
 let intScoreNiveau = 300
 let intTempsEcoulerMs = 0
 let strTempsNiveau = "60";
