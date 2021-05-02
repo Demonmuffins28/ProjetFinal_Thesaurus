@@ -214,6 +214,7 @@ function teleporter(intX, intZ) {
       let nouvCibleZ = objScene3D.tabObjets3D[tabIdRecept[indexRandom]].intZ + Math.abs((objScene3D.tabObjets3D[tabIdTranspo[i]].intZ - getCibleCameraZ(objScene3D.camera)));
       let nouvCibleX = objScene3D.tabObjets3D[tabIdRecept[indexRandom]].intX + Math.abs((objScene3D.tabObjets3D[tabIdTranspo[i]].intX - getCibleCameraX(objScene3D.camera)));
       setCiblesCameraXYZ([nouvCibleX, cibleYRecept, nouvCibleZ], objScene3D.camera);
+      objSons.teleportationSFX.play();
       
       // switch (i) {
       //   // si on veux regarder vers le nord

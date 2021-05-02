@@ -38,6 +38,7 @@
     <script type="text/javascript" src="ShaderCouleursTextures.js"></script>
     <script type="text/javascript" src="glMatrix-0.9.5.min.js"></script>
     <script type="text/javascript" src="Transformations.js"></script>
+    <script type="text/javascript" src="sons.js"></script>
 
     <script type="text/javascript" src="tableauDeJeu.js"></script>
 
@@ -68,6 +69,8 @@
         let objgl = null;
         let objProgShaders = null;
         let objScene3D = null;
+        let objSons = null;
+
         let positionSourisX = null;
         let binTournerCamera = false;
         let binMovAvant = false;
@@ -289,14 +292,6 @@
             objgl.clearColor(0.0, 0.0, 0.0, 1.0);
             // Efface les couleurs et le buffer de profondeur.
             objgl.clear(objgl.COLOR_BUFFER_BIT | objgl.DEPTH_BUFFER_BIT);
-        }
-
-        function initSons() {
-            const objSons = new Object();
-
-            // Ce son joue tout au long du jeu
-            let objSon = document.createElement('audio');
-            return objSons;
         }
 
         /**
