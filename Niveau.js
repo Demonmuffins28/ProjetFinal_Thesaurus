@@ -10,7 +10,7 @@ let objDate = new Date();
 let intSecondeVueAerienne = 0;
 let intScoreDebutVueAerienne = 0;
 let intNbOuvreurMur = 0;
-let intTempsMaxNiveau = 5;
+let intTempsMaxNiveau = 60;
 let binGameOver = false;
 
 let tabIndexMur = [];
