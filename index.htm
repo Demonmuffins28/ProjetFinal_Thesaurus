@@ -145,6 +145,8 @@
                  let floatNouvelAngle = getAngleY(objScene3D.tabObjets3D[tabIdRecept[i]].transformations) + 1;
                 setAngleY(floatNouvelAngle, objScene3D.tabObjets3D[tabIdRecept[i]].transformations);                
             }
+
+            //document.getElementById("strPos").innerHTML = objScene3D.camera.objAutourJoueur.objEnAvantJoueur.strType;
         }
 
         function initScene3D(objgl) {
@@ -155,7 +157,7 @@
             objScene3D.textures = creerTextures(objgl, tabImages);
 
             const objPlancher = creerObj3DPlancher(objgl, TEX_PLANCHER);
-            tabObjets3D.push(objPlancher);
+            tabObjets3D.push(objPlancher);           
 
             const objPlafond = creerObj3DPlafond(objgl, TEX_PLANCHER, true);
             tabObjets3D.push(objPlafond);
@@ -355,8 +357,9 @@
             Votre navigateur ne supporte pas la balise canvas
         </canvas>
         <div id="ui"></div>
+        <div id="strPos"></div>
     </div>
+    
 <br/>
 </body>
-
 </html>
