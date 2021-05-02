@@ -12,6 +12,8 @@ let intScoreDebutVueAerienne = 0;
 let intNbOuvreurMur = 0;
 let intTempsMaxNiveau = 60;
 let binGameOver = false;
+let binJeuCompleter = false;
+
 
 let tabIndexMur = [];
 let tabIdTranspo = [];
@@ -69,16 +71,16 @@ function fermetureEnclos(){
 }
 
 function gestionNiveaux(){
-  if (!binGameOver){
+  if (!binGameOver && !binJeuCompleter){
     fermetureEnclos()
     tempsJeu();
     gestionScoreVueAerienne();
-    passerNiveauSuperieur();
     recommencerNiveau();
     document.getElementById('ui').innerHTML = "Niveau: "+ intNiveau + repeatString("&nbsp;", 13) + 
     "Score: "+ intScoreNiveau + repeatString("&nbsp;", 13) + "Temps: " + strTempsNiveau +  repeatString("&nbsp;", 13) +
     "Ouvreur de murs: " + intNbOuvreurMur;
   }
+    passerNiveauSuperieur();
     gameOver();
 }
 
@@ -102,6 +104,7 @@ function initVar(){
     binBloquerVueAerienne = false;
     binTricher = false;
     binEnMouvement = false;
+    binFermerEnclos = false;
 
     objDate = new Date();
     intSecondeVueAerienne = 0;
@@ -132,7 +135,12 @@ function passerNiveauSuperieur(){
         objScene3D = initScene3D(objgl);
     }
     if (intNiveau == 11) {
+        binJeuCompleter = true;
         objSons.gameCompleteSFX.play();
+        document.getElementById('ui').innerHTML = "Bravo vous avez completé ce Jeu !"; 
+        objScene3D = initScene3D(objgl);
+        setPositionsCameraXYZ([-100,-100,-100], objScene3D.camera)
+        initVar();
         arreterAnimation();
     }
 }
