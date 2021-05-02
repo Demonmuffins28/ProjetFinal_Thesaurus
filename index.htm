@@ -53,7 +53,7 @@
     <script type="text/javascript" src="Plafond.js"></script>
     <script type="text/javascript" src="Mur.js"></script>
     <script type="text/javascript" src="Coffre.js"></script>
-
+    <script type="text/javascript" src="flecheTest.js"></script>
 
     <script type="text/javascript" src="Niveau.js"></script>
     <script type="text/javascript" src="PointeFlechePosJoueur.js"></script>
@@ -144,9 +144,7 @@
             for (let i = 0; i < tabIdRecept.length; i++) {
                  let floatNouvelAngle = getAngleY(objScene3D.tabObjets3D[tabIdRecept[i]].transformations) + 1;
                 setAngleY(floatNouvelAngle, objScene3D.tabObjets3D[tabIdRecept[i]].transformations);                
-            }
-
-            //document.getElementById("strPos").innerHTML = objScene3D.camera.objAutourJoueur.objEnAvantJoueur.strType;
+            }            
         }
 
         function initScene3D(objgl) {
@@ -170,6 +168,9 @@
 
             const objPlancherEnclos = creerObj3DPlancherEnclos(objgl, TEX_PLANCHER);
             tabObjets3D.push(objPlancherEnclos);
+
+            const objFleche = creerObj3DPointeFleche(objgl, TEX_PLANCHER, 15.5, 12.5, true);
+            tabObjets3D.push(objFleche);
 
             tabObjets3D = tabObjets3D.concat(initNiveau(tabObjets3D));     
 
@@ -357,7 +358,7 @@
             Votre navigateur ne supporte pas la balise canvas
         </canvas>
         <div id="ui"></div>
-        <div id="strPos"></div>
+        <div id="strAv"></div>
     </div>
     
 <br/>
