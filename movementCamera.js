@@ -210,6 +210,7 @@ function teleporter(intX, intZ) {
     if (objScene3D.tabObjets3D[tabIdTranspo[i]].intX == intX + 0.5 && objScene3D.tabObjets3D[tabIdTranspo[i]].intZ == intZ + 1.5) {
       let indexRandom = Math.floor(Math.random() * tabIdRecept.length);
       setPositionsCameraXYZ([objScene3D.tabObjets3D[tabIdRecept[indexRandom]].intX, getPositionCameraY(objScene3D.camera), objScene3D.tabObjets3D[tabIdRecept[indexRandom]].intZ], objScene3D.camera);
+      objSons.teleportationSFX.play();
       
       // switch (i) {
       //   // si on veux regarder vers le nord

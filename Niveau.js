@@ -103,7 +103,8 @@ function trouverCoffre(){
 }
 
 function passerNiveauSuperieur(){
-    if (trouverCoffre()){
+    if (intNiveau != 11  && trouverCoffre()) {
+        objSons.levelCompleteSFX.play();
         intScoreNiveau += 10 * intSeconde; 
         strTempsNiveau = "60";
         intSeconde = 60;
@@ -114,12 +115,15 @@ function passerNiveauSuperieur(){
         initVar();
         objScene3D = initScene3D(objgl);
     }
-    if (intNiveau == 11)
+    if (intNiveau == 11) {
+        objSons.gameCompleteSFX.play();
         arreterAnimation();
+    }
 }
 
 function recommencerNiveau(){
-    if (intSeconde == 0 && intScoreNiveau >= 200){
+    if (intSeconde == 0 && intScoreNiveau >= 200) {
+        objSons.timeOutSFX.play();
         intTempsEcoulerMs = 0;
         strTempsNiveau = "60";
         intSeconde = 60;
@@ -132,7 +136,7 @@ function recommencerNiveau(){
 }
 
 function gestionScoreVueAerienne(){
-  if (binVueAerienne){
+  if (binVueAerienne) {
     intScoreNiveau = intScoreDebutVueAerienne - ((intSecondeVueAerienne - intSeconde) * 10);
     if (intScoreNiveau < 10){
       binVueAerienne = false;
@@ -143,7 +147,8 @@ function gestionScoreVueAerienne(){
 }
 
 function gameOver(){
-    if (intSeconde == 0 && intScoreNiveau < 200){
+    if (intSeconde == 0 && intScoreNiveau < 200) {
+        objSons.gameOverSFX.play()
         objScene3D = initScene3D(objgl);
         document.getElementById('ui').innerHTML = "Game Over !"; 
         binGameOver = true;
