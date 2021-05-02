@@ -56,8 +56,8 @@ function gestionNiveaux(){
     gestionScoreVueAerienne();
     passerNiveauSuperieur();
     recommencerNiveau();
-    gameOver();
     document.getElementById('ui').innerHTML = "Niveau: "+ intNiveau + repeatString("&nbsp;", 13) + "Score: "+ intScoreNiveau + repeatString("&nbsp;", 13) + "Temps: " + strTempsNiveau +  repeatString("&nbsp;", 13) +"Ouvreur de murs: " + intNbOuvreurMur;
+    gameOver();
 }
 
 function tempsJeu(){
@@ -138,7 +138,8 @@ function gestionScoreVueAerienne(){
 
 function gameOver(){
     if (intSeconde == 0 && intScoreNiveau < 200){
-        alert("Game Over");
+        objScene3D = initScene3D(objgl);
+        document.getElementById('ui').innerHTML = "Game Over !"; 
         arreterAnimation();
     }
 }
