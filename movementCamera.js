@@ -75,7 +75,8 @@ function deplacerCameraClavier(event) {
 
       //Détruire un mur("espace")
       case 32:
-        destruireMur(objScene3D.camera.objAutourJoueur.objEnAvantJoueurFar.intX, objScene3D.camera.objAutourJoueur.objEnAvantJoueurFar.intZ);
+        if (intNbOuvreurMur != 0 && intScoreNiveau >= 50)
+          destruireMur(objScene3D.camera.objAutourJoueur.objEnAvantJoueurFar.intX, objScene3D.camera.objAutourJoueur.objEnAvantJoueurFar.intZ);
         break;
     }
   }

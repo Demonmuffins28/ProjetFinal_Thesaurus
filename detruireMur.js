@@ -12,6 +12,8 @@ function destruireMur(intX, intZ) {
         if(objet.binOuvrable == true) {
             objet.binVisible = false
             tabJeu[intZ][intX] = ' ';
+            intNbOuvreurMur--;
+            intScoreNiveau -= 50;
             /**TODO:
              * -Ajouter un effet sonore
              * -Enlever un ouvreur de mur
