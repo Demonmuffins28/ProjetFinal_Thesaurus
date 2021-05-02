@@ -119,4 +119,4 @@ function creerMaillageTranspo(objgl, intNbCirconvolutions) {
 
     return objMaillageTornade;
 }
-// ouvreur de mur et variable temps et plancher enclos
+// variable temps et plancher enclos

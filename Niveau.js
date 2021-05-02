@@ -10,6 +10,8 @@ let objDate = new Date();
 let intSecondeVueAerienne = 0;
 let intScoreDebutVueAerienne = 0;
 let intNbOuvreurMur = 0;
+let intTempsMaxNiveau = 60;
+let binGameOver = false;
 
 let tabIndexMur = [];
 let tabIdTranspo = [];
@@ -52,11 +54,15 @@ function initNiveau(tabObjets3D) {
 }
 
 function gestionNiveaux(){
+  if (!binGameOver){
     tempsJeu();
     gestionScoreVueAerienne();
     passerNiveauSuperieur();
     recommencerNiveau();
-    document.getElementById('ui').innerHTML = "Niveau: "+ intNiveau + repeatString("&nbsp;", 13) + "Score: "+ intScoreNiveau + repeatString("&nbsp;", 13) + "Temps: " + strTempsNiveau +  repeatString("&nbsp;", 13) +"Ouvreur de murs: " + intNbOuvreurMur;
+    document.getElementById('ui').innerHTML = "Niveau: "+ intNiveau + repeatString("&nbsp;", 13) + 
+    "Score: "+ intScoreNiveau + repeatString("&nbsp;", 13) + "Temps: " + strTempsNiveau +  repeatString("&nbsp;", 13) +
+    "Ouvreur de murs: " + intNbOuvreurMur;
+  }
     gameOver();
 }
 
@@ -64,8 +70,8 @@ function tempsJeu(){
     let objDate2 = new Date()
     if (binDemarrer){
         intTempsEcoulerMs += objDate2 - objDate
-        intSeconde = 60 - Math.floor(intTempsEcoulerMs * 0.001);
-        strTempsNiveau = ("0" + intSeconde).slice(-2)
+        intSeconde = intTempsMaxNiveau - Math.floor(intTempsEcoulerMs * 0.001);
+        strTempsNiveau = intSeconde < 10 ? ("0" + intSeconde).slice(-2) : intSeconde;
     }
     objDate = objDate2
 }
@@ -140,7 +146,9 @@ function gameOver(){
     if (intSeconde == 0 && intScoreNiveau < 200){
         objScene3D = initScene3D(objgl);
         document.getElementById('ui').innerHTML = "Game Over !"; 
-        arreterAnimation();
+        binGameOver = true;
+        initVar();
+        //arreterAnimation();
     }
 }
 

@@ -46,7 +46,7 @@ function mouvementCameraAvecSouris(event) {
 }
 
 function deplacerCameraClavier(event) {
-  if (!binVueAerienne){
+  if (!binVueAerienne && !binGameOver){
     switch (event.keyCode) {
 
       //Rotation vers la droite("D" ou "→")
