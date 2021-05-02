@@ -48,6 +48,7 @@
 
     <script type="text/javascript" src="Textures.js"></script>
     <script type="text/javascript" src="Plancher.js"></script>
+    <script type="text/javascript" src="PlancherEnclos.js"></script>
     <script type="text/javascript" src="Plafond.js"></script>
     <script type="text/javascript" src="Mur.js"></script>
     <script type="text/javascript" src="Coffre.js"></script>
@@ -161,6 +162,9 @@
 
             const objCoffre = creerObj3DCoffre(objgl, TEX_COFFRE, tabPosCoffre[intNiveau-1].intZ, tabPosCoffre[intNiveau-1].intX);
             tabObjets3D.push(objCoffre);
+
+            const objPlancherEnclos = creerObj3DPlancherEnclos(objgl, TEX_PLANCHER);
+            tabObjets3D.push(objPlancherEnclos);
 
             tabObjets3D = tabObjets3D.concat(initNiveau(tabObjets3D));     
 

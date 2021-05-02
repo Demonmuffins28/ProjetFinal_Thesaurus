@@ -1,6 +1,6 @@
 
 // Le niveau actuel du jeu
-let intNiveau = 3;
+let intNiveau = 1;
 let intScoreNiveau = 300
 let intTempsEcoulerMs = 0
 let strTempsNiveau = "60";
@@ -17,6 +17,8 @@ let tabIndexMur = [];
 let tabIdTranspo = [];
 let tabIdRecept = [];
 
+let binFermerEnclos = false;
+let objMurFermerEnclos = null;
 
 function initNiveau(tabObjets3D) {
     genererTabJeu()
@@ -35,6 +37,11 @@ function initNiveau(tabObjets3D) {
                 const objMurNonOuvrable = creerObj3DMur(objgl, TEX_MUR_OUVRABLE, j, i, false);
                 tabIndexMur.push(tabObjets3D.length + tabObjets3DNiveau.length);
                 tabObjets3DNiveau.push(objMurNonOuvrable);
+                if (i == 13 && j == 15){
+                    objMurFermerEnclos = objMurNonOuvrable;
+                    objMurFermerEnclos.binVisible = false;
+                    tabJeu[i][j] = ' ';
+                }
             }
             // Pour tele-transporteur
             if (tabJeu[i][j] == 'P') {
@@ -53,8 +60,17 @@ function initNiveau(tabObjets3D) {
     return tabObjets3DNiveau;
 }
 
+function fermetureEnclos(){
+    if (!binFermerEnclos && Math.floor(getPositionCameraX(objScene3D.camera)) == 15 && Math.floor(getPositionCameraZ(objScene3D.camera)) == 12){
+        binFermerEnclos = true;
+        objMurFermerEnclos.binVisible = true;
+        tabJeu[13][15] = 'V';
+    }
+}
+
 function gestionNiveaux(){
   if (!binGameOver){
+    fermetureEnclos()
     tempsJeu();
     gestionScoreVueAerienne();
     passerNiveauSuperieur();
