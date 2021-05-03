@@ -57,6 +57,9 @@ function tricherie(){
     changerHauteurObjFlechePosJoueur(objScene3D.tabObjets3D[2], 0.6);
     setPositionsCameraXYZ([31/2, 38, 31/2], objScene3D.camera);
     changerHauteurPlancherEnclos(objScene3D.tabObjets3D[4], 0.1);
+    for (i=0; i<tabIndexFleches.length; i++) {
+        setPositionY(0.1, objScene3D.tabObjets3D[tabIndexFleches[i]].transformations);
+    }
 }
 
 function retirerTricherie(){
@@ -68,6 +71,9 @@ function retirerTricherie(){
     changerHauteurObjFlechePosJoueur(objScene3D.tabObjets3D[2], 2.2);
     setPositionsCameraXYZ([31/2, 40, 31/2], objScene3D.camera);
     changerHauteurPlancherEnclos(objScene3D.tabObjets3D[4], 2.1);
+    for (i=0; i<tabIndexFleches.length; i++) {
+        setPositionY(1, objScene3D.tabObjets3D[tabIndexFleches[i]].transformations);
+    }
 }
 
 function retourVueJoueur(){
