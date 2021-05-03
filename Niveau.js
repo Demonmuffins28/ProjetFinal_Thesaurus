@@ -18,6 +18,7 @@ let binJeuCompleter = false;
 let tabIndexMur = [];
 let tabIdTranspo = [];
 let tabIdRecept = [];
+let tabIndexFleches = [];
 
 let binFermerEnclos = false;
 let objMurFermerEnclos = null;
@@ -60,6 +61,7 @@ function initNiveau(tabObjets3D) {
 
             if (tabJeu[i][j] == 'F') {
                 const objFleche = creerFleche3D(objgl, TEX_TRANSP, j + 0.5, i + 0.5);
+                tabIndexFleches.push(tabObjets3D.length + tabObjets3DNiveau.length);
                 tabObjets3DNiveau.push(objFleche);
             }
         }
