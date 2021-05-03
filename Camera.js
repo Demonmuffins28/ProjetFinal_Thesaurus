@@ -3,7 +3,7 @@
     // Pour cr�er une cam�ra
     // Au point de d�part, le transformations sont neutres.
     function creerCamera() {
-      const tabCamera = [0, 0, 1, 0, 0, 0, 0, 1, 0];
+      const tabCamera = [0, 0, 1, 0, 0, 0, 0.1, 1, 0];
       return tabCamera;
     }
 

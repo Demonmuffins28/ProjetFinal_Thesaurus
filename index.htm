@@ -4,39 +4,102 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>THESAURUS</title>
+    <title>THESAURUS par Marc-Olivier Lalonde, Amine Benslimane, Charles Morin, Andrew Aboujaoudé</title>
     <style>
+        body{
+            background-color: rgb(10, 10, 10);
+        }
         p {
-            color: black;
             font-family: Arial;
             font-size: 16pt;
             text-align: center;
+        }
+        #ui{
+            background-color: black;
+            font-family: Arial;
+            font-size: 13pt;
+            text-align: center;
+            padding: 10px 0px;
+            border: cornsilk;
+        }
+
+        #jeu{
+            background-color: black;
+            color: rgb(255, 0, 0);
             width: 640px;
+            padding: 10px 15px;
+            border: 1.5px solid rgb(255, 0, 0);
+            border-radius: 10px;
+            margin: 0 auto;
         }
     </style>
+    
     <script type="text/javascript" src="WebGl.js"></script>
     <script type="text/javascript" src="ShaderCouleursTextures.js"></script>
     <script type="text/javascript" src="glMatrix-0.9.5.min.js"></script>
     <script type="text/javascript" src="Transformations.js"></script>
+    <script type="text/javascript" src="sons.js"></script>
+
+    <script type="text/javascript" src="tableauDeJeu.js"></script>
+
     <script type="text/javascript" src="Camera.js"></script>
+    <script type="text/javascript" src="movementCamera.js"></script>
+    <script type="text/javascript" src="detectionObjetAutourJoueur.js"></script>
+    <script type="text/javascript" src="detruireMur.js"></script>
+
     <script type="text/javascript" src="Textures.js"></script>
     <script type="text/javascript" src="Plancher.js"></script>
+    <script type="text/javascript" src="PlancherEnclos.js"></script>
+    <script type="text/javascript" src="Plafond.js"></script>
+    <script type="text/javascript" src="Mur.js"></script>
+    <script type="text/javascript" src="Coffre.js"></script>
+    <script type="text/javascript" src="fleches.js"></script>
+
+    <script type="text/javascript" src="Niveau.js"></script>
+    <script type="text/javascript" src="PointeFlechePosJoueur.js"></script>
+    <script type="text/javascript" src="VueAerienneDedale.js"></script>
+    <script type="text/javascript" src="tele_transporteur.js"></script>
+    <script type="text/javascript" src="tele_recepteur.js"></script>
+
+    <script type="text/javascript" src="otherFunctions.js"></script>
     <script type="text/javascript">
 
 
-
+        let objCanvas = null;
         let objgl = null;
         let objProgShaders = null;
         let objScene3D = null;
+        let objSons = null;
 
-        const tabImages = ['Transparent.gif', 'Sol.jpg'];
+        let positionSourisX = null;
+        let binTournerCamera = false;
+        let binMovAvant = false;
+        let binMovArriere = false;
+        let binMovDroit = false;
+        let binMovGauche = false;
+        let binVueAerienne = false;
+        let binBloquerVueAerienne = false;
+        let binTricher = false;
+        let binEnMouvement = false;
+        let objCopieCameraVueJoueur = null;
+
+
+        const tabImages = ['Transparent.gif', 'Sol.jpg', 'Mur.jpg', 'coffre.jpg'];
+
         const TEX_PLANCHER = 1;
+        const TEX_MUR_OUVRABLE = 2;
+        const TEX_TRANSP = 0;
+        const TEX_COFFRE = 3;
 
-        // Le niveau actuel du jeu
-        let intNiveau = 0;
+        const INT_CELL_PROFONDEUR = 1;
+        const INT_CELL_LARGEUR = 1;
+
+        // index == niveaux
+        tabNbOuvreurMur = [4,4,3,3,2,2,1,1,0,0];
 
         function demarrer() {
-            const objCanvas = document.getElementById('monCanvas');
+            objCanvas = document.getElementById('monCanvas');
+            objCanvas.focus();
             objgl = initWebGL(objCanvas);  // Initialise le contexte WebGL
             objProgShaders = initShaders(objgl);
             objSons = initSons();
@@ -58,27 +121,64 @@
             dessiner(objgl, objProgShaders, objScene3D);
         }
 
+        function arreterAnimation() {
+            if (objCycleAnimation != null) cancelAnimationFrame(objCycleAnimation)
+            objCycleAnimation = null
+		}
+
         // Pour mettre à jour l'animation
         function mettreAjourAnimation() {
+            if (binEnMouvement) deplacerCamera();      
+            detectionObjetAutourJoueur();
+            if (binEnMouvement){
+                binDemarrer = true;
+            }
+            gestionNiveaux()
 
+            // Animation pour faire tourner le transpo
+            for (let i = 0; i < tabIdTranspo.length; i++) {
+                 let floatNouvelAngle = getAngleY(objScene3D.tabObjets3D[tabIdTranspo[i]].transformations) + 1;
+                setAngleY(floatNouvelAngle, objScene3D.tabObjets3D[tabIdTranspo[i]].transformations);                
+            }
+            // Animation pour faire tourner les recepteurs
+            for (let i = 0; i < tabIdRecept.length; i++) {
+                 let floatNouvelAngle = getAngleY(objScene3D.tabObjets3D[tabIdRecept[i]].transformations) + 1;
+                setAngleY(floatNouvelAngle, objScene3D.tabObjets3D[tabIdRecept[i]].transformations);                
+            }            
         }
 
-
         function initScene3D(objgl) {
-            const objScene3D = new Object();
-            const tabObjets3D = new Array();
+            let objScene3D = new Object();
+            tabObjets3D = new Array();
 
             // Mettre les textures dans la scène
             objScene3D.textures = creerTextures(objgl, tabImages);
 
             const objPlancher = creerObj3DPlancher(objgl, TEX_PLANCHER);
-            tabObjets3D.push(objPlancher);
+            tabObjets3D.push(objPlancher);           
+
+            const objPlafond = creerObj3DPlafond(objgl, TEX_PLANCHER, true);
+            tabObjets3D.push(objPlafond);
+
+            const objPointeFlechePosJoueur = creerObj3DPointeFlechePosJoueur(objgl, TEX_PLANCHER, 15, 15, false);
+            tabObjets3D.push(objPointeFlechePosJoueur);
+
+            const objCoffre = creerObj3DCoffre(objgl, TEX_COFFRE, tabPosCoffre[intNiveau-1].intZ, tabPosCoffre[intNiveau-1].intX);
+            tabObjets3D.push(objCoffre);
+
+            const objPlancherEnclos = creerObj3DPlancherEnclos(objgl, TEX_PLANCHER);
+            tabObjets3D.push(objPlancherEnclos);            
+
+            tabObjets3D = tabObjets3D.concat(initNiveau(tabObjets3D));     
 
             objScene3D.tabObjets3D = tabObjets3D;
+
+            intNbOuvreurMur = tabNbOuvreurMur[intNiveau-1];
+
             // La caméra
             const camera = creerCamera();
-            setPositionsCameraXYZ([objPlancher.fltCentrePlancher, 0.5, objPlancher.fltCentrePlancher], camera);
-            setCiblesCameraXYZ([0, 0.5, 0], camera);
+            setPositionsCameraXYZ([objPlancher.fltCentrePlancher, 0.9, objPlancher.fltCentrePlancher], camera);
+            setCiblesCameraXYZ([objPlancher.fltCentrePlancher, 0.3, 0], camera);
             setOrientationsXYZ([0, 1, 0], camera);
             objScene3D.camera = camera;
 
@@ -98,89 +198,91 @@
             objgl.uniformMatrix4fv(objProgShaders.matProjection, false, matProjection);
 
             for (let i = 0; i < objScene3D.tabObjets3D.length; i++) {
-                const vertex = objScene3D.tabObjets3D[i].vertex;
-                const couleurs = objScene3D.tabObjets3D[i].couleurs;
-                const texels = objScene3D.tabObjets3D[i].texels;
-                const maillage = objScene3D.tabObjets3D[i].maillage;
-                const transformations = objScene3D.tabObjets3D[i].transformations;
+                if ((typeof objScene3D.tabObjets3D[i].binVisible !== 'undefined') && objScene3D.tabObjets3D[i].binVisible) {
+                    const vertex = objScene3D.tabObjets3D[i].vertex;
+                    const couleurs = objScene3D.tabObjets3D[i].couleurs;
+                    const texels = objScene3D.tabObjets3D[i].texels;
+                    const maillage = objScene3D.tabObjets3D[i].maillage;
+                    const transformations = objScene3D.tabObjets3D[i].transformations;
 
-                // Matrice du modèle            
-                const matModeleVue = mat4.create();
-                mat4.identity(matModeleVue);
+                    // Matrice du modèle            
+                    const matModeleVue = mat4.create();
+                    mat4.identity(matModeleVue);
 
-                // Placer la caméra sur la scène
-                mat4.lookAt(getPositionsCameraXYZ(objScene3D.camera),
-                    getCiblesCameraXYZ(objScene3D.camera),
-                    getOrientationsXYZ(objScene3D.camera),
-                    matModeleVue);
+                    // Placer la caméra sur la scène
+                    mat4.lookAt(getPositionsCameraXYZ(objScene3D.camera),
+                        getCiblesCameraXYZ(objScene3D.camera),
+                        getOrientationsXYZ(objScene3D.camera),
+                        matModeleVue);
 
-                // Appliquer les transformations sur le modèle 
-                mat4.translate(matModeleVue, getPositionsXYZ(transformations));
-                mat4.scale(matModeleVue, getEchellesXYZ(transformations));
-                mat4.rotateX(matModeleVue, getAngleX(transformations) * Math.PI / 180);
-                mat4.rotateY(matModeleVue, getAngleY(transformations) * Math.PI / 180);
-                mat4.rotateZ(matModeleVue, getAngleZ(transformations) * Math.PI / 180);
+                    // Appliquer les transformations sur le modèle 
+                    mat4.translate(matModeleVue, getPositionsXYZ(transformations));
+                    mat4.scale(matModeleVue, getEchellesXYZ(transformations));
+                    mat4.rotateX(matModeleVue, getAngleX(transformations) * Math.PI / 180);
+                    mat4.rotateY(matModeleVue, getAngleY(transformations) * Math.PI / 180);
+                    mat4.rotateZ(matModeleVue, getAngleZ(transformations) * Math.PI / 180);
 
-                // Relier la matrice aux shaders
-                objgl.uniformMatrix4fv(objProgShaders.matModeleVue, false, matModeleVue);
+                    // Relier la matrice aux shaders
+                    objgl.uniformMatrix4fv(objProgShaders.matModeleVue, false, matModeleVue);
 
-                if (maillage == null)
-                    // Dessiner les sous-objets
-                    for (let j = 0; j < vertex.length; j++) {
+                    if (maillage == null)
+                        // Dessiner les sous-objets
+                        for (let j = 0; j <vertex.length; j++) {
+
+                            // Relier les vertex aux shaders
+                            objgl.bindBuffer(objgl.ARRAY_BUFFER, vertex[j]);
+                            objgl.vertexAttribPointer(objProgShaders.posVertex, 3, objgl.FLOAT, false, 0, 0);
+                            const intNbVertex = (objgl.getBufferParameter(objgl.ARRAY_BUFFER, objgl.BUFFER_SIZE) / 4) / 3;
+
+                            // Relier les couleurs aux shaders
+                            objgl.bindBuffer(objgl.ARRAY_BUFFER, couleurs[j]);
+                            objgl.vertexAttribPointer(objProgShaders.couleurVertex, 4, objgl.FLOAT, false, 0, 0);
+
+                            // Activer la texture
+                            objgl.activeTexture(objgl.TEXTURE0 + texels[j].intNoTexture);
+                            objgl.bindTexture(objgl.TEXTURE_2D, objScene3D.textures[texels[j].intNoTexture]);
+
+                            // Relier les texels aux shaders
+                            objgl.bindBuffer(objgl.ARRAY_BUFFER, texels[j]);
+                            objgl.vertexAttribPointer(objProgShaders.posTexel, 2, objgl.FLOAT, false, 0, 0);
+
+                            // Relier le no de texture et le taux de couleur aux shaders                 
+                            objgl.uniform1i(objProgShaders.noTexture, texels[j].intNoTexture);
+                            objgl.uniform1f(objProgShaders.pcCouleurTexel, texels[j].pcCouleurTexel);
+
+                            // Dessiner
+                            objgl.drawArrays(vertex[j].typeDessin, 0, intNbVertex);
+                        }
+                    else { // Dessiner le maillage
 
                         // Relier les vertex aux shaders
-                        objgl.bindBuffer(objgl.ARRAY_BUFFER, vertex[j]);
+                        objgl.bindBuffer(objgl.ARRAY_BUFFER, vertex);
                         objgl.vertexAttribPointer(objProgShaders.posVertex, 3, objgl.FLOAT, false, 0, 0);
-                        const intNbVertex = (objgl.getBufferParameter(objgl.ARRAY_BUFFER, objgl.BUFFER_SIZE) / 4) / 3;
 
                         // Relier les couleurs aux shaders
-                        objgl.bindBuffer(objgl.ARRAY_BUFFER, couleurs[j]);
-                        objgl.vertexAttribPointer(objProgShaders.couleurVertex, 4, objgl.FLOAT, false, 0, 0);
+                        objgl.bindBuffer(objgl.ARRAY_BUFFER, couleurs);
+                        objgl.vertexAttribPointer(objProgShaders.couleurVertex, 4, objgl.FLOAT, false, 0, 0)
 
                         // Activer la texture
-                        objgl.activeTexture(objgl.TEXTURE0 + texels[j].intNoTexture);
-                        objgl.bindTexture(objgl.TEXTURE_2D, objScene3D.textures[texels[j].intNoTexture]);
+                        objgl.activeTexture(objgl.TEXTURE0 + texels.intNoTexture);
+                        objgl.bindTexture(objgl.TEXTURE_2D, objScene3D.textures[texels.intNoTexture]);
 
                         // Relier les texels aux shaders
-                        objgl.bindBuffer(objgl.ARRAY_BUFFER, texels[j]);
+                        objgl.bindBuffer(objgl.ARRAY_BUFFER, texels);
                         objgl.vertexAttribPointer(objProgShaders.posTexel, 2, objgl.FLOAT, false, 0, 0);
 
                         // Relier le no de texture et le taux de couleur aux shaders                 
-                        objgl.uniform1i(objProgShaders.noTexture, texels[j].intNoTexture);
-                        objgl.uniform1f(objProgShaders.pcCouleurTexel, texels[j].pcCouleurTexel);
+                        objgl.uniform1i(objProgShaders.noTexture, texels.intNoTexture);
+                        objgl.uniform1f(objProgShaders.pcCouleurTexel, texels.pcCouleurTexel);
 
-                        // Dessiner
-                        objgl.drawArrays(vertex[j].typeDessin, 0, intNbVertex);
+                        // Sélectionner le maillage qu'on va utiliser pour les triangles et les droites
+                        objgl.bindBuffer(objgl.ELEMENT_ARRAY_BUFFER, maillage);
+
+                        // Dessiner les triangles
+                        objgl.drawElements(objgl.TRIANGLES, maillage.intNbTriangles * 3, objgl.UNSIGNED_SHORT, 0);
+                        // Dessiner les droites à la suite des triangles
+                        objgl.drawElements(objgl.LINES, maillage.intNbDroites * 2, objgl.UNSIGNED_SHORT, maillage.intNbTriangles * 2 * 3);
                     }
-                else { // Dessiner le maillage
-
-                    // Relier les vertex aux shaders
-                    objgl.bindBuffer(objgl.ARRAY_BUFFER, vertex);
-                    objgl.vertexAttribPointer(objProgShaders.posVertex, 3, objgl.FLOAT, false, 0, 0);
-
-                    // Relier les couleurs aux shaders
-                    objgl.bindBuffer(objgl.ARRAY_BUFFER, couleurs);
-                    objgl.vertexAttribPointer(objProgShaders.couleurVertex, 4, objgl.FLOAT, false, 0, 0)
-
-                    // Activer la texture
-                    objgl.activeTexture(objgl.TEXTURE0 + texels.intNoTexture);
-                    objgl.bindTexture(objgl.TEXTURE_2D, objScene3D.textures[texels.intNoTexture]);
-
-                    // Relier les texels aux shaders
-                    objgl.bindBuffer(objgl.ARRAY_BUFFER, texels);
-                    objgl.vertexAttribPointer(objProgShaders.posTexel, 2, objgl.FLOAT, false, 0, 0);
-
-                    // Relier le no de texture et le taux de couleur aux shaders                 
-                    objgl.uniform1i(objProgShaders.noTexture, texels.intNoTexture);
-                    objgl.uniform1f(objProgShaders.pcCouleurTexel, texels.pcCouleurTexel);
-
-                    // Sélectionner le maillage qu'on va utiliser pour les triangles et les droites
-                    objgl.bindBuffer(objgl.ELEMENT_ARRAY_BUFFER, maillage);
-
-                    // Dessiner les triangles
-                    objgl.drawElements(objgl.TRIANGLES, maillage.intNbTriangles * 3, objgl.UNSIGNED_SHORT, 0);
-                    // Dessiner les droites à la suite des triangles
-                    objgl.drawElements(objgl.LINES, maillage.intNbDroites * 2, objgl.UNSIGNED_SHORT, maillage.intNbTriangles * 2 * 3);
                 }
             }
         }
@@ -192,64 +294,70 @@
             objgl.clear(objgl.COLOR_BUFFER_BIT | objgl.DEPTH_BUFFER_BIT);
         }
 
-        function initSons() {
-            const objSons = new Object();
+        /**
+         * Changer la direction de gauche a droite (x/z) de la camera quand on appuis sur la souris
+         * Click gauche seulement
+        */
+        function eventMouvementSouris() {                 
+            if (binTournerCamera === true && !binVueAerienne) {
+                mouvementCameraAvecSouris(event);                             
+            }            
+        }        
 
-            // Ce son joue tout au long du jeu
-            let objSon = document.createElement('audio');
-            return objSons;
+        /**
+         * Verifier si on click sur la souris et ajoute la position du click
+         */
+        function eventClickDownSouris() {
+            // si on click gauche
+            if (event.button == 0) {
+                binTournerCamera = true;
+                positionSourisX = Math.floor(event.clientX);
+                // cacher la souris
+                document.body.style.cursor = 'none';
+            }
+        }
+        /**
+         * Arrete le mouvement de la camera quand on utilise le click
+         */        
+        function eventClickUpSouris() {
+            if (event.button == 0) {
+                binTournerCamera = false;
+                // reafficher la souris
+                document.body.style.cursor = 'auto';
+            }        
         }
 
-        function deplacerCamera() {
-            const camera = objScene3D.camera;
-
-            let fltX;
-            let fltZ;
-            let intDirection;
-            let fltAngle;
-            let fltXPrime; 
-            let fltZPrime;
-            let fltRayon;
-
-            if (event.keyCode == 37 || event.keyCode == 39) {
-                // 37:  Flèche-à-gauche; 39:Flèche-à-droite
-                fltX = getCibleCameraX(camera) - getPositionCameraX(camera);
-                fltZ = getCibleCameraZ(camera) - getPositionCameraZ(camera);
-                intDirection = (event.keyCode == 37) ? -1 : 1;
-                fltAngle = intDirection * 7 * Math.PI / 90; // Tourner 2 degrés
-                fltXPrime = fltX * Math.cos(fltAngle) - fltZ * Math.sin(fltAngle);
-                fltZPrime = fltX * Math.sin(fltAngle) + fltZ * Math.cos(fltAngle);
-                setCibleCameraX(getPositionCameraX(camera) + fltXPrime, camera);
-                setCibleCameraZ(getPositionCameraZ(camera) + fltZPrime, camera);
+        // Mouvement avec clavier (fleche et WASD)
+        // Rend le jeux 100x plus fluide
+        function mouvementAvecClavier() {
+            deplacerCameraClavier(event);
+            if (!binBloquerVueAerienne && binDemarrer){
+                cameraVueAerienne(event);  
             }
-            if (event.keyCode == 38 || event.keyCode == 40) {
-                // 38:  Flèche-en-haut; 40:Flèche-en-bas
-                fltX = getCibleCameraX(camera) - getPositionCameraX(camera);
-                fltZ = getCibleCameraZ(camera) - getPositionCameraZ(camera);
-                fltRayon = Math.sqrt(fltX * fltX + fltZ * fltZ);
-                intDirection = (event.keyCode == 38) ? 1 : -1;
+        }
+        // arreter le mouvement quand on relache la touche
+        function arretMouvementAvecClavier() {
+            arretCameraClavier(event);
+        }
 
-                fltXPrime = intDirection * 0.2 * Math.cos(Math.acos(fltX / fltRayon));
-                fltZPrime = intDirection * 0.2 * Math.sin(Math.asin(fltZ / fltRayon));
-
-                setCibleCameraX(getCibleCameraX(camera) + fltXPrime, camera);
-                setCibleCameraZ(getCibleCameraZ(camera) + fltZPrime, camera);
-                setPositionCameraX(getPositionCameraX(camera) + fltXPrime, camera);
-                setPositionCameraZ(getPositionCameraZ(camera) + fltZPrime, camera);
-            }
-
-            effacerCanevas(objgl);
-            dessiner(objgl, objProgShaders, objScene3D);
+        function changerPos(intX, intZ, transformations){
+            setPositionX(intX, transformations);
+            setPositionZ(intZ, transformations);
         }
 
     </script>
 </head>
 
 <body onload="demarrer()">
-    <p>THESAURUS</p>
-    <canvas id="monCanvas" width="640" height="640" tabIndex="1" onkeydown="deplacerCamera(); return false">
-        Votre navigateur ne supporte pas la balise canvas
-    </canvas>
+    <div id="jeu">
+        <p>THESAURUS</p>
+        <canvas id="monCanvas" width="640" height="640" tabIndex="1" onkeydown="mouvementAvecClavier();" onkeyup="arretMouvementAvecClavier();">
+            Votre navigateur ne supporte pas la balise canvas
+        </canvas>
+        <div id="ui"></div>
+        <div id="strAv"></div>
+    </div>
+    
+<br/>
 </body>
-
 </html>
