@@ -10,6 +10,7 @@ let objDate = new Date();
 let intSecondeVueAerienne = 0;
 let intScoreDebutVueAerienne = 0;
 let intNbOuvreurMur = 0;
+// Changer intTempsMaxNiveau pour plus ou moins de temp par niveau
 let intTempsMaxNiveau = 60;
 let binGameOver = false;
 let binJeuCompleter = false;
