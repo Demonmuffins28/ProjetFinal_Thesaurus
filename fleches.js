@@ -91,13 +91,13 @@ function creerCouleursPyramide(objgl, tabCouleur) {
     tabCouleurs[4] = [];
     
     for (let i = 0; i < 7; i++){
-        tabCouleurs[0] = tabCouleurs[0].concat(tabCouleur);       
+        tabCouleurs[0] = tabCouleurs[0].concat([0.01,0.5,0.6,1]);       
     }
     for (let i = 0; i < 3; i++) {
-        tabCouleurs[1] = tabCouleurs[1].concat([1,1,0,0.4]);
-        tabCouleurs[2] = tabCouleurs[2].concat([1,1,0,0.4]);
-        tabCouleurs[3] = tabCouleurs[3].concat([1,1,0,0.3]);;
-        tabCouleurs[4] = tabCouleurs[4].concat([1,1,0,0.8]);;
+        tabCouleurs[1] = tabCouleurs[1].concat([0.2,1,0.6,1]);
+        tabCouleurs[2] = tabCouleurs[2].concat([0.2,1,0.6,1]);
+        tabCouleurs[3] = tabCouleurs[3].concat([1,1,0,1]);;
+        tabCouleurs[4] = tabCouleurs[4].concat([1,1,0.2,1]);;
     }
 
     // Couleurs face avant pleine
