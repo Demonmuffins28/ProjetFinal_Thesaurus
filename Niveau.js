@@ -1,6 +1,6 @@
 
 // Le niveau actuel du jeu
-let intNiveau = 5;
+let intNiveau = 1;
 let intScoreNiveau = 300
 let intTempsEcoulerMs = 0
 let strTempsNiveau = "60";
@@ -10,7 +10,7 @@ let objDate = new Date();
 let intSecondeVueAerienne = 0;
 let intScoreDebutVueAerienne = 0;
 let intNbOuvreurMur = 0;
-let intTempsMaxNiveau = 500;
+let intTempsMaxNiveau = 60;
 let binGameOver = false;
 let binJeuCompleter = false;
 
