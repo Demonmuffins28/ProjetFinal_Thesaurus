@@ -18,8 +18,8 @@ function creerObj3DPointeFleche(objgl, intNoTexture, intX, intZ, binVisible) {
     let posXcoffre = (intZ - tabPosCoffre[intNiveau-1].intX);
     let angleRotationFleche = Math.atan(posZcoffre/posXcoffre) / (Math.PI / 180);    
     if (angleRotationFleche < 0) angleRotationFleche = 180 + angleRotationFleche;
-    
     setAngleY(angleRotationFleche, obj3DPointeFleche.transformations);
+
     return obj3DPointeFleche;
 }
 

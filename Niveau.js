@@ -57,6 +57,11 @@ function initNiveau(tabObjets3D) {
                 tabIdRecept.push(tabObjets3D.length + tabObjets3DNiveau.length);
                 tabObjets3DNiveau.push(obj3DRecept);
             }
+
+            if (tabJeu[i][j] == 'F') {
+                const objFleche = creerFleche3D(objgl, TEX_TRANSP, j + 0.5, i + 0.5);
+                tabObjets3DNiveau.push(objFleche);
+            }
         }
     }
     return tabObjets3DNiveau;

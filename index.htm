@@ -53,7 +53,7 @@
     <script type="text/javascript" src="Plafond.js"></script>
     <script type="text/javascript" src="Mur.js"></script>
     <script type="text/javascript" src="Coffre.js"></script>
-    <script type="text/javascript" src="flecheTest.js"></script>
+    <script type="text/javascript" src="fleches.js"></script>
 
     <script type="text/javascript" src="Niveau.js"></script>
     <script type="text/javascript" src="PointeFlechePosJoueur.js"></script>
@@ -85,7 +85,7 @@
 
 
         const tabImages = ['Transparent.gif', 'Sol.jpg', 'Mur.jpg', 'coffre.jpg'];
-                
+
         const TEX_PLANCHER = 1;
         const TEX_MUR_OUVRABLE = 2;
         const TEX_TRANSP = 0;
@@ -167,10 +167,7 @@
             tabObjets3D.push(objCoffre);
 
             const objPlancherEnclos = creerObj3DPlancherEnclos(objgl, TEX_PLANCHER);
-            tabObjets3D.push(objPlancherEnclos);
-
-            const objFleche = creerObj3DPointeFleche(objgl, TEX_PLANCHER, 15.5, 12.5, true);
-            tabObjets3D.push(objFleche);
+            tabObjets3D.push(objPlancherEnclos);            
 
             tabObjets3D = tabObjets3D.concat(initNiveau(tabObjets3D));     
 
