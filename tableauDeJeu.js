@@ -16,12 +16,9 @@ let tabPosRecept = [{intX:1,intZ:11}, {intX:7,intZ:28}, {intX:10,intZ:20}, {intX
 
 let tabPosTranspo = [{intX:10,intZ:10},{intX:13,intZ:6},{intX:13,intZ:26},{intX:20,intZ:13},{intX:24,intZ:24}]
 
-let inbNbFleche = 10;
-
 function updateTabJeu() {
-  inbNbFleche--;
   // Ajout des fleches dans le tableau de jeu
-  for (let i = 0; i < (inbNbFleche * 2) - 1; i++) {
+  for (let i = 0; i < (tabPosFleche.length + 2) - (intNiveau * 2); i++) {
     if (tabJeu[tabPosFleche[i].intX][tabPosFleche[i].intZ] === ' ') {
       tabJeu[tabPosFleche[i].intX][tabPosFleche[i].intZ] = 'F';
     }

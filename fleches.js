@@ -16,12 +16,14 @@ function creerFleche3D(objgl, intNoTexture ,intX, intZ) {
     changerPos(obj3DFleche.intX, obj3DFleche.intZ, obj3DFleche.transformations);
     setPositionY(1, obj3DFleche.transformations);
 
-    let posZcoffre = (intX - tabPosCoffre[intNiveau-1].intZ);
-    let posXcoffre = (intZ - tabPosCoffre[intNiveau-1].intX);
-    let angleRotationFleche = Math.atan(posZcoffre/posXcoffre) / (Math.PI / 180);    
-    if (angleRotationFleche < 0) angleRotationFleche = 180 + angleRotationFleche;
+    let posZcoffre = (intX - tabPosCoffre[intNiveau-1].intZ - 0.5);
+    let posXcoffre = (intZ - tabPosCoffre[intNiveau-1].intX - 0.5);
+    let angleRotationFleche = Math.atan(posZcoffre/posXcoffre) / (Math.PI / 180); 
+
+    if (tabPosCoffre[intNiveau-1].intX < intZ)
+        angleRotationFleche = 180 + angleRotationFleche;
+
     setAngleY(angleRotationFleche, obj3DFleche.transformations);
-    
     return obj3DFleche;
 }
 
