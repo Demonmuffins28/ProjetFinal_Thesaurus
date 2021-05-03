@@ -130,23 +130,22 @@ function deplacerCamera() {
 
     setCibleCameraX(getPositionCameraX(camera) + fltXPrime, camera);
     setCibleCameraZ(getPositionCameraZ(camera) + fltZPrime, camera);   
-  }  
-  if (binMovAvant) {    
-    let intCollision = validerCollision();
-    if (intCollision != 1) {
-      // 38:  Flèche-en-haut; 40:Flèche-en-bas
-      fltX = getCibleCameraX(camera) - getPositionCameraX(camera);
-      fltZ = getCibleCameraZ(camera) - getPositionCameraZ(camera);
-      fltRayon = Math.sqrt(fltX * fltX + fltZ * fltZ);
-      intDirection = 1;
+  } else if (binMovAvant) {    
+      let intCollision = validerCollision();
+      if (intCollision != 1) {
+        // 38:  Flèche-en-haut; 40:Flèche-en-bas
+        fltX = getCibleCameraX(camera) - getPositionCameraX(camera);
+        fltZ = getCibleCameraZ(camera) - getPositionCameraZ(camera);
+        fltRayon = Math.sqrt(fltX * fltX + fltZ * fltZ);
+        intDirection = 1;
 
-      fltXPrime = intDirection * 0.2 * Math.cos(Math.acos(fltX / fltRayon));
-      fltZPrime = intDirection * 0.2 * Math.sin(Math.asin(fltZ / fltRayon));
+        fltXPrime = intDirection * 0.19 * Math.cos(Math.acos(fltX / fltRayon));
+        fltZPrime = intDirection * 0.19 * Math.sin(Math.asin(fltZ / fltRayon));
 
-      setCibleCameraX(getCibleCameraX(camera) + fltXPrime, camera);
-      setCibleCameraZ(getCibleCameraZ(camera) + fltZPrime, camera);
-      setPositionCameraX(getPositionCameraX(camera) + fltXPrime, camera);
-      setPositionCameraZ(getPositionCameraZ(camera) + fltZPrime, camera);
+        setCibleCameraX(getCibleCameraX(camera) + fltXPrime, camera);
+        setCibleCameraZ(getCibleCameraZ(camera) + fltZPrime, camera);
+        setPositionCameraX(getPositionCameraX(camera) + fltXPrime, camera);
+        setPositionCameraZ(getPositionCameraZ(camera) + fltZPrime, camera);
     } 
   } else if (binMovArriere) {
       let intCollision = validerCollision();
@@ -156,8 +155,8 @@ function deplacerCamera() {
         fltRayon = Math.sqrt(fltX * fltX + fltZ * fltZ);
         intDirection = -1;
 
-        fltXPrime = intDirection * 0.2 * Math.cos(Math.acos(fltX / fltRayon));
-        fltZPrime = intDirection * 0.2 * Math.sin(Math.asin(fltZ / fltRayon));
+        fltXPrime = intDirection * 0.19 * Math.cos(Math.acos(fltX / fltRayon));
+        fltZPrime = intDirection * 0.19 * Math.sin(Math.asin(fltZ / fltRayon));
 
         setCibleCameraX(getCibleCameraX(camera) + fltXPrime, camera);
         setCibleCameraZ(getCibleCameraZ(camera) + fltZPrime, camera);
@@ -173,24 +172,13 @@ function deplacerCamera() {
 function validerCollision() {
   // 1=avant 2=arriere 0=aucune
   let intAucuneCollision = 0;
-  const AV_FAR = objScene3D.camera.objAutourJoueur.objEnAvantJoueurFar;
   const AV = objScene3D.camera.objAutourJoueur.objEnAvantJoueur;
-  const POS = objScene3D.camera.objAutourJoueur.objAPosJoueur;
-  const AR_FAR = objScene3D.camera.objAutourJoueur.objEnArriereJoueurFar;
   const AR = objScene3D.camera.objAutourJoueur.objEnArriereJoueur;
 
-  if ((AV_FAR.strType == "R" || AV_FAR.strType == "V") || (AV.strType == "R" || AV.strType == "V")) {
-    if (Math.abs(POS.intX - AV_FAR.intX + 1) <= 0.5 || Math.abs(POS.intZ - (AV_FAR.intZ + 1)) <= 0.5) {
+  if ((AV.strType == "R" || AV.strType == "V")) {
         intAucuneCollision = 1;
-    }  else if (Math.abs(POS.intX - AV_FAR.intX) <= 0.5 || Math.abs(POS.intZ - AV_FAR.intZ) <= 0.5) {
-        intAucuneCollision = 1;
-    }
-  } else if ((AR_FAR.strType == "R" || AR_FAR.strType == "V") || (AR.strType == "R" || AR.strType == "V")) {
-    if (Math.abs(POS.intX - AR_FAR.intX + 1) <= 0.5 || Math.abs(POS.intZ - (AR_FAR.intZ + 1)) <= 0.5 ) {
+  } else if (/*(AR_FAR.strType == "R" || AR_FAR.strType == "V") || */(AR.strType == "R" || AR.strType == "V")) {
         intAucuneCollision = 2;
-    }  else if (Math.abs(POS.intX - AR_FAR.intX) <= 0.5 || Math.abs(POS.intZ - AR_FAR.intZ) <= 0.5 ) {
-        intAucuneCollision = 2;
-    } 
   }
   // si en colision avec un tele-transporteur
   if (AV.strType == "P") {
