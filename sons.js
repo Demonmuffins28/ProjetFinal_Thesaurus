@@ -30,6 +30,13 @@ function initSons() {
     objSon.volume = 0.3;
     objSons.detruireMurSFX = objSon;
 
+    //MursFermerSFX
+    objSon = document.createElement('audio');
+    objSon.setAttribute('src', 'ressources/sons/sfx/MursFermerSFX.mp3');
+    objSon.load();
+    objSon.volume = 0.3;
+    objSons.MursFermerSFX = objSon;
+
     //teleportationSFX
     objSon = document.createElement('audio');
     objSon.setAttribute('src', 'ressources/sons/sfx/teleportationSFX.mp3');

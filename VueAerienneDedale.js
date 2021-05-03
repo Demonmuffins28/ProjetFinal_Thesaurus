@@ -51,13 +51,13 @@ function cameraVueAerienne(event){
 function tricherie(){
     binTricher = true;
     objScene3D.tabObjets3D[1].binVisible = false;
-    for (i=0; i<tabIndexMur.length; i++){
+    for (let i=0; i<tabIndexMur.length; i++){
         changerHauteurMur(objScene3D.tabObjets3D[tabIndexMur[i]], 0.1)
     }
     changerHauteurObjFlechePosJoueur(objScene3D.tabObjets3D[2], 0.6);
     setPositionsCameraXYZ([31/2, 38, 31/2], objScene3D.camera);
     changerHauteurPlancherEnclos(objScene3D.tabObjets3D[4], 0.1);
-    for (i=0; i<tabIndexFleches.length; i++) {
+    for (let i=0; i<tabIndexFleches.length; i++) {
         setPositionY(0.1, objScene3D.tabObjets3D[tabIndexFleches[i]].transformations);
     }
 }
@@ -65,14 +65,14 @@ function tricherie(){
 function retirerTricherie(){
     binTricher = false;
     objScene3D.tabObjets3D[1].binVisible = true;
-    for (i=0; i<tabIndexMur.length; i++){
+    for (let i=0; i<tabIndexMur.length; i++){
         changerHauteurMur(objScene3D.tabObjets3D[tabIndexMur[i]], 2.1)
     }
     changerHauteurObjFlechePosJoueur(objScene3D.tabObjets3D[2], 2.2);
     setPositionsCameraXYZ([31/2, 40, 31/2], objScene3D.camera);
     changerHauteurPlancherEnclos(objScene3D.tabObjets3D[4], 2.1);
-    for (i=0; i<tabIndexFleches.length; i++) {
-        setPositionY(1, objScene3D.tabObjets3D[tabIndexFleches[i]].transformations);
+    for (let i=0; i<tabIndexFleches.length; i++) {
+        setPositionY(1.3, objScene3D.tabObjets3D[tabIndexFleches[i]].transformations);
     }
 }
 

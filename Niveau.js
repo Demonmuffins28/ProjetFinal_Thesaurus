@@ -74,6 +74,7 @@ function fermetureEnclos(){
         binFermerEnclos = true;
         objMurFermerEnclos.binVisible = true;
         tabJeu[13][15] = 'V';
+        objSons.MursFermerSFX.play();
     }
 }
 
@@ -121,6 +122,7 @@ function initVar(){
     tabIndexMur = [];
     tabIdTranspo = [];
     tabIdRecept = [];
+    tabIndexFleches = [];
 }
 
 function trouverCoffre(){

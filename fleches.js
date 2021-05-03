@@ -14,7 +14,7 @@ function creerFleche3D(objgl, intNoTexture ,intX, intZ) {
 
     obj3DFleche.transformations = creerTransformations();
     changerPos(obj3DFleche.intX, obj3DFleche.intZ, obj3DFleche.transformations);
-    setPositionY(1, obj3DFleche.transformations);
+    setPositionY(1.3, obj3DFleche.transformations);
 
     let posZcoffre = (intX - tabPosCoffre[intNiveau-1].intZ - 0.5);
     let posXcoffre = (intZ - tabPosCoffre[intNiveau-1].intX - 0.5);

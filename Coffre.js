@@ -15,7 +15,7 @@ function creerObj3DCoffre(objgl, intNoTexture, intX, intZ) {
     obj3DCoffre.maillage = null;
 
     obj3DCoffre.transformations = creerTransformations();
-    setPositionX(obj3DCoffre.intX + 0.1, obj3DCoffre.transformations);
+    setPositionX(obj3DCoffre.intX + 0.25, obj3DCoffre.transformations);
     setPositionZ(obj3DCoffre.intZ + 0.25, obj3DCoffre.transformations);
     return obj3DCoffre;
 }
