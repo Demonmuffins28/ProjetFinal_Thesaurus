@@ -52,6 +52,7 @@
         let objCopieCameraVueJoueur = null;
 
         const tabImages = ['Transparent.gif', 'Sol.jpg', 'Mur.jpg'];
+        const TEX_TRANSPARANT = 0;
         const TEX_PLANCHER = 1;
         const TEX_MUR_OUVRABLE = 2;
 
@@ -117,13 +118,11 @@
             const objPlafond = creerObj3DPlafond(objgl, TEX_PLANCHER, true);
             tabObjets3D.push(objPlafond);
 
-           const objPointeFlechePosJoueur = creerObj3DPointeFlechePosJoueur(objgl, TEX_PLANCHER, 15, 15, false);
-          tabObjets3D.push(objPointeFlechePosJoueur);
+             const objPointeFlechePosJoueur = creerObj3DPointeFlechePosJoueur(objgl, TEX_PLANCHER, 15, 15, false);
+            tabObjets3D.push(objPointeFlechePosJoueur);
 
-      /*   const objFleche = creerPyramide(objgl);
-         const objFleche = creerCouleursPyramide(objgl);
-
-          tabObjets3D.push(objFleche);*/
+            const objFleche = creerFleche3D(objgl, TEX_TRANSPARANT, 15.5, 13.5);
+            tabObjets3D.push(objFleche);
 
             tabObjets3D = tabObjets3D.concat(initNiveau());
 
